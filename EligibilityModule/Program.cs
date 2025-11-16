@@ -22,6 +22,22 @@ namespace EligibilityModule
             {
                 Console.WriteLine("=== EHC Patient ETL Processor ===\n");
 
+                // Parse command-line arguments
+                string partnerId = null;
+                for (int i = 0; i < args.Length; i++)
+                {
+                    if (args[i] == "--partner" && i + 1 < args.Length)
+                    {
+                        partnerId = args[i + 1];
+                        break;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(partnerId))
+                {
+                    Console.WriteLine($"Using partner configuration: {partnerId}\n");
+                }
+
                 // Step 1: Load common rules
                 Console.WriteLine("Loading common rules...");
                 _commonRules = LoadYaml<CommonRules>("Config/common_rules.yml");
@@ -32,22 +48,30 @@ namespace EligibilityModule
                 _recordDefinitions = LoadRecordDefinitions();
                 Console.WriteLine($"✓ Loaded {_recordDefinitions.Count} record type definitions: {string.Join(", ", _recordDefinitions.Keys)}\n");
 
-                // Step 3: Load lookup files
+                // Step 3: Apply partner-specific overrides if partner specified
+                if (!string.IsNullOrEmpty(partnerId))
+                {
+                    Console.WriteLine($"Applying partner overrides for {partnerId}...");
+                    ApplyPartnerOverrides(partnerId);
+                    Console.WriteLine($"✓ Partner overrides applied\n");
+                }
+
+                // Step 4: Load lookup files
                 Console.WriteLine("Loading lookup tables...");
                 _allLookups = LoadLookupFiles(_commonRules.Lookup_Files);
                 Console.WriteLine($"✓ Loaded {_allLookups.Count} lookup table(s): {string.Join(", ", _allLookups.Keys)}\n");
 
-                // Step 4: Setup expression interpreter
+                // Step 5: Setup expression interpreter
                 _interpreter = new Interpreter();
                 SetupInterpreter();
 
-                // Step 5: Load input data
+                // Step 6: Load input data
                 Console.WriteLine("Loading input data...");
                 var records = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
                     File.ReadAllText("Input/input.json"))!;
                 Console.WriteLine($"✓ Loaded {records.Count} input records\n");
 
-                // Step 6: Process records
+                // Step 7: Process records
                 Console.WriteLine("Processing records...");
                 var outputLines = new List<string>();
                 var recordCounts = new Dictionary<string, int>();
@@ -80,7 +104,7 @@ namespace EligibilityModule
                     }
                 }
 
-                // Step 7: Write output file
+                // Step 8: Write output file
                 var outputFileName = $"Output/ehc_output_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
                 Directory.CreateDirectory("Output");
                 File.WriteAllLines(outputFileName, outputLines, Encoding.UTF8);
@@ -390,6 +414,69 @@ namespace EligibilityModule
                 .IgnoreUnmatchedProperties()
                 .Build();
             return deserializer.Deserialize<T>(File.ReadAllText(path));
+        }
+
+        static void ApplyPartnerOverrides(string partnerId)
+        {
+            var partnerConfigPath = Path.Combine("Config", "Partners", partnerId);
+            
+            if (!Directory.Exists(partnerConfigPath))
+            {
+                Console.WriteLine($"  ⚠ Warning: Partner configuration directory not found: {partnerConfigPath}");
+                return;
+            }
+
+            // Load all partner configuration files
+            var partnerConfigFiles = Directory.GetFiles(partnerConfigPath, "record_*.yml");
+            var overrideCount = 0;
+
+            foreach (var configFile in partnerConfigFiles)
+            {
+                try
+                {
+                    var partnerConfig = LoadYaml<PartnerRecordConfiguration>(configFile);
+                    
+                    // Find the matching base record definition
+                    if (_recordDefinitions.TryGetValue(partnerConfig.Record_Type, out var baseDefinition))
+                    {
+                        // Apply field overrides
+                        foreach (var fieldOverride in partnerConfig.Field_Overrides)
+                        {
+                            var field = baseDefinition.Fields.Find(f => f.Key == fieldOverride.Key);
+                            
+                            if (field != null)
+                            {
+                                // If skip is true, we use base config as-is (no partner changes)
+                                if (!fieldOverride.Skip)
+                                {
+                                    // Only apply default_value if it's specified
+                                    if (!string.IsNullOrEmpty(fieldOverride.Default_Value))
+                                    {
+                                        field.Default_Value = fieldOverride.Default_Value;
+                                        overrideCount++;
+                                        Console.WriteLine($"  ✓ Record {partnerConfig.Record_Type}: '{field.Name}' default = '{fieldOverride.Default_Value}'");
+                                    }
+                                }
+                                // If skip is true, we just don't override anything - base config is used
+                            }
+                            else
+                            {
+                                Console.WriteLine($"  ⚠ Warning: Field '{fieldOverride.Key}' not found in base definition for record type {partnerConfig.Record_Type}");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"  ⚠ Warning: Base record definition not found for type '{partnerConfig.Record_Type}'");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"  ⚠ Error loading partner config {Path.GetFileName(configFile)}: {ex.Message}");
+                }
+            }
+
+            Console.WriteLine($"  Applied {overrideCount} field override(s)");
         }
     }
 }

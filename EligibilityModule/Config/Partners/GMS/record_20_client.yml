@@ -1,0 +1,26 @@
+# GMS Partner Configuration for Client Record - Type "20"
+partner_id: "GMS"
+record_type: "20"
+
+field_overrides:
+  # Skip alternate identification for GMS
+  - key: "alternate_identification"
+    skip: true
+  
+  # Default language to English for GMS
+  - key: "client_language_code"
+    default_value: "E"
+  
+  # Skip EFT fields for GMS
+  - key: "eft_account_number"
+    skip: true
+  
+  - key: "eft_route_code"
+    skip: true
+  
+  - key: "eft_effective_date"
+    skip: true
+  
+  - key: "eft_termination_date"
+    skip: true
+
