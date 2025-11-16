@@ -1,0 +1,14 @@
+# Relationship Codes Lookup Table
+# Reverse mapping: relationship descriptions to codes
+
+lookup_name: "relationship_codes"
+description: "Family relationship type to code conversion"
+
+mappings:
+  "Cardholder": "0"
+  "Spouse": "1"
+  "Child (underage)": "2"
+  "Child (overage)": "3"
+  "Disabled dependant": "4"
+  "Other": "9"
+
