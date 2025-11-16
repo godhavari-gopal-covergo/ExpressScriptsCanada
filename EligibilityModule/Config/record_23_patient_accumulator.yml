@@ -1,0 +1,425 @@
+# Patient Accumulator Record - Type "23"
+# Notes:
+# - Multiple type 23 records may follow a type 22 record for the same patient
+# - Not a mandatory record
+# - Patient must be defined prior to sending type 23 record for the patient; once patient's defined, type 23 records may be sent alone
+# - Default values unless already listed are NULL for nullable fields and a single space for non-nullable fields
+# - This record is for drugs, EHC, and dental
+record_type: "23"
+description: "Patient Accumulator Record for drugs, EHC, and dental"
+
+fields:
+  # Field 01
+  # Format: 9(2)
+  # Required: Y
+  # Position: 001-002
+  # Category: I - Identification
+  # Description: "23" denotes a Patient Accumulator Record.
+  - name: "Record Type"
+    key: "record_type"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    default_value: "23"
+    required: true
+
+  # Field 02
+  # Format: 9(2)
+  # Required: Y
+  # Position: 003-004
+  # Category: I - Identification
+  # Description: The Express Scripts Canada-assigned Carrier ID# identifying the insurance carrier.
+  - name: "Carrier ID"
+    key: "carrier_id"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: true
+
+  # Field 03
+  # Format: X(10)
+  # Required: Y
+  # Position: 005-014
+  # Category: I - Identification
+  # Description: Group Number assigned by the Customer. It should be the number as it appears on the member's card.
+  - name: "Group Number"
+    key: "group_number"
+    length: 10
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 04
+  # Format: X(9)
+  # Required: Y
+  # Position: 015-023
+  # Category: I - Identification
+  # Description: Filler
+  - name: "Filler"
+    key: "filler_1"
+    length: 9
+    padding: "right"
+    pad_char: " "
+    default_value: " "
+    required: true
+
+  # Field 05
+  # Format: X(15)
+  # Required: Y
+  # Position: 024-038
+  # Category: I - Identification
+  # Description: The Client's ID number.
+  - name: "Client ID"
+    key: "client_id"
+    length: 15
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 06
+  # Format: X(3)
+  # Required: Y
+  # Position: 039-041
+  # Category: I - Identification
+  # Description: The unique code assigned by the customer to the patient.
+  #              This code will be unique within a family, as per the Customer.
+  - name: "Patient Code"
+    key: "patient_code"
+    length: 3
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 07
+  # Format: 9(8)
+  # Required: Y
+  # Position: 042-049
+  # Category: G - General
+  # Description: Date for which the entry becomes effective (i.e. date dispensed) in the format: YYYYMMDD.
+  - name: "Effective Date"
+    key: "effective_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 08
+  # Format: X(1)
+  # Required: N
+  # Position: 050-050
+  # Category: G - General
+  # Description: The manner in which accumulators are to be calculated/adjusted. Values are:
+  #              1 – Customer/Mathematical Add
+  #              2 – Replace Existing Annual Accumulator Value
+  #              3 – Reset annual value to zero (pharmacy use only)
+  #              4 – Customer/Mathematical Subtract
+  #              5 – Reset lifetime maximum accumulator to value in field 10 or 20 (pharmacy use only)
+  #              6 – Reset benefit year rollover date (with value in field 17) – This value refers to pharmacy only.
+  #
+  #              For Pharmacy Accumulators:
+  #              - Field is required
+  #
+  #              For Dental Accumulators:
+  #              - This field is only required if the Accumulator Type (field 09) is 41, 42, or 60
+  #                and the Trans Ref number is not provided. Otherwise this field is ignored.
+  #
+  #              For EHC Accumulators:
+  #              - This field is only required if the Accumulator Type (field 09) is 61, 62, or 70
+  #                and the Trans Ref number is not provided. Otherwise this field is ignored.
+  - name: "Accumulator Instruction"
+    key: "accumulator_instruction"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["1", "2", "3", "4", "5", "6"]
+
+  # Field 09
+  # Format: 9(2)
+  # Required: N
+  # Position: 051-052
+  # Category: G - General
+  # Description: Accumulator identifier for forwarding/updating Express Scripts Canada with corresponding accumulator,
+  #              pharmacy, dental, or deductible history.
+  #              If accumulator type is not provided, it will default to 00.
+  #
+  #              Values Are:
+  #              00 – 20 Pharmacy
+  #              - 00 – Use the value of the accumulator ID (field 12)
+  #              - 01 Reserved
+  #              - 02 Reserved
+  #              - 03 Deductible
+  #              - 04 Deductible
+  #              - 05 Deductible
+  #              - 06 Maximum
+  #              - 07 – 20 not used
+  #              - 21 – 40 Shared benefit (for future use)
+  #
+  #              41 – 60 Dental
+  #              - 41 Deductible
+  #              - 42 Maximum
+  #              - 43 – 59 not used
+  #              - 60 – use the value of the accumulator id (field 12)
+  #
+  #              61 – 70 EHC
+  #              - 61 Deductible
+  #              - 62 Maximum
+  #              - 63 – 69 not used
+  #              - 70 – use the value of the accumulator id (field 12)
+  #
+  #              71 – 99 Pharmacy
+  #              - 71 – 75 not used
+  #              - 76 – Sliding Coinsurance on Gross Rx – Copay
+  #              - 77 Provincial COB deductible
+  #              - 78 COB Benefit
+  #              - 79, 81 – 90 not used
+  #              - 80 Provincial Drug Plan (must enter Accumulator ID in field 12)
+  #              - 91 Member Out of Pocket (RAMQ accumulator ID 0903)*
+  #              - 92 Spouse Out of Pocket (RAMQ accumulator ID 0904)
+  #              - 93 Sliding Coinsurance on Coins Paid + Unpaid Prof Fee
+  #              - 94 Sliding Coinsurance on Out-of-Pocket + Unpaid Prof Fee
+  #              - 95 Sliding Coinsurance on Out of Pocket
+  #              - 96 Sliding Coinsurance on Copay
+  #              - 97 Sliding Coinsurance on Net
+  #              - 98 Sliding Coinsurance on Gross
+  #              - 99 Sliding Coinsurance on Coinsurance
+  #
+  #              *If global out-of-pocket, use '91' to accumulate to RAMQ Accumulator ID 0903 for family.
+  #
+  #              Where accumulator instruction (field 08), is equal to '6' to indicate a reset of benefit year rollover date,
+  #              the following accumulator types apply:
+  #              - 03 – Deductible (rollover type 1)
+  #              - 06 – Benefit/policy maximum (rollover type 2)
+  #              - 93-99 – Sliding Coinsurance (rollover type 3)
+  #              - 00 or Blank – Accumulators (rollover type 4); for reset of benefit year rollover date for specific drug
+  #                accumulator, corresponding Accum ID must be defined in field 12 (Accum ID).
+  - name: "Accumulator Type"
+    key: "accumulator_type"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    default_value: "00"
+    required: false
+    allowed_values: ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", 
+                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+                     "21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
+                     "31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
+                     "41", "42", "43", "44", "45", "46", "47", "48", "49", "50",
+                     "51", "52", "53", "54", "55", "56", "57", "58", "59", "60",
+                     "61", "62", "63", "64", "65", "66", "67", "68", "69", "70",
+                     "71", "72", "73", "74", "75", "76", "77", "78", "79", "80",
+                     "81", "82", "83", "84", "85", "86", "87", "88", "89", "90",
+                     "91", "92", "93", "94", "95", "96", "97", "98", "99"]
+
+  # Field 10
+  # Format: 9(5)V99, 9(7), 9(6)V9
+  # Required: Y (Conditional)
+  # Position: 053-059
+  # Category: G - General
+  # Description: The amount to apply for the current accumulator transaction, for dollar or counts (quantity) amounts.
+  #
+  #              NOTE: If the accumulator amount field with extended length (Field 20) is valued, then this field must
+  #              be blank. Only one of the two accumulator amounts fields (10 or 20) must have a value.
+  #
+  #              9(5)V99
+  #              Valid dollar amounts (pharmacy and dental) and valid Quantity and Counts (pharmacy) are 0.0 – 99999.99
+  #              and should be sent as 0000000 – 9999999
+  #              Examples:
+  #              - Send 4 as 0000400
+  #              - Send 4.5 as 0000450
+  #
+  #              9(7)
+  #
+  #              9(6)V9
+  #              Valid dental count amounts are 0.0 – 99.9 and should be sent as 0000000 – 0000999
+  #              Examples:
+  #              - Send 4 as 0000040
+  #              - Send 4.5 as 0000045
+  - name: "Accumulator Amount"
+    key: "accumulator_amount"
+    length: 7
+    padding: "left"
+    pad_char: "0"
+    required: false
+    format: "accumulator_amount"
+
+  # Field 11
+  # Format: X(2)
+  # Required: N
+  # Position: 060-061
+  # Category: G - General
+  # Description: Applies to dental and EHC only.
+  #
+  #              Required if accumulator type (field 9) is 41 or 42 or 61 or 62.
+  #              Optional if accumulator type (field 9) is 60 or 70.
+  #              Otherwise ignored.
+  #
+  #              If blank, defaults to NULL.
+  - name: "Category code"
+    key: "category_code"
+    length: 2
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 12
+  # Format: X(5)
+  # Required: N
+  # Position: 062-066
+  # Category: G - General
+  # Description: Required if accumulator type (field 9) is 00, 60, 70, 78, 80 or Blank. Otherwise ignored.
+  #              Must be a valid accumulator ID if accumulator type (field 9) is blank, 78, 80 or 00.
+  #              Must be a valid frequency ID if accumulator type (field 9) is 60 or 70.
+  #              For dental and EHC frequency accumulators where the procedure code is in multiple accumulators,
+  #              a record for each accumulator must be sent.
+  #              NOTE: Dental and EHC frequency are numeric, therefore, field should be padded with leading zeroes.
+  #              For Pharmacy, left-justify and pad with spaces.
+  #              If blank, defaults to NULL.
+  - name: "Accumulator ID"
+    key: "accumulator_id"
+    length: 5
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 13
+  # Format: X(9)
+  # Required: N
+  # Position: 067-075
+  # Category: G - General
+  # Description: Applies to dental and EHC only. Identification number of provider who performed the service.
+  #              Required if accumulator type (field 9) is 60 or 70,
+  #              optional if accumulator type (field 9) is 41 or 42 or 61 or 62. Otherwise ignored.
+  #              If blank, defaults to NULL.
+  - name: "Provider number"
+    key: "provider_number"
+    length: 9
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 14
+  # Format: X(14)
+  # Required: N
+  # Position: 076-089
+  # Category: G - General
+  # Description: Applies to dental and EHC conversion only. Unique claim identification number.
+  #              Optional if accumulator type (field 9) is 41, 42, 60, 61, 62, or 70, otherwise ignored.
+  - name: "Trans Ref number"
+    key: "trans_ref_number"
+    length: 14
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 15
+  # Format: 9(2)
+  # Required: N
+  # Position: 090-091
+  # Category: G - General
+  # Description: Applies to dental and EHC conversion only.
+  #              Procedure line # on the claims.
+  #              Required if accumulator type (field 9) is 41, 42, 60, 61, 62, or 70
+  #              and trans ref number (field 14) is provided. Otherwise ignored.
+  - name: "Procedure paid line #"
+    key: "procedure_paid_line"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 16
+  # Format: 9(2)
+  # Required: N
+  # Position: 092-093
+  # Category: G - General
+  # Description: Applies to dental only.
+  #              Required if accumulator type (field 9) is 60. Otherwise ignored.
+  #              If blank, defaults to NULL.
+  #              Value '00' should be used when field 9 is '60' and there is no tooth code for the frequency.
+  - name: "Tooth code"
+    key: "tooth_code"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 17
+  # Format: 9(8)
+  # Required: N
+  # Position: 094-101
+  # Category: G - General
+  # Description: Initial rollover date (start date for determination of benefit year rollovers).
+  #              Where field 08 is equal to '6', this field must be valued with valid date (YYYYMMDD format).
+  - name: "Benefit Year Rollover Date"
+    key: "benefit_year_rollover_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 18
+  # Format: 9(8)
+  # Required: N
+  # Position: 102-109
+  # Category: G - General
+  # Description: Start date of the frequency period.
+  #              Only required when Frequency Period Type = "8 – Calendar years"
+  #              and must be valued with valid date in YYYY0101 format.
+  - name: "Frequency Date Range Start"
+    key: "frequency_date_range_start"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 19
+  # Format: 9(8)
+  # Required: N
+  # Position: 110-117
+  # Category: G - General
+  # Description: End date of the frequency period.
+  #              Only required when Frequency Period Type = "8 – Calendar years"
+  #              and must be valued with valid date in YYYY1231 format.
+  - name: "Frequency Date Range End"
+    key: "frequency_date_range_end"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 20
+  # Format: 9(7)V99
+  # Required: Y (Conditional)
+  # Position: 118-126
+  # Category: P - Pharmacy
+  # Description: The amount to apply for the current accumulator transaction; for pharmacy dollar amounts.
+  #              Note: If alternate accumulator amount field (Field 10) is valued, then this field must be blank.
+  #              Only one of the two accumulator amounts fields (10 or 20) must have a value.
+  #
+  #              9(7)V99
+  #              Valid dollar amounts (for pharmacy) are 0.0 – 9999999.99 and should be sent as 000000000 – 999999999
+  #              Examples:
+  #              - Send 405 as 000040500
+  #              - Send 405.50 as 000040550
+  - name: "Accumulator Amount"
+    key: "accumulator_amount_extended"
+    length: 9
+    padding: "left"
+    pad_char: "0"
+    required: false
+    format: "accumulator_amount"
+
+  # Field 21
+  # Format: X(231)
+  # Required: Y
+  # Position: 127-357
+  # Category: G - General
+  # Description: Filler
+  - name: "Filler"
+    key: "filler_remaining"
+    length: 231
+    padding: "right"
+    pad_char: " "
+    default_value: " "
+    required: true
