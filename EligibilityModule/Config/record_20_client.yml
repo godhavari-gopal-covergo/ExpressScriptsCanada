@@ -1,0 +1,916 @@
+# Client Record - Type "20" & "25"
+record_type: "20"
+description: "Client record with identification, general, dental, EHC, and pharmacy information"
+
+fields:
+  # Field 01
+  # Format: 9(2)
+  # Required: Y
+  # Position: 001-002
+  # Description: "20" or "25", denotes a client record.
+  - name: "Record Type"
+    key: "record_type"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: true
+    allowed_values: ["20", "25"]
+    default_value: "20"
+
+  # Field 02
+  # Format: 9(2)
+  # Required: Y
+  # Position: 003-004
+  # Description: The ESC-assigned Carrier ID # identifying the insurance carrier.
+  - name: "Carrier ID"
+    key: "carrier_id"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: true
+
+  # Field 03
+  # Format: X(10)
+  # Required: Y
+  # Position: 005-014
+  # Description: Group Number assigned by the Customer. It should be the number as appears on the client's card (left justified).
+  - name: "Group Number"
+    key: "group_number"
+    length: 10
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 04
+  # Format: X(9)
+  # Required: Y
+  # Position: 015-023
+  # Description: Subgroup (3) /Account (3) /Suffix (3)
+  - name: "SAS"
+    key: "sas"
+    length: 9
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 05
+  # Format: X(15)
+  # Required: Y
+  # Position: 024-038
+  # Description: Client's ID number.
+  - name: "Client ID"
+    key: "client_id"
+    length: 15
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 06
+  # Format: X(1)
+  # Required: Y
+  # Position: 039-039
+  # Description: • B – Bypass record entirely.
+  #              • R – Full replacement of information – Note: If a blank is submitted for a field on a full replacement,
+  #                the field will be updated to blank. If the field is mandatory, it must be valued in R mode unless
+  #                otherwise specified.
+  #              • U – Update only fields which are valued (non blank)
+  #              • If U selected, mandatory fields do not need to be sent unless they are being changed.
+  #              • Mandatory fields cannot be blanked out.
+  #              • If data currently exists on a non-mandatory field and it is to be updated to "blank", zeros or the
+  #                default value (depending on format of field), then send "*" in the first position of the field to be
+  #                blanked out.
+  - name: "General Processing Mode"
+    key: "general_processing_mode"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: true
+    allowed_values: ["B", "R", "U"]
+    transform: "general_processing_mode?.ToUpper()"
+
+  # Field 07
+  # Format: 9(16)
+  # Required: N
+  # Position: 040-055
+  # Description: Client's alternate client identifier (e.g. CAPSS Card Number).
+  #              If mode is R and field is blank or if mode is U and field contains * in first position, then the
+  #              alternate identification with carrier ID, group number and client ID matching this client record
+  #              will be deleted.
+  - name: "Alternate Identification"
+    key: "alternate_identification"
+    length: 16
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 08
+  # Format: X(1)
+  # Required: N
+  # Position: 056-056
+  # Description: The client's language of preference for correspondence:
+  #              • E – English
+  #              • F (default) - French
+  - name: "Client Language Flag/Code"
+    key: "client_language_code"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["E", "F"]
+    default_value: "F"
+    transform: "client_language_code?.ToUpper()"
+
+  # Field 09
+  # Format: X(2)
+  # Required: Y
+  # Position: 057-058
+  # Description: Used for COB and RAMQ processing only.
+  #              See Appendix D for list of valid provincial codes. OC is not a valid value for this field.
+  - name: "Client Province Code"
+    key: "client_province_code"
+    length: 2
+    padding: "right"
+    pad_char: " "
+    required: true
+    transform_lookup: "Lookup(\"province_codes\", client_province_code, client_province_code?.ToUpper())"
+
+  # Field 10
+  # Format: X(12)
+  # Required: N
+  # Position: 059-070
+  # Description: Bank account number for electronic payment. This field is mandatory if fields 11 and 12 are valued.
+  #              If mode is U and * is in the first position then an error will be generated and the record will be
+  #              rejected.
+  #              If valued, this field must be numeric.
+  #              If fields 10, 11, and 12 are all blank then none of the EFT fields (10, 11, 12, 13) will be processed,
+  #              regardless of mode.
+  - name: "EFT Account #"
+    key: "eft_account_number"
+    length: 12
+    padding: "right"
+    pad_char: " "
+    required: false
+    # Position: 059-070
+    # Bank account number for electronic payment
+    # Mandatory if fields 11 and 12 are valued
+    # If mode is U and * is in first position, error will be generated
+    # If valued, must be numeric
+    # If fields 10, 11, 12 are all blank, none of EFT fields (10-13) will be processed
+
+  # Field 11
+  # Format: 9(9)
+  # Required: N
+  # Position: 071-079
+  # Description: Route code for electronic payment. This field is mandatory if fields 10 and 12 are valued.
+  #              If mode is U and * is in the first position then an error will be generated and the record will be
+  #              rejected.
+  #              If fields 10, 11, and 12 are all blank then none of the EFT fields (10, 11, 12, 13) will be processed,
+  #              regardless of mode.
+  - name: "EFT Route code"
+    key: "eft_route_code"
+    length: 9
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 12
+  # Format: 9(8)
+  # Required: N
+  # Position: 080-087
+  # Description: Date the banking information is effective. This field is mandatory if field 10 and field 11 are valued.
+  #              If mode is U and * is in the first position then an error will be generated and the record will be
+  #              rejected.
+  #              If fields 10, 11, and 12 are all blank then none of the EFT fields (10, 11, 12, 13) will be processed,
+  #              regardless of mode.
+  - name: "EFT Effective Dt"
+    key: "eft_effective_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 13
+  # Format: 9(8)
+  # Required: N
+  # Position: 088-095
+  # Description: Date the banking information terminates.
+  #              If left blank, defaults to 99999999.
+  - name: "EFT Termination date"
+    key: "eft_termination_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+    default_value: "99999999"
+
+  # Field 14
+  # Format: X(1)
+  # Required: N
+  # Position: 096-096
+  # Description: See Appendix C for valid lookup codes.
+  #              If left blank, defaults to NULL.
+  - name: "Lookup override code"
+    key: "lookup_override_code"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 15
+  # Format: 9(8)
+  # Required: N
+  # Position: 097-104
+  # Description: Date client enrolled for dental coverage – used in rising max processing.
+  #              If not valued, defaults to 00000000.
+  #              Valid values are 00000000, 99999999 or valid date.
+  - name: "Employment enrolment date"
+    key: "employment_enrolment_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+    default_value: "00000000"
+
+  # Field 16
+  # Format: X(50)
+  # Required: Y
+  # Position: 105-154
+  # Description: Filler
+  - name: "Filler"
+    key: "filler_general"
+    length: 50
+    padding: "right"
+    pad_char: " "
+    default_value: " "
+    required: true
+
+  # ========== PHARMACY SECTION ==========
+  
+  # Field 17
+  # Format: X(1)
+  # Required: Y
+  # Position: 155-155
+  # Description: • B – Bypass record entirely.
+  #              • R – Full replacement of information – Note: If a blank is submitted for a field on a full replacement,
+  #                the field will be updated to blank. If the field is mandatory, it must be valued in R mode unless
+  #                otherwise specified.
+  #              • U – Update only fields which are valued (non blank)
+  #              • If U selected, mandatory fields do not need to be sent unless they are being changed.
+  #              • Mandatory fields cannot be blanked out.
+  #              • If data currently exists on a non-mandatory field and it is to be updated to "blank", zeros or the
+  #                default value (depending on format of field), then send "*" in the first position of the field to be
+  #                blanked out.
+  - name: "Pharmacy Processing Mode"
+    key: "pharmacy_processing_mode"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: true
+    allowed_values: ["B", "R", "U"]
+    transform: "pharmacy_processing_mode?.ToUpper()"
+
+  # Field 18
+  # Format: X(10)
+  # Required: N
+  # Position: 156-165
+  # Description: Code assigned by the carrier – optional.
+  - name: "Carrier Pharmacy Field"
+    key: "carrier_pharmacy_field"
+    length: 10
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 19
+  # Format: 9(8)
+  # Required: Y
+  # Position: 166-173
+  # Description: The effective date of client's drug coverage record.
+  #              For this field, if the value does not already exist in the database AND Pharmacy is Bypassed, then the
+  #              effective date will be 00000000.
+  - name: "Drug Effective Date"
+    key: "drug_effective_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 20
+  # Format: 9(8)
+  # Required: N
+  # Position: 174-181
+  # Description: The termination date of client's drug coverage record.
+  #              For this field, if the value does not already exist in the database AND Pharmacy is Bypassed, then the
+  #              effective date will be 00000000. Otherwise, system will default to 99999999 if no date valued.
+  #              Note that all Dental Expiry Dates are the first day of non-coverage. Pharmacy Expiry Dates are the last
+  #              day of coverage.
+  - name: "Drug Termination Date"
+    key: "drug_termination_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+    default_value: "99999999"
+
+  # Field 21
+  # Format: X(5)
+  # Required: N
+  # Position: 182-186
+  # Description: The drugs plan number for this client only if different from the group's plan number. Leave blank to
+  #              default to the group plan number.
+  - name: "Plan Number"
+    key: "pharmacy_plan_number"
+    length: 5
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 22
+  # Format: 9(5)
+  # Required: N
+  # Position: 187-191
+  # Description: 0 is a valid value for this field.
+  #              Blank defaults to 0.
+  #              If 0, maintain current benefit override code on updates.
+  - name: "Client Benefit Override Code"
+    key: "pharmacy_client_benefit_override_code"
+    length: 5
+    padding: "left"
+    pad_char: "0"
+    required: false
+    default_value: "0"
+
+  # Field 23
+  # Format: X(1)
+  # Required: N
+  # Position: 192-192
+  # Description: Drug Utilization Review indicator
+  #              • Y – Turn on DUR functionality; overrides values set at carrier, group or subgroup levels
+  #              • N – Turn off DUR functionality, overrides values set at carrier, group or subgroup levels
+  #              • Blank (default) – Defer to next level in hierarchy
+  - name: "DUR Flag"
+    key: "dur_flag"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", "N", ""]
+    transform: "dur_flag?.ToUpper()"
+
+  # Field 24
+  # Format: X(1)
+  # Required: N
+  # Position: 193-193
+  # Description: Provincial COB rule number
+  #              • If valued – overrides value of COB Rule defined at GSAS coverage, province, and carrier levels
+  #              • Blank (default) – value is next level in hierarchy is used
+  #              Valid COB rules are listed in Appendix E.
+  - name: "Provincial COB Rule Number"
+    key: "provincial_cob_rule_number"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 25
+  # Format: X(1)
+  # Required: N
+  # Position: 194-194
+  # Description: • N – Turn RAMQ Bill 33 processing off.
+  #              • Y – Turn RAMQ Bill 33 processing on.
+  #              • R – Activate special processing rules for RAMQ eligible claims (e.g. forces client regardless of age
+  #                to go to RAMQ first for RAMQ eligible drugs before submitting to private plans).
+  #              • S - Opt out of RAMQ logic and adjudicate according to private plan details (consider patient to be a
+  #                non-senior).
+  #              • Blank – will default to the higher level, no override at the client level.
+  #              To set back to blank in 'U' processing mode, sent '*'.
+  - name: "RAMQ Override Flag"
+    key: "ramq_override_flag"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", "N", "R", "S", ""]
+    transform: "ramq_override_flag?.ToUpper()"
+
+  # Field 26
+  # Format: X(1)
+  # Required: N
+  # Position: 195-195
+  # Description: Indicator to denote drug cutback in PQ for generic plans:
+  #              • Y – Apply cutback.
+  #              • N – Do not apply cutback.
+  #              • Blank (default) – use current cutback indicator value.
+  - name: "Cutback override indicator"
+    key: "cutback_override_indicator"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", "N", ""]
+    transform: "cutback_override_indicator?.ToUpper()"
+
+  # Field 27
+  # Format: X(1)
+  # Required: N
+  # Position: 196-196
+  # Description: Plan is a Generic Plan, drug is interchangeable in the dispensing province (i.e., DIN's ITC
+  #              (interchangeable) flag is 'Y' for the selected province) and input value is any of the following:
+  #              • Y – The system uses the lower cost alternative (generic) drug
+  #              • N – The system checks if the Product Selection Code submitted is:
+  #                1 – The system uses the unit price of the submitted (brand) drug
+  #                Not 1 – The system uses the lower cost alternative (generic) drug
+  #              • Blank – Check next Mandatory Generic level in the hierarchy
+  - name: "Mandatory Generic override indicator"
+    key: "mandatory_generic_override_indicator"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", "N", ""]
+    transform: "mandatory_generic_override_indicator?.ToUpper()"
+
+  # Field 28
+  # Format: 9(4)
+  # Required: N
+  # Position: 197-200
+  # Description: Assign therapeutic reference number for equivalent DIN pricing:
+  #              • 'number' (not 0000 and not 9999) – use number as override to current equivalent din pricing indicator.
+  #              • Blank (defaults to 9999) or 9999 – do not override current value of the current equivalent din pricing
+  #                indicator on the GSAS definition.
+  #              • Zeroes – to turn off the process.
+  - name: "Therapeutic reference number override"
+    key: "therapeutic_reference_number_override"
+    length: 4
+    padding: "left"
+    pad_char: "0"
+    required: false
+    default_value: "9999"
+
+  # Field 29
+  # Format: 9(2)
+  # Required: N
+  # Position: 201-202
+  # Description: • 0/Blank (default) – use value defined in GSAS coverage.
+  #              • Non zero – override value at GSAS coverage.
+  - name: "Max Dependant Age"
+    key: "max_dependant_age"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 30
+  # Format: 9(2)
+  # Required: N
+  # Position: 203-204
+  # Description: • 0/Blank (default) – use value defined in GSAS coverage.
+  #              • Non zero – override value at GSAS coverage.
+  - name: "Max Student Age"
+    key: "max_student_age"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 31
+  # Format: X(1)
+  # Required: N
+  # Position: 205-205
+  # Description: • Blank (default) – not used.
+  #              • Non Blank – Customer-defined.
+  - name: "General Code"
+    key: "pharmacy_general_code"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 32
+  # Format: X(1)
+  # Required: N
+  # Position: 206-206
+  # Description: Blank (default) – refers to definition at higher level; if not defined, claims will be processed per
+  #              regular processing rules:
+  #              • N – Claims will be processed per regular processing rules.
+  #              • Y – Suspension imposed; claims will be rejected for client with appropriate suspension notification.
+  #              • X – Suspension imposed; claims will be rejected for clients with submit reimbursement notification.
+  - name: "Suspend Flag"
+    key: "pharmacy_suspend_flag"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["N", "Y", "X", ""]
+    transform: "pharmacy_suspend_flag?.ToUpper()"
+
+  # Field 33
+  # Format: 9(2)
+  # Required: Y
+  # Position: 207-208
+  # Description: The type of coverage the client is entitled to. See Appendix A for list of valid values.
+  #              For this field, if the value does not already exist in the database AND Pharmacy is Bypassed, then the
+  #              effective code will be 00.
+  - name: "Coverage Code"
+    key: "pharmacy_coverage_code"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: true
+    transform_lookup: "Lookup(\"coverage_codes\", pharmacy_coverage_code, pharmacy_coverage_code)"
+
+  # Field 34
+  # Format: 9(1)
+  # Required: N
+  # Position: 209-209
+  # Description: See Appendix B for list of valid values. – used if the COB status of a client is known.
+  #              If left blank, defaults to 0.
+  - name: "COB Status Code"
+    key: "pharmacy_cob_status_code"
+    length: 1
+    padding: "left"
+    pad_char: "0"
+    required: false
+    default_value: "0"
+    transform_lookup: "Lookup(\"cob_status_codes\", pharmacy_cob_status_code, pharmacy_cob_status_code)"
+
+  # Field 35
+  # Format: 9(8)
+  # Required: N
+  # Position: 210-217
+  # Description: Date of enrolment in the provincial program
+  #              Date on which client claims may be accepted for the provincial plan.
+  #              • When valued, must be a valid date YYYYMMDD
+  - name: "Prov Enrolment Date"
+    key: "prov_enrolment_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 36
+  # Format: X(1)
+  # Required: N
+  # Position: 218-218
+  # Description: Health spending account (HSA) indicator
+  #              Indicates if HSA functionality is enabled at the client level:
+  #              • N (default) – HSA functionality is not enabled
+  #              • A – HSA functionality is automatically enabled (HSA applies to both EDI and manual claims)
+  #              • R – HSA functionality is enabled upon request (at claim submission, you are asked if you want to use
+  #                HSA funds to pay any unpaid portion of a claim)
+  - name: "HSA Pharmacy indicator"
+    key: "hsa_pharmacy_indicator"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["N", "A", "R", ""]
+    transform: "hsa_pharmacy_indicator?.ToUpper()"
+
+  # Field 37
+  # Format: 9(1)
+  # Required: N
+  # Position: 219-219
+  # Description: Specialty Drug Care program
+  #              Indicates if the SDC program is applied at the client level:
+  #              • Blank – The client is included in the SDC program
+  #              • N – No, the client is not included in the SDC program.
+  - name: "SDC Program Ind"
+    key: "sdc_program_ind"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["N", ""]
+
+  # Field 38
+  # Format: 9(3)
+  # Required: N
+  # Position: 220-222
+  # Description: Client maximum age coverage
+  #              When the client reaches the age indicated in this field (determined by date of birth), the client and all
+  #              related patients are no longer covered by the insurance.
+  #              Valid values are:
+  #              • 001 -- 998 – Maximum age
+  #              • Blank or 000 – GSAS level maximum age applies
+  #              • 999 – no age limit
+  #              If a value other than "000" or "999" is entered, the client's date of birth must exist.
+  - name: "Max Age Coverage"
+    key: "max_age_coverage"
+    length: 3
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 39
+  # Format: 9(3)
+  # Required: N
+  # Position: 223-225
+  # Description: Maximum spouse age
+  #              To override the value defined at the GSAS level, defines the age at which the spouse (relationship code =
+  #              1) is no longer covered.
+  #              Valid values are: Blank or 000 to 999.
+  #              • If Blank, defaults to 000 to use the GSAS level.
+  #              • If 999, no age limit
+  - name: "Max Age Spouse"
+    key: "max_age_spouse"
+    length: 3
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 40
+  # Format: 9(3)
+  # Required: N
+  # Position: 226-228
+  # Description: Maximum disabled patient age
+  #              To override the value defined at the GSAS level, defines the age at which a disabled patient
+  #              (relationship code = 4) is no longer covered.
+  #              Valid values are: Blank or 000 to 999.
+  #              • If Blank, defaults to 000 to use the GSAS level.
+  #              • If 999, no age limit
+  - name: "Max Age Disabled"
+    key: "max_age_disabled"
+    length: 3
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 41
+  # Format: 9(3)
+  # Required: N
+  # Position: 229-231
+  # Description: Maximum cardholder age
+  #              To override the value defined at the GSAS level, defines the age at which the Cardholder (relationship
+  #              code = 0) is no longer covered.
+  #              Valid values are: Blank or 000 to 999.
+  #              • If Blank, defaults to 000 to use the GSAS level.
+  #              • If 999, no age limit
+  - name: "Max Age Cardholder"
+    key: "max_age_cardholder"
+    length: 3
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 42
+  # Format: X(28)
+  # Required: Y
+  # Position: 232-259
+  # Description: Filler
+  - name: "Filler"
+    key: "filler_pharmacy"
+    length: 28
+    padding: "right"
+    pad_char: " "
+    default_value: " "
+    required: true
+
+  # ========== DENTAL SECTION ==========
+
+  # Field 43
+  # Format: X(1)
+  # Required: Y
+  # Position: 260-260
+  # Description: • B – Bypass record entirely.
+  #              • R – Full replacement of information – Note: If a blank is submitted for a field on a full replacement,
+  #                the field will be updated to blank. If the field is mandatory, it must be valued in R mode unless
+  #                otherwise specified.
+  #              • U – Update only fields which are valued (non blank):
+  #              • If U selected, mandatory fields do not need to be sent unless they are being changed.
+  #              • Mandatory fields cannot be blanked out.
+  #              • If data currently exists on a non-mandatory field and it is to be updated to "blank", zeros or the
+  #                default value (depending on format of field), then send "*" in the first position of the field to be
+  #                blanked out.
+  - name: "Dental Processing Mode"
+    key: "dental_processing_mode"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: true
+    allowed_values: ["B", "R", "U"]
+    transform: "dental_processing_mode?.ToUpper()"
+
+  # Field 44
+  # Format: X(10)
+  # Required: N
+  # Position: 261-270
+  # Description: Code assigned by the carrier – optional.
+  #              This field is labelled "DIVISION" on the Client Dental screen in DEVA.
+  #              Default is blank.
+  - name: "Carrier Dental Field"
+    key: "carrier_dental_field"
+    length: 10
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 45
+  # Format: 9(8)
+  # Required: Y
+  # Position: 271-278
+  # Description: The effective date of client's dental coverage record.
+  - name: "Dental Record Effective Date"
+    key: "dental_record_effective_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 46
+  # Format: 9(8)
+  # Required: N
+  # Position: 279-286
+  # Description: The expiry date of client's dental coverage record.
+  #              If blank, defaults to 99999999.
+  #              All Dental Expiry Dates are the first day of non-coverage.
+  #              Pharmacy Expiry Dates are the last day of coverage.
+  - name: "Dental Record Expiry Date"
+    key: "dental_record_expiry_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+    default_value: "99999999"
+
+  # Field 47
+  # Format: X(5)
+  # Required: N
+  # Position: 287-291
+  # Description: The dental plan number for this client only if different from the group's plan number. Leave blank to
+  #              default to the group plan number.
+  #              If not valued, defaults to NULL.
+  - name: "Plan Number"
+    key: "dental_plan_number"
+    length: 5
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 48
+  # Format: X(5)
+  # Required: N
+  # Position: 292-296
+  # Description: Blank means do not override current benefit code value.
+  #              If blank, maintain current benefit override code on updates.
+  #              If not valued, defaults to NULL.
+  - name: "Client Benefit Override Code"
+    key: "dental_client_benefit_override_code"
+    length: 5
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 49
+  # Format: X(2)
+  # Required: N
+  # Position: 297-298
+  # Description: Indicates which Private COB Rule will be followed.
+  #              • 01 denotes CLHIA method of COB calculation.
+  #              • 02 up to the current fee schedule.
+  #              Must be 01, 02 or blank.
+  - name: "Private COB Rule Number"
+    key: "dental_private_cob_rule_number"
+    length: 2
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["01", "02", ""]
+
+  # Field 50
+  # Format: 9(2)
+  # Required: N
+  # Position: 299-300
+  # Description: 0/Blank – Use value defined in GSAS coverage.
+  #              Non zero – Override value at GSAS coverage.
+  #              If left blank, defaults to 0.
+  - name: "Max Dependant Age"
+    key: "dental_max_dependant_age"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: false
+    default_value: "0"
+
+  # Field 51
+  # Format: 9(2)
+  # Required: N
+  # Position: 301-302
+  # Description: 0/Blank – Use value defined in GSAS coverage.
+  #              Non zero – Override value at GSAS coverage.
+  #              If left blank, defaults to 0.
+  - name: "Max Student Age"
+    key: "dental_max_student_age"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: false
+    default_value: "0"
+
+  # Field 52
+  # Format: X(1)
+  # Required: N
+  # Position: 303-303
+  # Description: Blank – Not used.
+  #              Non Blank – Customer-defined.
+  #              Defaults to blank.
+  - name: "General Code"
+    key: "dental_general_code"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 53
+  # Format: X(1)
+  # Required: N
+  # Position: 304-304
+  # Description: • Blank (default) – Refers to definition at higher level; if not defined, claims will be processed per
+  #                regular processing rules.
+  #              • N – Claims will be processed per regular processing rules.
+  #              • Y – Suspension imposed; claims will be rejected for client with appropriate suspension notification.
+  #              • X – Suspension imposed; claims will be rejected for clients with submit reimbursement notification.
+  - name: "Suspend Flag"
+    key: "dental_suspend_flag"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["N", "Y", "X", ""]
+    transform: "dental_suspend_flag?.ToUpper()"
+
+  # Field 54
+  # Format: 9(2)
+  # Required: Y
+  # Position: 305-306
+  # Description: The type of coverage the client is entitled to. See Appendix A for list of valid values.
+  - name: "Coverage Code"
+    key: "dental_coverage_code"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: true
+    transform_lookup: "Lookup(\"coverage_codes\", dental_coverage_code, dental_coverage_code)"
+
+  # Field 55
+  # Format: 9(1)
+  # Required: N
+  # Position: 307-307
+  # Description: See Appendix B for list of valid values – used if the COB status of a client is known.
+  #              If left Blank, will default to 0.
+  - name: "COB Status Code"
+    key: "dental_cob_status_code"
+    length: 1
+    padding: "left"
+    pad_char: "0"
+    required: false
+    default_value: "0"
+    transform_lookup: "Lookup(\"cob_status_codes\", dental_cob_status_code, dental_cob_status_code)"
+
+  # Field 56
+  # Format: X(1)
+  # Required: N
+  # Position: 308-308
+  # Description: • Y – Cost plus to be applied.
+  #              • N – Cost plus plan is not to be accepted.
+  #              Must be Y, N or blank.
+  #              If blank, defaults to NULL.
+  - name: "Cost Plus"
+    key: "dental_cost_plus"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", "N", ""]
+    transform: "dental_cost_plus?.ToUpper()"
+
+  # Field 57
+  # Format: 9(5)V99
+  # Required: N
+  # Position: 309-315
+  # Description: Amount for automatic pending of EDI claims. Claims with amount greater than this amount will be
+  #              automatically pended.
+  #              9(5)V99
+  #              • Valid dollar amounts are 0.0 – 99999.99 and should be sent as 0000000 – 9999999
+  #              If blank, defaults to 0.
+  - name: "EDI Threshold Amount"
+    key: "dental_edi_threshold_amount"
+    length: 7
+    padding: "left"
+    pad_char: "0"
+    required: false
+    default_value: "0000000"
+
+  # Field 58
+  # Format: X(42)
+  # Required: Y
+  # Position: 316-357
+  # Description: Filler
+  - name: "Filler"
+    key: "filler_dental"
+    length: 42
+    padding: "right"
+    pad_char: " "
+    default_value: " "
+    required: true
+
