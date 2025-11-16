@@ -1,0 +1,16 @@
+# Yes/No Codes Lookup Table
+# Maps various boolean representations to Yes/No values
+
+lookup_name: "yes_no_codes"
+description: "Boolean to Yes/No conversion"
+
+mappings:
+  "Y": "Yes"
+  "N": "No"
+  "1": "Yes"
+  "0": "No"
+  "true": "Yes"
+  "false": "No"
+  "T": "Yes"
+  "F": "No"
+

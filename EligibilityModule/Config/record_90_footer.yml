@@ -1,0 +1,108 @@
+# File Totals - Type "90"
+# Must be the last record of the file
+record_type: "90"
+description: "File footer/totals record containing record counts and control totals"
+
+fields:
+  # Field 01
+  # Format: 9(2)
+  # Required: Y
+  # Position: 001-002
+  # Description: "90"
+  - name: "Record Type"
+    key: "record_type"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    default_value: "90"
+    required: true
+
+  # Field 02
+  # Format: X(2)
+  # Required: Y
+  # Position: 003-004
+  # Description: "EL"
+  - name: "File Type"
+    key: "file_type"
+    length: 2
+    padding: "right"
+    pad_char: " "
+    default_value: "EL"
+    required: true
+
+  # Field 03
+  # Format: 9(6)
+  # Required: Y
+  # Position: 005-010
+  # Description: ESC BIN "610068"
+  - name: "Payor ANSI#"
+    key: "payor_ansi"
+    length: 6
+    padding: "left"
+    pad_char: "0"
+    default_value: "610068"
+    required: true
+
+  # Field 04
+  # Format: X(20)
+  # Required: Y
+  # Position: 011-030
+  # Description: Customer Name
+  - name: "Source Name"
+    key: "source_name"
+    length: 20
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 05
+  # Format: 9(8)
+  # Required: Y
+  # Position: 031-038
+  # Description: YYYYMMDD
+  - name: "Creation Date"
+    key: "creation_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: true
+    transform: "DateTime.Now.ToString(\"yyyyMMdd\")"
+
+  # Field 06
+  # Format: 9(4)
+  # Required: Y
+  # Position: 039-042
+  # Description: HHMM
+  - name: "Creation Time"
+    key: "creation_time"
+    length: 4
+    padding: "left"
+    pad_char: "0"
+    required: true
+    transform: "DateTime.Now.ToString(\"HHmm\")"
+
+  # Field 07
+  # Format: 9(8)
+  # Required: Y
+  # Position: 043-050
+  # Description: Count of records on the file(s)
+  #              - includes types "00" and "90" records
+  - name: "Record Count"
+    key: "record_count"
+    length: 8
+    padding: "left"
+    pad_char: "0"
+    required: true
+
+  # Field 08
+  # Format: X(307)
+  # Required: Y
+  # Position: 051-357
+  # Description: Filler
+  - name: "Filler"
+    key: "filler"
+    length: 307
+    padding: "right"
+    pad_char: " "
+    default_value: " "
+    required: true
