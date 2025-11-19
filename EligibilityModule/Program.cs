@@ -177,6 +177,11 @@ namespace EligibilityModule
                 // Apply common field rules based on field name patterns
                 value = ApplyCommonFieldRules(field, value);
 
+                // Set field key variable in interpreter so transforms can reference it
+                // This ensures transforms work even when field is missing from input JSON
+                // but has a default value (from partner override or base config)
+                _interpreter.SetVariable(field.Key, value);
+
                 // Apply field-specific transform
                 if (!string.IsNullOrWhiteSpace(field.Transform))
                 {
@@ -184,6 +189,8 @@ namespace EligibilityModule
                     {
                         _interpreter.SetVariable("value", value);
                         value = _interpreter.Eval(field.Transform);
+                        // Update field key variable after transform in case transform references it
+                        _interpreter.SetVariable(field.Key, value);
                     }
                     catch (Exception ex)
                     {
@@ -197,6 +204,7 @@ namespace EligibilityModule
                     try
                     {
                         _interpreter.SetVariable("value", value);
+                        _interpreter.SetVariable(field.Key, value);
                         // Update Lookup function with current lookups
                         _interpreter.SetFunction("Lookup", (Func<string, string, string, string>)((table, key, defaultValue) =>
                         {
@@ -205,6 +213,8 @@ namespace EligibilityModule
                             return defaultValue;
                         }));
                         value = _interpreter.Eval(field.Transform_Lookup);
+                        // Update field key variable after lookup transform
+                        _interpreter.SetVariable(field.Key, value);
                     }
                     catch (Exception ex)
                     {
