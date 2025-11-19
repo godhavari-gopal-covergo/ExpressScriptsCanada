@@ -3,7 +3,6 @@
     "record_type": "00",
     "file_type": "EL",
     "payor_ansi": "610068",
-    "source_name": "COVERGO",
     "transmittal_sequence": 123456,
     "transmittal_date": "20251029",
     "comment": "EHC_SYSTEM2.0"
