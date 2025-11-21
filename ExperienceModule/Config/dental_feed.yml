@@ -1,0 +1,31 @@
+feed:
+  name: dental_thbm
+  record_length: 4561
+  description: ESC Dental Claims Experience Feed (THBM)
+
+records:
+  "0": "Config/Records/Dental/record_0.yml"
+  "2": "Config/Records/Dental/record_2.yml"
+  "3": "Config/Records/Dental/record_3.yml"
+  "4": "Config/Records/Dental/record_4.yml"
+  "5": "Config/Records/Dental/record_5.yml"
+  "6": "Config/Records/Dental/record_6.yml"
+  "7": "Config/Records/Dental/record_7.yml"
+  "8": "Config/Records/Dental/record_8.yml"
+
+batching:
+  provider:
+    header: "2"
+    detail_types: ["4", "5"]
+    trailer: "6"
+  client:
+    header: "3"
+    detail_types: ["4", "5"]
+    trailer: "7"
+  file_header: "0"
+  file_trailer: "8"
+
+output:
+  schema: "schemas/dental_batch.schema.json"
+  file_pattern: "Output/dental_batches_{timestamp}.jsonl"
+
