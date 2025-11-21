@@ -1,0 +1,971 @@
+record_type: '5'
+description: Claim Record (Reversal)
+fields:
+- field_number: '001'
+  name: Record Identifier
+  key: record_identifier
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: 'Claim Stat in DEVA system. Identifies the claim as: 4 = Paid Claim
+    5 = Reversal'
+- field_number: '002'
+  name: 'Trans Reference #'
+  key: trans_reference
+  start: 2
+  end: 15
+  length: 14
+  format: X(14)
+  description: Unique system assigned transaction reference number for this claim.
+- field_number: '003'
+  name: 'Trans Cross reference #'
+  key: trans_cross_reference
+  start: 16
+  end: 29
+  length: 14
+  format: X(14)
+  description: Only valued on reversals. This is the transaction reference number
+    of the original claim being reversed by this transaction – both field 002 and
+    field 003 will be valued
+- field_number: '004'
+  name: 'Office Sequence #'
+  key: office_sequence
+  start: 30
+  end: 35
+  length: 6
+  format: X(6)
+  description: Office Sequence Number supplied on EDI claim.
+- field_number: '005'
+  name: Date Claim Received
+  key: date_claim_received
+  start: 36
+  end: 43
+  length: 8
+  format: 9(8)
+  description: Date claim was received in the office (based on screen input for paper
+    claims)
+- field_number: '006'
+  name: Date Processed/Adjudicated
+  key: date_processed_adjudicated
+  start: 44
+  end: 51
+  length: 8
+  format: 9(8)
+  description: Date claim processed in the ESI system
+- field_number: '007'
+  name: Claim Status
+  key: claim_status
+  start: 52
+  end: 52
+  length: 1
+  format: X(1)
+  description: 'Response Stat in DEVA system. Identifies the claim as: A = Accepted
+    R = Rejected'
+- field_number: 008
+  name: Client Language Flag
+  key: client_language_flag
+  start: 53
+  end: 53
+  length: 1
+  format: X(1)
+  description: From client record
+- field_number: 009
+  name: Provider Number
+  key: provider_number
+  start: 54
+  end: 62
+  length: 9
+  format: X(9)
+  description: Dentist identification number
+- field_number: '010'
+  name: Provider Surname
+  key: provider_surname
+  start: 63
+  end: 92
+  length: 30
+  format: X(30)
+  description: Dentist surname
+- field_number: '011'
+  name: Provider First Name
+  key: provider_first_name
+  start: 93
+  end: 122
+  length: 30
+  format: X(30)
+  description: Dentist first name
+- field_number: '012'
+  name: Filler
+  key: filler
+  start: 123
+  end: 142
+  length: 20
+  format: X(20)
+  description: null
+- field_number: '013'
+  name: 'Provider office location #'
+  key: provider_office_location
+  start: 143
+  end: 146
+  length: 4
+  format: X(4)
+  description: Dentist office identifier
+- field_number: '014'
+  name: Provider Province
+  key: provider_province
+  start: 147
+  end: 148
+  length: 2
+  format: X(2)
+  description: Province of dentist
+- field_number: '015'
+  name: Provider software vendor code
+  key: provider_software_vendor_code
+  start: 149
+  end: 151
+  length: 3
+  format: X(3)
+  description: As provided by EDI transaction
+- field_number: '016'
+  name: Provider Specialty
+  key: provider_specialty
+  start: 152
+  end: 153
+  length: 2
+  format: X(2)
+  description: As per the provider profile on the database
+- field_number: '017'
+  name: Filler
+  key: filler_2
+  start: 154
+  end: 175
+  length: 22
+  format: X(22)
+  description: null
+- field_number: 018
+  name: Pend Date
+  key: pend_date
+  start: 176
+  end: 183
+  length: 8
+  format: 9(8)
+  description: Date claim was pended (if pending status existed on claim at any time
+    during processing). Not used in current design of file.
+- field_number: 019
+  name: Pending reason
+  key: pending_reason
+  start: 184
+  end: 185
+  length: 2
+  format: X(2)
+  description: Reason for pending status. Not used in current design of file.
+- field_number: '020'
+  name: Client Last Name
+  key: client_last_name
+  start: 186
+  end: 215
+  length: 30
+  format: X(30)
+  description: null
+- field_number: '021'
+  name: Client First Name
+  key: client_first_name
+  start: 216
+  end: 245
+  length: 30
+  format: X(30)
+  description: null
+- field_number: '022'
+  name: Patient Last Name
+  key: patient_last_name
+  start: 246
+  end: 275
+  length: 30
+  format: X(30)
+  description: null
+- field_number: '023'
+  name: Patient First Name
+  key: patient_first_name
+  start: 276
+  end: 305
+  length: 30
+  format: X(30)
+  description: null
+- field_number: '024'
+  name: Patient Date of Birth
+  key: patient_date_of_birth
+  start: 306
+  end: 313
+  length: 8
+  format: 9(8)
+  description: null
+- field_number: '025'
+  name: Sex of Patient
+  key: sex_of_patient
+  start: 314
+  end: 314
+  length: 1
+  format: X(1)
+  description: null
+- field_number: '026'
+  name: Carrier ID
+  key: carrier_id
+  start: 315
+  end: 316
+  length: 2
+  format: 9(2)
+  description: null
+- field_number: '027'
+  name: GSAS
+  key: gsas
+  start: 317
+  end: 335
+  length: 19
+  format: X(19)
+  description: null
+- field_number: 028
+  name: Client ID
+  key: client_id
+  start: 336
+  end: 350
+  length: 15
+  format: X(15)
+  description: null
+- field_number: 029
+  name: Patient Code
+  key: patient_code
+  start: 351
+  end: 353
+  length: 3
+  format: X(3)
+  description: 'Reference: Field 06 on Patient Record 22 or 27'
+- field_number: '030'
+  name: Patient Relationship Code
+  key: patient_relationship_code
+  start: 354
+  end: 354
+  length: 1
+  format: 9(1)
+  description: Relationship of patient to client
+- field_number: '031'
+  name: Operator id
+  key: operator_id
+  start: 355
+  end: 362
+  length: 8
+  format: X(8)
+  description: ID of user who entered the claim
+- field_number: '032'
+  name: Operator Code
+  key: operator_code
+  start: 363
+  end: 367
+  length: 5
+  format: X(5)
+  description: 'Location # of the user'
+- field_number: '033'
+  name: Claim submission method
+  key: claim_submission_method
+  start: 368
+  end: 368
+  length: 1
+  format: X(1)
+  description: 'The media in which this claim as submitted: 1 – network claim 2 –
+    manual dentist claim 3 - manual client claim 4 - tape/batch 5 – phone (No longer
+    applicable. Only applies to historical claims.)'
+- field_number: '034'
+  name: Payee Code
+  key: payee_code
+  start: 369
+  end: 369
+  length: 1
+  format: 9(1)
+  description: 'The entity to which payment for this claim will be made: 1 – Pay the
+    subscriber 2 – Pay other third party 3 – Reserved 4 – Pay the dentist'
+- field_number: '035'
+  name: Payment Method
+  key: payment_method
+  start: 370
+  end: 370
+  length: 1
+  format: 9(1)
+  description: 'The method by which this claim will be paid: 1 – EFT 2 – Cheque 3
+    – Threshold cheque 4 – Threshold EFT'
+- field_number: '036'
+  name: Total amt claimed
+  key: total_amt_claimed
+  start: 371
+  end: 377
+  length: 7
+  format: 9(7,2)
+  description: Total amount claimed for the entire claim. This field is calculated
+    during the adjudication process and includes such things as lab and expense fees.
+- field_number: '037'
+  name: Adjustment amount
+  key: adjustment_amount
+  start: 378
+  end: 384
+  length: 7
+  format: S(6,2)
+  description: Adjustment amount for entire claim
+- field_number: 038
+  name: Adjustment reason
+  key: adjustment_reason
+  start: 385
+  end: 386
+  length: 2
+  format: X(2)
+  description: Code indicating reason for adjustment
+- field_number: 039
+  name: Total amt paid
+  key: total_amt_paid
+  start: 387
+  end: 393
+  length: 7
+  format: 9(7,2)
+  description: Total amount paid for the entire claim
+- field_number: '040'
+  name: CDA/ACDQ error codes
+  key: cda_acdq_error_codes
+  start: 394
+  end: 405
+  length: 12
+  format: X(12)
+  description: Error code if electronically submitted claim is not processed. Codes
+    are specified here if claim is unable to be adjudicated.
+- field_number: '041'
+  name: ESI Messages
+  key: esi_messages
+  start: 406
+  end: 417
+  length: 12
+  format: X(12)
+  description: Reason code for rejection or error for claim in its entirety. These
+    are errors detected during the adjudication process.
+- field_number: '042'
+  name: Material forwarded
+  key: material_forwarded
+  start: 418
+  end: 418
+  length: 1
+  format: X(1)
+  description: Valued if claim is submitted via electronic transaction – indicates
+    if physical material has been forwarded to carrier by provider (eg. x-rays)
+- field_number: '043'
+  name: School name
+  key: school_name
+  start: 419
+  end: 443
+  length: 25
+  format: X(25)
+  description: Valued with information submitted via an electronic transaction
+- field_number: '044'
+  name: Secondary coverage
+  key: secondary_coverage
+  start: 444
+  end: 444
+  length: 1
+  format: X(1)
+  description: Secondary Coverage Flag valued with information from an electronic
+    transaction
+- field_number: '045'
+  name: Accident date
+  key: accident_date
+  start: 445
+  end: 452
+  length: 8
+  format: 9(8)
+  description: Date of accident as submitted by dentist on electronic transaction
+- field_number: '046'
+  name: Predetermination Number
+  key: predetermination_number
+  start: 453
+  end: 466
+  length: 14
+  format: X(14)
+  description: If claim relates to a predetermination, the predetermination ID number
+    is returned
+- field_number: '047'
+  name: Line of business code
+  key: line_of_business_code
+  start: 467
+  end: 469
+  length: 3
+  format: X(3)
+  description: Carrier specified code – refer to field 16 on group record type 20
+    and 25
+- field_number: 048
+  name: Attachment code
+  key: attachment_code
+  start: 470
+  end: 470
+  length: 1
+  format: X(1)
+  description: Indicates if additional material should be attached to the explanation
+    of benefits – valued by claim entry process
+- field_number: 049
+  name: Letter code
+  key: letter_code
+  start: 471
+  end: 473
+  length: 3
+  format: X(3)
+  description: Indicates which whether or not a letter needs to be attached with the
+    explanation of benefits – valued by claim entry process
+- field_number: '050'
+  name: General Code GSAS
+  key: general_code_gsas
+  start: 474
+  end: 483
+  length: 10
+  format: X(10)
+  description: Carrier specified code from – GSAS profile record
+- field_number: '051'
+  name: General Code Client
+  key: general_code_client
+  start: 484
+  end: 484
+  length: 1
+  format: X(1)
+  description: Carrier specified code from – Client Dental record
+- field_number: '052'
+  name: Distribution Code
+  key: distribution_code
+  start: 485
+  end: 485
+  length: 1
+  format: X(1)
+  description: Mailing Instructions from GSAS Record 21
+- field_number: '053'
+  name: Free Form Message
+  key: free_form_message
+  start: 486
+  end: 965
+  length: 480
+  format: X(480)
+  description: Free form message entered by claim examiner on claim entry
+- field_number: '054'
+  name: 'Number of procedure codes on
+
+    this record'
+  key: number_of_procedure_codes_on_this_record
+  start: 966
+  end: 967
+  length: 2
+  format: X(2)
+  description: The number of times the procedure code details will appear on this
+    claim/reversal record
+- field_number: '055'
+  name: Client Address Line 1
+  key: client_address_line_1
+  start: 968
+  end: 1002
+  length: 35
+  format: X(35)
+  description: null
+- field_number: '056'
+  name: Client Address Line 2
+  key: client_address_line_2
+  start: 1003
+  end: 1037
+  length: 35
+  format: X(35)
+  description: null
+- field_number: '057'
+  name: Client City
+  key: client_city
+  start: 1038
+  end: 1072
+  length: 35
+  format: X(35)
+  description: null
+- field_number: 058
+  name: Client Province
+  key: client_province
+  start: 1073
+  end: 1074
+  length: 2
+  format: X(2)
+  description: null
+- field_number: 059
+  name: Client Country
+  key: client_country
+  start: 1075
+  end: 1089
+  length: 15
+  format: X(15)
+  description: null
+- field_number: '060'
+  name: Client Postal Code
+  key: client_postal_code
+  start: 1090
+  end: 1098
+  length: 9
+  format: X(9)
+  description: null
+- field_number: '061'
+  name: Override Indicator
+  key: override_indicator
+  start: 1099
+  end: 1099
+  length: 1
+  format: X(1)
+  description: If any of the claim line amounts have been overridden after the claim
+    has been adjudicated (authorization code and authorization number are valued),
+    then this field is valued as a ‘Y’, else it is valued as ‘N’.
+- field_number: '062'
+  name: Supress EOB
+  key: supress_eob
+  start: 1100
+  end: 1100
+  length: 1
+  format: X(1)
+  description: For No Pay Adjustments. Valued on screens as ‘Y’ or ‘N’. If ‘Y’ then
+    no cheque or eob is to be produced.
+- field_number: '063'
+  name: Filler
+  key: filler_3
+  start: 1101
+  end: 1197
+  length: 97
+  format: X(97)
+  description: null
+- field_number: '064'
+  name: 'Submitted line #'
+  key: submitted_line
+  start: 1198
+  end: 1203
+  length: 6
+  format: X(6)
+  description: Order in which each line was submitted.
+- field_number: '065'
+  name: 'Paid line #'
+  key: paid_line
+  start: 1204
+  end: 1205
+  length: 2
+  format: 9(2)
+  description: Order in which each line was processed.
+- field_number: '066'
+  name: Procedure status
+  key: procedure_status
+  start: 1206
+  end: 1206
+  length: 1
+  format: X(1)
+  description: 'Status in DEVA system. Identifies the claim procedure line as: A –
+    Accepted R – Rejected'
+- field_number: '067'
+  name: 'Adjudication Rule number
+
+    applied'
+  key: adjudication_rule_number_applied
+  start: 1207
+  end: 1211
+  length: 5
+  format: 9(5)
+  description: If an adjudication rule was applied to this procedure, the rule reference
+    number will appear here
+- field_number: 068
+  name: Frequency Rule number applied
+  key: frequency_rule_number_applied
+  start: 1212
+  end: 1216
+  length: 5
+  format: 9(5)
+  description: If a frequency limitation was applied to this procedure, the reference
+    number will appear here
+- field_number: 069
+  name: Date of service
+  key: date_of_service
+  start: 1217
+  end: 1224
+  length: 8
+  format: 9(8)
+  description: Date procedure code was performed
+- field_number: '070'
+  name: Procedure code
+  key: procedure_code
+  start: 1225
+  end: 1229
+  length: 5
+  format: X(5)
+  description: Valid code as defined by CDA Uniform System of Codes and List of Services
+    for all but Quebec. In Quebec code issued by the Association des Chirurgiens Dentistes
+    du Quebec.
+- field_number: '071'
+  name: Filler
+  key: filler_4
+  start: 1230
+  end: 1249
+  length: 20
+  format: X(20)
+  description: null
+- field_number: '072'
+  name: Procedure name Eng
+  key: procedure_name_eng
+  start: 1250
+  end: 1284
+  length: 35
+  format: X(35)
+  description: The procedure name will be given in both English and French so that
+    client and dentist can receive statements in their language of choice
+- field_number: '073'
+  name: Procedure name Fre
+  key: procedure_name_fre
+  start: 1285
+  end: 1319
+  length: 35
+  format: X(35)
+  description: The procedure name will be given in both English and French so that
+    client and dentist can receive statements in their language of choice
+- field_number: '074'
+  name: Tooth code
+  key: tooth_code
+  start: 1320
+  end: 1321
+  length: 2
+  format: 9(2)
+  description: International tooth, Sextant, Quad, or Arch-if procedure code requires
+    a reference to location(as defined in the fee guides), this field will be valued
+    with the submitted code
+- field_number: '075'
+  name: Tooth surface
+  key: tooth_surface
+  start: 1322
+  end: 1326
+  length: 5
+  format: X(5)
+  description: If procedure code requires that tooth surfaces be submitted(as defined
+    in the fee guides), this field will be valued with the submitted surfaces
+- field_number: '076'
+  name: Professional fee claimed
+  key: professional_fee_claimed
+  start: 1327
+  end: 1332
+  length: 6
+  format: 9(6,2)
+  description: Amount of professional fee submitted by dentist
+- field_number: '077'
+  name: Previously paid amount
+  key: previously_paid_amount
+  start: 1333
+  end: 1338
+  length: 6
+  format: 9(6,2)
+  description: Amount paid by primary payer if we receive COB information
+- field_number: 078
+  name: Professional fee eligible amount
+  key: professional_fee_eligible_amount
+  start: 1339
+  end: 1344
+  length: 6
+  format: 9(6,2)
+  description: Professional fee allowable after fee guide, frequency, rule cutbacks
+    and maximum cutback . This field is calculated during adjudication of the claim
+    using the factors mentioned above and don’t directly relate to fields maximum
+    cutback amount, rule cutback amount, and fee guide amount..
+- field_number: 079
+  name: 'Deductible amount professional
+
+    fee'
+  key: deductible_amount_professional_fee
+  start: 1345
+  end: 1350
+  length: 6
+  format: 9(6,2)
+  description: Deductible applied to the professional fee
+- field_number: 080
+  name: Professional Fee Benefit amount
+  key: professional_fee_benefit_amount
+  start: 1351
+  end: 1356
+  length: 6
+  format: 9(6,2)
+  description: Professional fee payable (Professional fee eligible amount minus professional
+    fee deductible minus professional fee coinsurance)
+- field_number: 081
+  name: Lab procedure code
+  key: lab_procedure_code
+  start: 1357
+  end: 1361
+  length: 5
+  format: X(5)
+  description: Lab procedure code
+- field_number: 082
+  name: Lab fee claimed
+  key: lab_fee_claimed
+  start: 1362
+  end: 1367
+  length: 6
+  format: 9(6,2)
+  description: Lab fee claimed
+- field_number: 083
+  name: Eligible amount lab
+  key: eligible_amount_lab
+  start: 1368
+  end: 1373
+  length: 6
+  format: 9(6,2)
+  description: Lab fee allowed after adjudication, after all cutbacks, except for
+    deductible and coinsurance
+- field_number: 084
+  name: Lab Deductible amount
+  key: lab_deductible_amount
+  start: 1374
+  end: 1379
+  length: 6
+  format: 9(6.2)
+  description: Deductible applied to the lab eligible amount
+- field_number: 085
+  name: Lab Benefit amount
+  key: lab_benefit_amount
+  start: 1380
+  end: 1385
+  length: 6
+  format: 9(6,2)
+  description: Eligible lab amount minus lab deductible amount minus coinsurance lab
+    amount
+- field_number: 086
+  name: Expense procedure code
+  key: expense_procedure_code
+  start: 1386
+  end: 1390
+  length: 5
+  format: X(5)
+  description: Expense procedure code
+- field_number: 087
+  name: Expense claimed
+  key: expense_claimed
+  start: 1391
+  end: 1396
+  length: 6
+  format: 9(6,2)
+  description: Expense fee claimed
+- field_number: 088
+  name: Expense Eligible amount
+  key: expense_eligible_amount
+  start: 1397
+  end: 1402
+  length: 6
+  format: 9(6,2)
+  description: Expense allowed after adjudication, after all cutbacks, except for
+    deductible and coinsurance
+- field_number: 089
+  name: Expense Deductible amount
+  key: expense_deductible_amount
+  start: 1403
+  end: 1408
+  length: 6
+  format: 9(6.2)
+  description: Deductible applied to the expense eligible amount
+- field_number: 090
+  name: Expense Benefit amount
+  key: expense_benefit_amount
+  start: 1409
+  end: 1414
+  length: 6
+  format: 9(6,2)
+  description: Eligible Expense amount minus expense deductible amount minus coinsurance
+    expense amount
+- field_number: 091
+  name: CDA/ACDQ error code
+  key: cda_acdq_error_code
+  start: 1415
+  end: 1426
+  length: 12
+  format: X(12)
+  description: Error code if procedure code on an electronically submitted claim is
+    not processed
+- field_number: 092
+  name: ESI Messages
+  key: esi_messages_2
+  start: 1427
+  end: 1438
+  length: 12
+  format: X(12)
+  description: Reason code for rejection or error for procedure code
+- field_number: 093
+  name: Total fees claimed
+  key: total_fees_claimed
+  start: 1439
+  end: 1445
+  length: 7
+  format: 9(7,2)
+  description: Total fee claimed at the procedure line (This is the sum of fields
+    professional fee claimed + lab fee claimed + expense claimed – previously paid
+    amount)
+- field_number: 094
+  name: Coinsurance amount
+  key: coinsurance_amount
+  start: 1446
+  end: 1451
+  length: 6
+  format: 9(6,2)
+  description: Coinsurance applied to the procedure line.
+- field_number: 095
+  name: Coinsurance percentage
+  key: coinsurance_percentage
+  start: 1452
+  end: 1454
+  length: 3
+  format: 9(3)
+  description: Coinsurance percentage applied to dentist fee, lab and expense
+- field_number: 096
+  name: Total fees paid
+  key: total_fees_paid
+  start: 1455
+  end: 1460
+  length: 6
+  format: 9(6,2)
+  description: Total fee paid at the procedure level (This is the sum of fields professional
+    fee benefit amount + lab benefit amount + expense benefit amount)
+- field_number: 097
+  name: Paid procedure code 1
+  key: paid_procedure_code_1
+  start: 1461
+  end: 1465
+  length: 5
+  format: X(5)
+  description: Procedure used for pricing-if alternate procedure code is used for
+    pricing, it will be valued here. Contains procedure code that is used for pricing
+    as related to the provincial price file used for this group.
+- field_number: 098
+  name: Paid procedure code 2
+  key: paid_procedure_code_2
+  start: 1466
+  end: 1470
+  length: 5
+  format: X(5)
+  description: Procedure used for pricing – if alternate procedure code is used for
+    pricing it will be valued here. If frequency is cutback to 1.5 units or more,
+    then this field will contain procedure code that is used for pricing as related
+    to the provincial price file used for this group.
+- field_number: 099
+  name: Filler
+  key: filler_5
+  start: 1471
+  end: 1473
+  length: 3
+  format: 9(3,1)
+  description: null
+- field_number: '100'
+  name: Plan number
+  key: plan_number
+  start: 1474
+  end: 1478
+  length: 5
+  format: X(5)
+  description: null
+- field_number: '101'
+  name: Benefit code
+  key: benefit_code
+  start: 1479
+  end: 1483
+  length: 5
+  format: X(5)
+  description: null
+- field_number: '102'
+  name: Category code
+  key: category_code
+  start: 1484
+  end: 1485
+  length: 2
+  format: X(2)
+  description: Category code from plan
+- field_number: '103'
+  name: Category label Eng
+  key: category_label_eng
+  start: 1486
+  end: 1525
+  length: 40
+  format: X(40)
+  description: Category label as predefined by carriers in both languages so that
+    client and dentist can receive statements in their language of choice.
+- field_number: '104'
+  name: Category label Fre
+  key: category_label_fre
+  start: 1526
+  end: 1565
+  length: 40
+  format: X(40)
+  description: Category label as predefined by carriers in both languages so that
+    client and dentist can receive statements in their language of choice.
+- field_number: '105'
+  name: Coverage code from eligibility
+  key: coverage_code_from_eligibility
+  start: 1566
+  end: 1567
+  length: 2
+  format: X(2)
+  description: Coverage code indicating the type of coverage the client is entitled
+    to (see Appendix I of Patient Eligibility file)
+- field_number: '106'
+  name: Carrier dental field
+  key: carrier_dental_field
+  start: 1568
+  end: 1577
+  length: 10
+  format: X(10)
+  description: Code assigned by the carrier (field 37 on Patient file record type
+    20)
+- field_number: '107'
+  name: Procedure code source
+  key: procedure_code_source
+  start: 1578
+  end: 1581
+  length: 4
+  format: X(4)
+  description: Indicates province, speciality of procedure code claimed
+- field_number: '108'
+  name: Maximum cutback amount
+  key: maximum_cutback_amount
+  start: 1582
+  end: 1587
+  length: 6
+  format: 9(6,2)
+  description: Cut back amount due to policy/late entrant or rising maximums) This
+    field is for information only to help evaluate adjudication results.
+- field_number: '109'
+  name: Rule Cutback amount
+  key: rule_cutback_amount
+  start: 1588
+  end: 1593
+  length: 6
+  format: 9(6.2)
+  description: Cutback amount due to adjudication rule This field is for information
+    only to help evaluate adjudication results
+- field_number: '110'
+  name: Fee guide amount
+  key: fee_guide_amount
+  start: 1594
+  end: 1599
+  length: 6
+  format: 9(6,2)
+  description: Price on file for payable procedure codes ( Fields 096 & 097). This
+    is the price from the provincial price file that the group design is set up to
+    use.
+- field_number: '111'
+  name: Filler
+  key: filler_6
+  start: 1600
+  end: 1649
+  length: 50
+  format: X(50)
+  description: null
+- field_number: '112'
+  name: End of occurs
+  key: end_of_occurs
+  start: null
+  end: null
+  length: null
+  format: ''
+  description: null
+- field_number: '113'
+  name: Filler
+  key: filler_7
+  start: 4362
+  end: 4561
+  length: 200
+  format: X(200)
+  description: null
