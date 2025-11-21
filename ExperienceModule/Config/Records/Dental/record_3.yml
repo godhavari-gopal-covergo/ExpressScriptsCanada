@@ -1,0 +1,187 @@
+record_type: '3'
+description: Client Address Record
+fields:
+- field_number: '001'
+  name: Record Identifier
+  key: record_identifier
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: '"3"'
+- field_number: '002'
+  name: Client ID
+  key: client_id
+  start: 2
+  end: 16
+  length: 15
+  format: X(15)
+  description: null
+- field_number: '003'
+  name: Client Last Name
+  key: client_last_name
+  start: 17
+  end: 46
+  length: 30
+  format: X(30)
+  description: null
+- field_number: '004'
+  name: Client First Name
+  key: client_first_name
+  start: 47
+  end: 76
+  length: 30
+  format: X(30)
+  description: null
+- field_number: '005'
+  name: Client Address Line 1
+  key: client_address_line_1
+  start: 77
+  end: 111
+  length: 35
+  format: X(35)
+  description: null
+- field_number: '006'
+  name: Client Address Line 2
+  key: client_address_line_2
+  start: 112
+  end: 146
+  length: 35
+  format: X(35)
+  description: null
+- field_number: '007'
+  name: Client City
+  key: client_city
+  start: 147
+  end: 181
+  length: 35
+  format: X(35)
+  description: null
+- field_number: 008
+  name: Client Province
+  key: client_province
+  start: 182
+  end: 183
+  length: 2
+  format: X(2)
+  description: null
+- field_number: 009
+  name: Client Country
+  key: client_country
+  start: 184
+  end: 198
+  length: 15
+  format: X(15)
+  description: null
+- field_number: '010'
+  name: Client Postal Code
+  key: client_postal_code
+  start: 199
+  end: 207
+  length: 9
+  format: X(9)
+  description: null
+- field_number: '011'
+  name: Client EFT Route Code
+  key: client_eft_route_code
+  start: 208
+  end: 216
+  length: 9
+  format: X(9)
+  description: null
+- field_number: '012'
+  name: Client EFT Account Number
+  key: client_eft_account_number
+  start: 217
+  end: 228
+  length: 12
+  format: X(12)
+  description: null
+- field_number: '013'
+  name: Client Address Change Flag
+  key: client_address_change_flag
+  start: 229
+  end: 229
+  length: 1
+  format: X(1)
+  description: null
+- field_number: '014'
+  name: GSAS
+  key: gsas
+  start: 230
+  end: 248
+  length: 19
+  format: X(19)
+  description: null
+- field_number: '015'
+  name: Payee Last Name
+  key: payee_last_name
+  start: 249
+  end: 278
+  length: 30
+  format: X(30)
+  description: null
+- field_number: '016'
+  name: Payee First Name
+  key: payee_first_name
+  start: 279
+  end: 308
+  length: 30
+  format: X(30)
+  description: null
+- field_number: '017'
+  name: Payee Address Line 1
+  key: payee_address_line_1
+  start: 309
+  end: 343
+  length: 35
+  format: X(35)
+  description: null
+- field_number: 018
+  name: Payee Address Line 2
+  key: payee_address_line_2
+  start: 344
+  end: 378
+  length: 35
+  format: X(35)
+  description: null
+- field_number: 019
+  name: Payee City
+  key: payee_city
+  start: 379
+  end: 413
+  length: 35
+  format: X(35)
+  description: null
+- field_number: '020'
+  name: Payee Province
+  key: payee_province
+  start: 414
+  end: 415
+  length: 2
+  format: X(2)
+  description: null
+- field_number: '021'
+  name: Payee Country
+  key: payee_country
+  start: 416
+  end: 430
+  length: 15
+  format: X(15)
+  description: null
+- field_number: '022'
+  name: Payee Postal Code
+  key: payee_postal_code
+  start: 431
+  end: 439
+  length: 9
+  format: X(9)
+  description: null
+- field_number: '023'
+  name: Filler
+  key: filler
+  start: 440
+  end: 4561
+  length: 4122
+  format: X(4122)
+  description: null
