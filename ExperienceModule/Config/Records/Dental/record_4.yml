@@ -300,6 +300,9 @@ fields:
   format: 9(7,2)
   description: Total amount claimed for the entire claim. This field is calculated
     during the adjudication process and includes such things as lab and expense fees.
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: '037'
   name: Adjustment amount
   key: adjustment_amount
@@ -308,6 +311,9 @@ fields:
   length: 7
   format: S(6,2)
   description: Adjustment amount for entire claim
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 038
   name: Adjustment reason
   key: adjustment_reason
@@ -649,6 +655,9 @@ fields:
   length: 6
   format: 9(6,2)
   description: Amount of professional fee submitted by dentist
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: '077'
   name: Previously paid amount
   key: previously_paid_amount
@@ -657,6 +666,9 @@ fields:
   length: 6
   format: 9(6,2)
   description: Amount paid by primary payer if we receive COB information
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 078
   name: Professional fee eligible amount
   key: professional_fee_eligible_amount
@@ -668,6 +680,9 @@ fields:
     and maximum cutback . This field is calculated during adjudication of the claim
     using the factors mentioned above and don’t directly relate to fields maximum
     cutback amount, rule cutback amount, and fee guide amount..
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 079
   name: 'Deductible amount professional
 
@@ -678,6 +693,9 @@ fields:
   length: 6
   format: 9(6,2)
   description: Deductible applied to the professional fee
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 080
   name: Professional Fee Benefit amount
   key: professional_fee_benefit_amount
@@ -687,6 +705,9 @@ fields:
   format: 9(6,2)
   description: Professional fee payable (Professional fee eligible amount minus professional
     fee deductible minus professional fee coinsurance)
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 081
   name: Lab procedure code
   key: lab_procedure_code
@@ -703,6 +724,9 @@ fields:
   length: 6
   format: 9(6,2)
   description: Lab fee claimed
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 083
   name: Eligible amount lab
   key: eligible_amount_lab
@@ -712,6 +736,9 @@ fields:
   format: 9(6,2)
   description: Lab fee allowed after adjudication, after all cutbacks, except for
     deductible and coinsurance
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 084
   name: Lab Deductible amount
   key: lab_deductible_amount
@@ -720,6 +747,9 @@ fields:
   length: 6
   format: 9(6.2)
   description: Deductible applied to the lab eligible amount
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 085
   name: Lab Benefit amount
   key: lab_benefit_amount
@@ -729,6 +759,9 @@ fields:
   format: 9(6,2)
   description: Eligible lab amount minus lab deductible amount minus coinsurance lab
     amount
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 086
   name: Expense procedure code
   key: expense_procedure_code
@@ -745,6 +778,9 @@ fields:
   length: 6
   format: 9(6,2)
   description: Expense fee claimed
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 088
   name: Expense Eligible amount
   key: expense_eligible_amount
@@ -754,6 +790,9 @@ fields:
   format: 9(6,2)
   description: Expense allowed after adjudication, after all cutbacks, except for
     deductible and coinsurance
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 089
   name: Expense Deductible amount
   key: expense_deductible_amount
@@ -762,6 +801,9 @@ fields:
   length: 6
   format: 9(6.2)
   description: Deductible applied to the expense eligible amount
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 090
   name: Expense Benefit amount
   key: expense_benefit_amount
@@ -771,6 +813,9 @@ fields:
   format: 9(6,2)
   description: Eligible Expense amount minus expense deductible amount minus coinsurance
     expense amount
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 091
   name: CDA/ACDQ error code
   key: cda_acdq_error_code
@@ -798,6 +843,9 @@ fields:
   description: Total fee claimed at the procedure line (This is the sum of fields
     professional fee claimed + lab fee claimed + expense claimed – previously paid
     amount)
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 094
   name: Coinsurance amount
   key: coinsurance_amount
@@ -806,6 +854,9 @@ fields:
   length: 6
   format: 9(6,2)
   description: Coinsurance applied to the procedure line.
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 095
   name: Coinsurance percentage
   key: coinsurance_percentage
@@ -823,6 +874,9 @@ fields:
   format: 9(6,2)
   description: Total fee paid at the procedure level (This is the sum of fields professional
     fee benefit amount + lab benefit amount + expense benefit amount)
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 097
   name: Paid procedure code 1
   key: paid_procedure_code_1
@@ -929,6 +983,9 @@ fields:
   format: 9(6,2)
   description: Cut back amount due to policy/late entrant or rising maximums) This
     field is for information only to help evaluate adjudication results.
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: '109'
   name: Rule Cutback amount
   key: rule_cutback_amount
@@ -938,6 +995,9 @@ fields:
   format: 9(6.2)
   description: Cutback amount due to adjudication rule This field is for information
     only to help evaluate adjudication results
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: '110'
   name: Fee guide amount
   key: fee_guide_amount
@@ -948,6 +1008,9 @@ fields:
   description: Price on file for payable procedure codes ( Fields 096 & 097). This
     is the price from the provincial price file that the group design is set up to
     use.
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: '111'
   name: Filler
   key: filler_6

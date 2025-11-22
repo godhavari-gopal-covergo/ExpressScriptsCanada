@@ -41,6 +41,9 @@ fields:
   length: 10
   format: 9(10,2)
   description: Total value of the positive claims for this dataset (type 4)
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: '006'
   name: Reversal Amount
   key: reversal_amount
@@ -49,6 +52,9 @@ fields:
   length: 10
   format: 9(10,2)
   description: Total value of the reversed claims for this dataset (type 5)
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: '007'
   name: Adjustment Amount
   key: adjustment_amount
@@ -58,6 +64,9 @@ fields:
   format: s9(10,2)
   description: Total value of the adjustment amounts on claims for this dataset for
     type 4 records
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 008
   name: Total Amount Payable
   key: total_amount_payable
@@ -67,6 +76,9 @@ fields:
   format: s9(12,2)
   description: Calculated total amount payable for this dataset (Claim Amount - Reversal
     Amount + Adjustment Amount)
+  value_format:
+    type: implied_decimal
+    scale: 2
 - field_number: 009
   name: Filler
   key: filler_2
