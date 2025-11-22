@@ -103,6 +103,9 @@ public class FieldDefinition
 
     [YamlMember(Alias = "description")]
     public string? Description { get; set; }
+
+    [YamlMember(Alias = "value_format")]
+    public FieldValueFormat? ValueFormat { get; set; }
 }
 
 public class ParsedRecord
@@ -110,6 +113,15 @@ public class ParsedRecord
     public string RecordType { get; init; } = string.Empty;
     public string Description { get; init; } = string.Empty;
     public Dictionary<string, string?> Fields { get; init; } = new(StringComparer.OrdinalIgnoreCase);
+}
+
+public class FieldValueFormat
+{
+    [YamlMember(Alias = "type")]
+    public string Type { get; set; } = string.Empty;
+
+    [YamlMember(Alias = "scale")]
+    public int Scale { get; set; } = 0;
 }
 
 public class BatchPayload

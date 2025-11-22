@@ -321,8 +321,10 @@ internal class RecordParser
         if (rawValue is null)
             return null;
 
-        if (string.Equals(field.Key, "total_amt_paid", StringComparison.OrdinalIgnoreCase) &&
-            TryFormatImpliedDecimal(rawValue, 2, out var formatted))
+        if (field.ValueFormat is { } valueFormat &&
+            IsImpliedDecimalFormat(valueFormat) &&
+            valueFormat.Scale > 0 &&
+            TryFormatImpliedDecimal(rawValue, valueFormat.Scale, out var formatted))
         {
             return formatted;
         }
@@ -354,6 +356,10 @@ internal class RecordParser
         formatted = value.ToString($"F{scale}", CultureInfo.InvariantCulture);
         return true;
     }
+
+    private static bool IsImpliedDecimalFormat(FieldValueFormat format) =>
+        format.Type.Equals("implied_decimal", StringComparison.OrdinalIgnoreCase) ||
+        format.Type.Equals("amount", StringComparison.OrdinalIgnoreCase);
 }
 
 internal class BatchBuilder
