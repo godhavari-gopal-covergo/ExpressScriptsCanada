@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Globalization;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using ExperienceModule.Models;
 using Json.Schema;
@@ -295,8 +296,8 @@ internal class RecordParser
 
             var length = field.Length.Value;
             var maxLength = Math.Min(length, line.Length - startIndex);
-            var value = line.Substring(startIndex, maxLength);
-            fields[field.Key] = value.TrimEnd();
+            var value = line.Substring(startIndex, maxLength).TrimEnd();
+            fields[field.Key] = FormatFieldValue(field, value);
         }
 
         return new ParsedRecord
@@ -314,6 +315,51 @@ internal class RecordParser
         return name.Contains("filler", StringComparison.OrdinalIgnoreCase) ||
                key.Contains("filler", StringComparison.OrdinalIgnoreCase);
     }
+
+    private static string? FormatFieldValue(FieldDefinition field, string? rawValue)
+    {
+        if (rawValue is null)
+            return null;
+
+        if (field.ValueFormat is { } valueFormat &&
+            IsImpliedDecimalFormat(valueFormat) &&
+            valueFormat.Scale > 0 &&
+            TryFormatImpliedDecimal(rawValue, valueFormat.Scale, out var formatted))
+        {
+            return formatted;
+        }
+
+        return rawValue;
+    }
+
+    private static bool TryFormatImpliedDecimal(string rawValue, int scale, out string formatted)
+    {
+        formatted = rawValue;
+
+        var trimmed = rawValue.Trim();
+        if (trimmed.Length == 0)
+            return false;
+
+        var sign = 1;
+        if (trimmed[0] == '+' || trimmed[0] == '-')
+        {
+            sign = trimmed[0] == '-' ? -1 : 1;
+            trimmed = trimmed[1..];
+        }
+
+        if (!long.TryParse(trimmed, NumberStyles.None, CultureInfo.InvariantCulture, out var integral))
+            return false;
+
+        var magnitude = sign * (decimal)integral;
+        var divisor = (decimal)Math.Pow(10, scale);
+        var value = magnitude / divisor;
+        formatted = value.ToString($"F{scale}", CultureInfo.InvariantCulture);
+        return true;
+    }
+
+    private static bool IsImpliedDecimalFormat(FieldValueFormat format) =>
+        format.Type.Equals("implied_decimal", StringComparison.OrdinalIgnoreCase) ||
+        format.Type.Equals("amount", StringComparison.OrdinalIgnoreCase);
 }
 
 internal class BatchBuilder
