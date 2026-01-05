@@ -3,6 +3,11 @@ partner_id: "GMS"
 record_type: "20"
 
 field_overrides:
+  # Field 02 - Carrier ID
+  # Override: "49"
+  - key: "carrier_id"
+    default_value: "49"
+  
   # Skip alternate identification for GMS
   - key: "alternate_identification"
     skip: true
