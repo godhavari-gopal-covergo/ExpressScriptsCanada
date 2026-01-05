@@ -1,0 +1,36 @@
+[
+  {
+    "record_type": "00",
+    "file_type": "EL",
+    "payor_ansi": "610068",
+    "transmittal_sequence": 1,
+    "transmittal_date": "20251119"
+  },
+  {
+    "record_type": "30",
+    "group_number": "GMS001",
+    "sas": "001002003",
+    "client_id": "CLIENT001"
+  },
+  {
+    "record_type": "32",
+    "group_number": "GMS001",
+    "sas": "001002003",
+    "client_id": "CLIENT001",
+    "current_patient_code": "001",
+    "relationship_code": "2",
+    "patient_last_name": "TEST",
+    "patient_first_name": "PATIENT",
+    "patient_date_of_birth": "19900101",
+    "patient_sex": "M"
+  },
+  {
+    "record_type": "90",
+    "file_type": "EL",
+    "payor_ansi": "610068",
+    "transmittal_sequence": 1,
+    "transmittal_date": "20251119",
+    "record_count": 4
+  }
+]
+
