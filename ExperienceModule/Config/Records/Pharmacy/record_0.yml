@@ -1,0 +1,115 @@
+record_type: '0'
+description: File Header Record
+fields:
+- field_number: '001'
+  name: Record Type
+  key: record_type
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: '"0"'
+- field_number: '002'
+  name: Issuer Identifier Number
+  key: issuer_identifier_number
+  start: 2
+  end: 7
+  length: 6
+  format: 9(6)
+  description: “610068”
+- field_number: '003'
+  name: Issuer Identifier Name
+  key: issuer_identifier_name
+  start: 8
+  end: 27
+  length: 20
+  format: X(20)
+  description: Name of the processor; “ECLIPSE”
+- field_number: '004'
+  name: Destination Name
+  key: destination_name
+  start: 28
+  end: 47
+  length: 20
+  format: X(20)
+  description: “Customer name” (as defined in the Carrier table)
+- field_number: '005'
+  name: Destination Address
+  key: destination_address
+  start: 48
+  end: 77
+  length: 30
+  format: X(30)
+  description: Destination address of Claims Experience recipient (optional)
+- field_number: '006'
+  name: Destination City
+  key: destination_city
+  start: 78
+  end: 92
+  length: 15
+  format: X(15)
+  description: Destination city of Claims Experience recipient (optional)
+- field_number: '007'
+  name: Destination Province
+  key: destination_province
+  start: 93
+  end: 94
+  length: 2
+  format: X(2)
+  description: Destination province of Claims Experience recipient (optional)
+- field_number: 008
+  name: Destination Postal Code
+  key: destination_postal_code
+  start: 95
+  end: 100
+  length: 6
+  format: X(6)
+  description: Destination postal code of Claims Experience recipient (optional)
+- field_number: 009
+  name: Destination Telephone Number
+  key: destination_telephone_number
+  start: 101
+  end: 110
+  length: 10
+  format: 9(10)
+  description: Destination telephone number of the Claims Experience recipient (optional)
+- field_number: '010'
+  name: Run Date
+  key: run_date
+  start: 111
+  end: 118
+  length: 8
+  format: 9(8)
+  description: The date on which the file was created; YYYYMMDD format.
+- field_number: '011'
+  name: Cut-off Date
+  key: cut_off_date
+  start: 119
+  end: 126
+  length: 8
+  format: 9(8)
+  description: The date the latest claim on the file was received (i.e. processed);
+    YYYYMMDD format
+- field_number: '012'
+  name: Transmittal Sequence No.
+  key: transmittal_sequence_no
+  start: 127
+  end: 129
+  length: 3
+  format: 9(3)
+  description: Sequential number assigned by system for this transmission
+- field_number: '013'
+  name: Version Number
+  key: version_number
+  start: 130
+  end: 131
+  length: 2
+  format: 9(2)
+  description: The version number of the file; “03”
+- field_number: '014'
+  name: Filler
+  key: filler
+  start: 132
+  end: 750
+  length: 619
+  format: X(619)

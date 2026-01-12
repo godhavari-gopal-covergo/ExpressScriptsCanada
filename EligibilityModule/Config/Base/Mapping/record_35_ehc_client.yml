@@ -1,0 +1,489 @@
+# EHC Client Record - Type "30" & "35"
+# Notes:
+# - Type 30 records are sent alone as part of the regular Update/Load Process
+# - Type 35 records act like a delete and add (used when client's complete history is re-sent)
+# - Default values unless already listed are NULL for nullable fields and a single space for non-nullable fields
+record_type: "35"
+description: "EHC Client record with identification, general, and EHC information"
+
+fields:
+  # Field 01
+  # Format: 9(2)
+  # Required: Y
+  # Position: 001-002
+  # Description: "35" (Alternative EHC Client Record); denotes EHC Client Record.
+  - name: "Record Type"
+    key: "record_type"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: true
+    allowed_values: ["30", "35"]
+    default_value: "35"
+
+  # Field 02
+  # Format: 9(2)
+  # Required: Y
+  # Position: 003-004
+  # Description: The Express Scripts Canada-assigned Carrier ID # for the insurance carrier.
+  - name: "Carrier ID"
+    key: "carrier_id"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: true
+
+  # Field 03
+  # Format: X(10)
+  # Required: Y
+  # Position: 005-014
+  # Description: Group Number assigned by the Customer. It should be the number as it appears on the client's card.
+  - name: "Group Number"
+    key: "group_number"
+    length: 10
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 04
+  # Format: X(9)
+  # Required: Y
+  # Position: 015-023
+  # Description: Subgroup (3) /Account (3) /Suffix (3)
+  - name: "SAS"
+    key: "sas"
+    length: 9
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 05
+  # Format: X(15)
+  # Required: Y
+  # Position: 024-038
+  # Description: Client's ID number
+  - name: "Client ID"
+    key: "client_id"
+    length: 15
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # ========== GENERAL SECTION ==========
+
+  # Field 06
+  # Format: X(1)
+  # Required: Y
+  # Position: 039-039
+  # Description: • B – Bypass record entirely.
+  #              • R – Full replacement of information. Note: If a blank is submitted for a field on a full replacement,
+  #                the field will be updated to blank. If the field is mandatory, it must be valued in R mode unless
+  #                otherwise specified.
+  #              • U – Update only fields which are valued (non blank)
+  #              • If U selected, mandatory fields do not need to be sent unless they are being changed.
+  #              • Mandatory fields cannot be blanked out.
+  #              • If data currently exists on a non-mandatory field and it is to be updated to "blank", zeros or the
+  #                default value (depending on format of field), then send "*" in the first position of the field to be
+  #                blanked out.
+  - name: "General Processing Mode"
+    key: "general_processing_mode"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: true
+    allowed_values: ["B", "R", "U"]
+    transform: "general_processing_mode?.ToUpper()"
+
+  # Field 07
+  # Format: 9(16)
+  # Required: N
+  # Position: 040-055
+  # Description: Client's alternate client identifier (e.g. CAPSS Card Number.
+  #              If mode is R and field is blank or if mode is U and field contains * in first position, then the
+  #              alternate identification with carrier ID, group number and client ID matching this client record will be
+  #              deleted.
+  - name: "Alternate Identification"
+    key: "alternate_identification"
+    length: 16
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 08
+  # Format: X(1)
+  # Required: N
+  # Position: 056-056
+  # Description: Client's language of preference for correspondence:
+  #              • E – English
+  #              • F (default) – French
+  - name: "Client Language Flag/Code"
+    key: "client_language_code"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["E", "F"]
+    default_value: "F"
+    transform: "client_language_code?.ToUpper()"
+    transform_lookup: "Lookup(\"language_codes\", client_language_code, client_language_code?.ToUpper())"
+
+  # Field 09
+  # Format: X(2)
+  # Required: Y
+  # Position: 057-058
+  # Description: Used for COB processing only.
+  - name: "Client Province Code"
+    key: "client_province_code"
+    length: 2
+    padding: "right"
+    pad_char: " "
+    required: true
+    transform_lookup: "Lookup(\"province_codes\", client_province_code, client_province_code?.ToUpper())"
+
+  # Field 10
+  # Format: X(12)
+  # Required: N
+  # Position: 059-070
+  # Description: Bank account number for electronic payment. This field is mandatory if fields 11 and 12 are valued. If
+  #              mode is U and * is in the first position then an error will be generated and the record will be rejected.
+  #              If valued, this field must be numeric.
+  #              If fields 10, 11, and 12 are all blank then none of the EFT fields (10, 11, 12, 13) will be processed,
+  #              regardless of mode.
+  - name: "EFT Account #"
+    key: "eft_account_number"
+    length: 12
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 11
+  # Format: 9(9)
+  # Required: N
+  # Position: 071-079
+  # Description: Route code for electronic payment. This field is mandatory if fields 10 and 12 are valued. If mode is U
+  #              and * is in the first position then an error will be generated and the record will be rejected.
+  #              If fields 10, 11, and 12 are all blank then none of the EFT fields (10, 11, 12, 13) will be processed,
+  #              regardless of mode.
+  - name: "EFT Route code"
+    key: "eft_route_code"
+    length: 9
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 12
+  # Format: 9(8)
+  # Required: N
+  # Position: 080-087
+  # Description: Date the banking information is effective. This field is mandatory if field 10 and field 11 are valued. If
+  #              mode is U and * is in the first position then an error will be generated and the record will be rejected.
+  #              If fields 10, 11, and 12 are all blank then none of the EFT fields (10, 11, 12, 13) will be processed,
+  #              regardless of mode.
+  - name: "EFT Effective Dt"
+    key: "eft_effective_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 13
+  # Format: 9(8)
+  # Required: N
+  # Position: 088-095
+  # Description: Date the banking information terminates.
+  #              If left blank, defaults to 99999999.
+  - name: "EFT Termination date"
+    key: "eft_termination_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+    default_value: "99999999"
+
+  # Field 14
+  # Format: X(1)
+  # Required: N
+  # Position: 096-096
+  # Description: Existing override values apply.
+  #              If left blank, defaults to NULL.
+  - name: "Lookup override code"
+    key: "lookup_override_code"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 15
+  # Format: 9(8)
+  # Required: N
+  # Position: 097-104
+  # Description: Date client enrolled for EHC coverage; used in rising max processing.
+  #              If not valued, defaults to 00000000.
+  #              Valid values are 00000000, 99999999 or valid date.
+  - name: "Employment enrolment date"
+    key: "employment_enrolment_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+    default_value: "00000000"
+
+  # Field 16
+  # Format: X(50)
+  # Required: Y
+  # Position: 105-154
+  # Description: Filler
+  - name: "Filler"
+    key: "filler_general"
+    length: 50
+    padding: "right"
+    pad_char: " "
+    default_value: " "
+    required: true
+
+  # ========== EHC SECTION ==========
+
+  # Field 17
+  # Format: X(1)
+  # Required: Y
+  # Position: 155-155
+  # Description: • B – Bypass record entirely.
+  #              • R – Full replacement of information. Note: If a blank is submitted for a field on a full replacement,
+  #                the field will be updated to blank. If the field is mandatory, it must be valued in R mode unless
+  #                otherwise specified.
+  #              • U – Update only fields which are valued (non blank)
+  #              • If U selected, mandatory fields do not need to be sent unless they are being changed.
+  #              • Mandatory fields cannot be blanked out.
+  #              • If data currently exists on a non-mandatory field and it is to be updated to "blank", zeros or the
+  #                default value (depending on format of field), then send "*" in the first position of the field to be
+  #                blanked out.
+  - name: "EHC Processing Mode"
+    key: "ehc_processing_mode"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: true
+    allowed_values: ["B", "R", "U"]
+    transform: "ehc_processing_mode?.ToUpper()"
+
+  # Field 18
+  # Format: X(10)
+  # Required: N
+  # Position: 156-165
+  # Description: Code assigned by the carrier – optional.
+  #              This field is labelled "DIVISION" on the Client EHC screen.
+  #              Defaults to blank.
+  - name: "Carrier EHC Field"
+    key: "carrier_ehc_field"
+    length: 10
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 19
+  # Format: 9(8)
+  # Required: Y
+  # Position: 166-173
+  # Description: Effective date of client's EHC coverage record.
+  - name: "EHC Record Effective Date"
+    key: "ehc_record_effective_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 20
+  # Format: 9(8)
+  # Required: N
+  # Position: 174-181
+  # Description: The expiry date of client's EHC coverage record.
+  #              If blank, defaults to 99999999.
+  - name: "EHC Record Expiry Date"
+    key: "ehc_record_expiry_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+    default_value: "99999999"
+
+  # Field 21
+  # Format: X(5)
+  # Required: N
+  # Position: 182-186
+  # Description: The EHC plan number for this client only if different from the group's plan number. Leave blank to
+  #              default to the group plan number.
+  #              If not valued, defaults to NULL.
+  - name: "Plan Number"
+    key: "ehc_plan_number"
+    length: 5
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 22
+  # Format: X(5)
+  # Required: N
+  # Position: 187-191
+  # Description: Blank means do not override current benefit code value.
+  #              If blank, maintain current benefit override code on updates.
+  #              If not valued, defaults to NULL.
+  - name: "Client Benefit Override Code"
+    key: "ehc_client_benefit_override_code"
+    length: 5
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 23
+  # Format: X(2)
+  # Required: N
+  # Position: 192-193
+  # Description: Indicates which Private COB Rule will be followed.
+  #              • 01 denotes CLHIA method of COB calculation.
+  #              • 02 up to the current fee schedule.
+  #              Must be 01, 02 or blank.
+  - name: "Private COB Rule Number"
+    key: "ehc_private_cob_rule_number"
+    length: 2
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["01", "02", ""]
+
+  # Field 24
+  # Format: 9(2)
+  # Required: N
+  # Position: 194-195
+  # Description: 0/Blank – use value defined in GSAS coverage.
+  #              Non zero – override value at GSAS coverage.
+  #              If left blank, defaults to 0.
+  - name: "Max Dependant Age"
+    key: "ehc_max_dependant_age"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: false
+    default_value: "0"
+
+  # Field 25
+  # Format: 9(2)
+  # Required: N
+  # Position: 196-197
+  # Description: 0/Blank – use value defined in GSAS coverage.
+  #              Non zero – override value at GSAS coverage.
+  #              If left blank, defaults to 0.
+  - name: "Max Student Age"
+    key: "ehc_max_student_age"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: false
+    default_value: "0"
+
+  # Field 26
+  # Format: X(1)
+  # Required: N
+  # Position: 198-198
+  # Description: Blank – not used
+  #              Non Blank – Customer-defined
+  #              Defaults to blank
+  - name: "General Code"
+    key: "ehc_general_code"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 27
+  # Format: X(1)
+  # Required: N
+  # Position: 199-199
+  # Description: • Blank (default) – refers to definition at higher level; if not defined, claims will be processed per
+  #                regular processing rules.
+  #              • N – Claims will be processed per regular processing rules.
+  #              • Y – Suspension imposed; claims will be rejected for client with appropriate suspension notification.
+  #              • X – Suspension imposed; claims will be rejected for clients with submit reimbursement notification.
+  - name: "Suspend Flag"
+    key: "ehc_suspend_flag"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["N", "Y", "X", ""]
+    transform: "ehc_suspend_flag?.ToUpper()"
+
+  # Field 28
+  # Format: 9(2)
+  # Required: Y
+  # Position: 200-201
+  # Description: Type of coverage the client is entitled to. See Appendix A for list of valid values.
+  - name: "Coverage Code"
+    key: "ehc_coverage_code"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: true
+    transform_lookup: "Lookup(\"coverage_codes\", ehc_coverage_code, ehc_coverage_code)"
+
+  # Field 29
+  # Format: 9(1)
+  # Required: N
+  # Position: 202-202
+  # Description: See Appendix B for list of valid values – used if the COB status of a client is known.
+  #              If left blank, defaults to 0.
+  - name: "COB Status Code"
+    key: "ehc_cob_status_code"
+    length: 1
+    padding: "left"
+    pad_char: "0"
+    required: false
+    default_value: "0"
+    transform_lookup: "Lookup(\"cob_status_codes\", ehc_cob_status_code, ehc_cob_status_code)"
+
+  # Field 30
+  # Format: X(1)
+  # Required: N
+  # Position: 203-203
+  # Description: • Y – Cost plus to be applied.
+  #              • N – Cost plus plan is not to be accepted.
+  #              Must be Y, N or blank.
+  #              If blank, defaults to NULL.
+  - name: "Cost Plus"
+    key: "ehc_cost_plus"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", "N", ""]
+    transform: "ehc_cost_plus?.ToUpper()"
+
+  # Field 31
+  # Format: 9(5)V99
+  # Required: N
+  # Position: 204-210
+  # Description: Amount for automatic pending of EDI claims. Claims with amount greater than this amount will be
+  #              automatically pended.
+  #              9(5)V99
+  #              Valid dollar amounts are 0.0 – 99999.99 and should be sent as 0000000 – 9999999
+  #              If blank, defaults to 0.
+  - name: "EDI Threshold Amount"
+    key: "ehc_edi_threshold_amount"
+    length: 7
+    padding: "left"
+    pad_char: "0"
+    required: false
+    default_value: "0000000"
+
+  # Field 32
+  # Format: X(147)
+  # Required: Y
+  # Position: 211-357
+  # Description: Filler
+  - name: "Filler"
+    key: "filler_ehc"
+    length: 147
+    padding: "right"
+    pad_char: " "
+    default_value: " "
+    required: true
+

@@ -1,0 +1,30 @@
+feed:
+  name: health_ehc
+  record_length: 4561
+  description: ESC Health Claims Experience Feed (EHC)
+
+records:
+  "0": "Config/Records/Health/record_0.yml"
+  "2": "Config/Records/Health/record_2.yml"
+  "3": "Config/Records/Health/record_3.yml"
+  "4": "Config/Records/Health/record_4.yml"
+  "5": "Config/Records/Health/record_5.yml"
+  "6": "Config/Records/Health/record_6.yml"
+  "7": "Config/Records/Health/record_7.yml"
+  "8": "Config/Records/Health/record_8.yml"
+
+batching:
+  provider:
+    header: "2"
+    detail_types: ["4", "5"]
+    trailer: "6"
+  client:
+    header: "3"
+    detail_types: ["4", "5"]
+    trailer: "7"
+  file_header: "0"
+  file_trailer: "8"
+
+output:
+  schema: "schemas/health_batch.schema.json"
+  file_pattern: "Output/health_batches_{timestamp}.jsonl"

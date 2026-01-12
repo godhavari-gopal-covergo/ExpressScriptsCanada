@@ -24,12 +24,16 @@ namespace EligibilityModule
 
                 // Parse command-line arguments
                 string partnerId = null;
+                string inputFile = "Input/input.json";
                 for (int i = 0; i < args.Length; i++)
                 {
                     if (args[i] == "--partner" && i + 1 < args.Length)
                     {
                         partnerId = args[i + 1];
-                        break;
+                    }
+                    else if (args[i] == "--input" && i + 1 < args.Length)
+                    {
+                        inputFile = args[i + 1];
                     }
                 }
 
@@ -38,10 +42,10 @@ namespace EligibilityModule
                     Console.WriteLine($"Using partner configuration: {partnerId}\n");
                 }
 
-                // Step 1: Load common rules
-                Console.WriteLine("Loading common rules...");
-                _commonRules = LoadYaml<CommonRules>("Config/common_rules.yml");
-                Console.WriteLine($"✓ Loaded common rules: {_commonRules.Field_Rules.Count} field rules, {_commonRules.Global_Transforms.Count} transforms\n");
+                // Step 1: Load global rules
+                Console.WriteLine("Loading global rules...");
+                _commonRules = LoadYaml<CommonRules>("Config/Base/Rules/global_rules.yml");
+                Console.WriteLine($"✓ Loaded global rules: {_commonRules.Field_Rules.Count} field rules, {_commonRules.Global_Transforms.Count} transforms\n");
 
                 // Step 2: Load all record type definitions
                 Console.WriteLine("Loading record type definitions...");
@@ -66,9 +70,9 @@ namespace EligibilityModule
                 SetupInterpreter();
 
                 // Step 6: Load input data
-                Console.WriteLine("Loading input data...");
+                Console.WriteLine($"Loading input data from {inputFile}...");
                 var records = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(
-                    File.ReadAllText("Input/input.json"))!;
+                    File.ReadAllText(inputFile))!;
                 Console.WriteLine($"✓ Loaded {records.Count} input records\n");
 
                 // Step 7: Process records
@@ -179,7 +183,7 @@ namespace EligibilityModule
 
                 // Set field key variable in interpreter so transforms can reference it
                 // This ensures transforms work even when field is missing from input JSON
-                // but has a default value (from partner override or base config)
+                // but has a default value (from partner override or Base config)
                 _interpreter.SetVariable(field.Key, value);
 
                 // Apply field-specific transform
@@ -377,7 +381,7 @@ namespace EligibilityModule
         static Dictionary<string, RecordTypeDefinition> LoadRecordDefinitions()
         {
             var definitions = new Dictionary<string, RecordTypeDefinition>();
-            var configFiles = Directory.GetFiles("Config", "record_*.yml");
+            var configFiles = Directory.GetFiles("Config/Base/Mapping", "record_*.yml");
 
             foreach (var file in configFiles)
             {
@@ -428,7 +432,7 @@ namespace EligibilityModule
 
         static void ApplyPartnerOverrides(string partnerId)
         {
-            var partnerConfigPath = Path.Combine("Config", "Partners", partnerId);
+            var partnerConfigPath = Path.Combine("Config", "Extensions", partnerId);
             
             if (!Directory.Exists(partnerConfigPath))
             {
@@ -437,7 +441,14 @@ namespace EligibilityModule
             }
 
             // Load all partner configuration files
-            var partnerConfigFiles = Directory.GetFiles(partnerConfigPath, "record_*.yml");
+            var mappingPath = Path.Combine(partnerConfigPath, "Mapping");
+            if (!Directory.Exists(mappingPath))
+            {
+                Console.WriteLine($"  ⚠ Warning: Partner mapping directory not found: {mappingPath}");
+                return;
+            }
+            
+            var partnerConfigFiles = Directory.GetFiles(mappingPath, "record_*.yml");
             var overrideCount = 0;
 
             foreach (var configFile in partnerConfigFiles)
@@ -446,7 +457,7 @@ namespace EligibilityModule
                 {
                     var partnerConfig = LoadYaml<PartnerRecordConfiguration>(configFile);
                     
-                    // Find the matching base record definition
+                    // Find the matching Base record definition
                     if (_recordDefinitions.TryGetValue(partnerConfig.Record_Type, out var baseDefinition))
                     {
                         // Apply field overrides
@@ -456,7 +467,7 @@ namespace EligibilityModule
                             
                             if (field != null)
                             {
-                                // If skip is true, we use base config as-is (no partner changes)
+                                // If skip is true, we use Base config as-is (no partner changes)
                                 if (!fieldOverride.Skip)
                                 {
                                     // Only apply default_value if it's specified
@@ -467,11 +478,11 @@ namespace EligibilityModule
                                         Console.WriteLine($"  ✓ Record {partnerConfig.Record_Type}: '{field.Name}' default = '{fieldOverride.Default_Value}'");
                                     }
                                 }
-                                // If skip is true, we just don't override anything - base config is used
+                                // If skip is true, we just don't override anything - Base config is used
                             }
                             else
                             {
-                                Console.WriteLine($"  ⚠ Warning: Field '{fieldOverride.Key}' not found in base definition for record type {partnerConfig.Record_Type}");
+                                Console.WriteLine($"  ⚠ Warning: Field '{fieldOverride.Key}' not found in Base definition for record type {partnerConfig.Record_Type}");
                             }
                         }
                     }

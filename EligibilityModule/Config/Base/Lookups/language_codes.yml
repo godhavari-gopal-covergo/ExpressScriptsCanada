@@ -1,0 +1,10 @@
+# Language Codes Lookup Table
+# Client's language preference for correspondence
+
+lookup_name: "language_codes"
+description: "Language preference codes"
+
+mappings:
+  E: "English"
+  F: "French"
+

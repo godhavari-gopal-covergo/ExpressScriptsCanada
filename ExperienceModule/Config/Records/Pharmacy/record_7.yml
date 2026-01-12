@@ -1,0 +1,51 @@
+record_type: '7'
+description: Payee Batch Control Record
+fields:
+- field_number: '001'
+  name: Record Type
+  key: record_type
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: '"7"'
+- field_number: '002'
+  name: Record Count
+  key: record_count
+  start: 2
+  end: 7
+  length: 6
+  format: 9(6)
+  description: All records for a Payee including Headers and Trailers
+- field_number: '003'
+  name: Sum of Total Amount
+  key: sum_of_total_amount
+  start: 8
+  end: 15
+  length: 8
+  format: 9(6)V99
+  description: 'Subtract all Record Type "5" (i.e.: Reversal) total amounts. This
+    field can be negative (i.e.: The first character of this field may be ''-'') NB:
+    Amounts from Test claims or Test reversals are not included.'
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '004'
+  name: Hash Total
+  key: hash_total
+  start: 16
+  end: 23
+  length: 8
+  format: 9(6)V99
+  description: Total of "Payable Total Amounts" of all claims including test claims
+    and reversals (as positive amounts).
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '005'
+  name: Filler
+  key: filler
+  start: 24
+  end: 750
+  length: 727
+  format: X(727)

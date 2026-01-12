@@ -1,0 +1,147 @@
+record_type: '2'
+description: Provider Header Record
+fields:
+- field_number: '001'
+  name: Record Identifier
+  key: record_identifier
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: '"2"'
+- field_number: '002'
+  name: Provider Number
+  key: provider_number
+  start: 2
+  end: 10
+  length: 9
+  format: X(9)
+  description: null
+- field_number: '003'
+  name: Provider Office
+  key: provider_office
+  start: 11
+  end: 14
+  length: 4
+  format: X(4)
+  description: null
+- field_number: '004'
+  name: Provider Surname
+  key: provider_surname
+  start: 15
+  end: 44
+  length: 30
+  format: X(30)
+  description: null
+- field_number: '005'
+  name: Provider First Name
+  key: provider_first_name
+  start: 45
+  end: 74
+  length: 30
+  format: X(30)
+  description: null
+- field_number: '006'
+  name: Provider Name
+  key: provider_name
+  start: 75
+  end: 104
+  length: 30
+  format: X(30)
+  description: null
+- field_number: '007'
+  name: Provider Address Line 1
+  key: provider_address_line_1
+  start: 105
+  end: 144
+  length: 40
+  format: X(40)
+  description: null
+- field_number: 008
+  name: Provider Address Line 2
+  key: provider_address_line_2
+  start: 145
+  end: 184
+  length: 40
+  format: X(40)
+  description: null
+- field_number: 009
+  name: Provider Address Line 3
+  key: provider_address_line_3
+  start: 185
+  end: 224
+  length: 40
+  format: X(40)
+  description: null
+- field_number: '010'
+  name: Provider City
+  key: provider_city
+  start: 225
+  end: 259
+  length: 35
+  format: X(35)
+  description: null
+- field_number: '011'
+  name: Provider Province
+  key: provider_province
+  start: 260
+  end: 261
+  length: 2
+  format: X(2)
+  description: null
+- field_number: '012'
+  name: Provider Country
+  key: provider_country
+  start: 262
+  end: 276
+  length: 15
+  format: X(15)
+  description: null
+- field_number: '013'
+  name: Provider Postal Code
+  key: provider_postal_code
+  start: 277
+  end: 282
+  length: 6
+  format: X(6)
+  description: null
+- field_number: '014'
+  name: Provider Telephone Number
+  key: provider_telephone_number
+  start: 283
+  end: 292
+  length: 10
+  format: 9(10)
+  description: null
+- field_number: '015'
+  name: Provider Language Flag
+  key: provider_language_flag
+  start: 293
+  end: 293
+  length: 1
+  format: X(1)
+  description: null
+- field_number: '016'
+  name: Provider EFT Route Code
+  key: provider_eft_route_code
+  start: 294
+  end: 302
+  length: 9
+  format: X(9)
+  description: This field is set to blank.
+- field_number: '017'
+  name: Provider EFT Account Number
+  key: provider_eft_account_number
+  start: 303
+  end: 314
+  length: 12
+  format: X(12)
+  description: This field is set to blank.
+- field_number: 018
+  name: Filler
+  key: filler
+  start: 315
+  end: 4561
+  length: 4247
+  format: X(4247)
+  description: null

@@ -1,0 +1,184 @@
+# Client Address Record - Type "29"
+# Notes:
+# - Not a mandatory Record Type
+# - Multiple type "29" records may be sent once the client record has first been sent
+record_type: "29"
+description: "Client address record with identification and general information"
+
+fields:
+  # Field 01
+  # Format: 9(2)
+  # Required: Y
+  # Position: 001-002
+  # Category: I - Identification
+  # Description: "29" denotes client address record
+  - name: "Record Type"
+    key: "record_type"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    default_value: "29"
+    required: true
+
+  # Field 02
+  # Format: 9(2)
+  # Required: Y
+  # Position: 003-004
+  # Category: I - Identification
+  # Description: Carrier ID
+  - name: "Carrier ID"
+    key: "carrier_id"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: true
+
+  # Field 03
+  # Format: X(10)
+  # Required: Y
+  # Position: 005-014
+  # Category: I - Identification
+  # Description: Group Number assigned by the Customer.
+  - name: "Group Number"
+    key: "group_number"
+    length: 10
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 04
+  # Format: X(15)
+  # Required: Y
+  # Position: 015-029
+  # Category: I - Identification
+  # Description: Client ID
+  - name: "Client ID"
+    key: "client_id"
+    length: 15
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 05
+  # Format: X(30)
+  # Required: Y
+  # Position: 030-059
+  # Category: G - General
+  # Description: As per Customer.
+  - name: "Client Last name"
+    key: "client_last_name"
+    length: 30
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 06
+  # Format: X(30)
+  # Required: Y
+  # Position: 060-089
+  # Category: G - General
+  # Description: As per Customer.
+  - name: "Client first name"
+    key: "client_first_name"
+    length: 30
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 07
+  # Format: X(35)
+  # Required: Y
+  # Position: 090-124
+  # Category: G - General
+  # Description: As per Customer.
+  - name: "Address1"
+    key: "address1"
+    length: 35
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 08
+  # Format: X(35)
+  # Required: N
+  # Position: 125-159
+  # Category: G - General
+  # Description: As per Customer.
+  - name: "Address2"
+    key: "address2"
+    length: 35
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 09
+  # Format: X(35)
+  # Required: Y
+  # Position: 160-194
+  # Category: G - General
+  # Description: As per Customer.
+  - name: "City"
+    key: "city"
+    length: 35
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 10
+  # Format: X(2)
+  # Required: Y
+  # Position: 195-196
+  # Category: G - General
+  # Description: Must be a valid province code.
+  #              OC is a valid province code for this field.
+  - name: "Province"
+    key: "province"
+    length: 2
+    padding: "right"
+    pad_char: " "
+    required: true
+    transform_lookup: 'Lookup("province_codes", province, province?.ToUpper())'
+
+  # Field 11
+  # Format: X(15)
+  # Required: N
+  # Position: 197-211
+  # Category: G - General
+  # Description: If Province is OC, then Country Code is Optional.
+  #              If OC, country code can be blank or any values (i.e. no edit check is performed if province is OC).
+  #              If Province Code is anything other than OC, the Country Code must be "CANADA".
+  - name: "Country"
+    key: "country"
+    length: 15
+    padding: "right"
+    pad_char: " "
+    required: false
+    transform: 'province != "OC" ? "CANADA" : value'
+
+  # Field 12
+  # Format: X(6)
+  # Required: N
+  # Position: 212-217
+  # Category: G - General
+  # Description: As per Customer.
+  - name: "Postal Code"
+    key: "postal_code"
+    length: 6
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 13
+  # Format: X(140)
+  # Required: Y
+  # Position: 218-357
+  # Category: G - General
+  # Description: Filler
+  - name: "Filler"
+    key: "filler"
+    length: 140
+    padding: "right"
+    pad_char: " "
+    default_value: " "
+    required: true
+

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This PR implements a multi-tenant partner configuration system that allows different partners to customize field defaults and skip optional fields without modifying base ESC configuration files.
+This PR implements a multi-tenant partner configuration system that allows different partners to customize field defaults and skip optional fields without modifying Base ESC configuration files.
 
 ## Changes
 
@@ -10,12 +10,12 @@ This PR implements a multi-tenant partner configuration system that allows diffe
 - **Partner Configuration Models**: Added `PartnerConfiguration.cs` with `PartnerFieldOverride` and `PartnerRecordConfiguration` classes
 - **Partner Config Loading**: Enhanced `Program.cs` to load and merge partner-specific configurations
 - **Command-Line Support**: Added `--partner` argument for partner selection
-- **Configuration Merging**: Implemented merge logic that overlays partner overrides on base config
+- **Configuration Merging**: Implemented merge logic that overlays partner overrides on Base config
 
 ### New Files
 - `Models/PartnerConfiguration.cs` - Partner configuration models
-- `Config/Partners/GMS/` - Sample GMS partner configurations
-- `Config/Partners/README.md` - Comprehensive partner configuration documentation
+- `Config/Extensions/GMS/Mapping/` - Sample GMS partner configurations
+- `Config/Extensions/README.md` - Comprehensive extension configuration documentation
 - `PARTNER_CONFIG_IMPLEMENTATION.md` - Implementation guide
 - Test input files for validation
 
@@ -25,26 +25,26 @@ This PR implements a multi-tenant partner configuration system that allows diffe
 ## Key Features
 
 ✅ **Non-Intrusive**: Base configurations remain completely unchanged  
-✅ **Minimal Partner Configs**: Partner files only contain differences  
-✅ **Format Enforcement**: All field lengths, padding, transforms enforced by base  
-✅ **Backward Compatible**: System works without partner configs  
+✅ **Minimal Extension Configs**: Extension files only contain differences  
+✅ **Format Enforcement**: All field lengths, padding, transforms enforced by Base  
+✅ **Backward Compatible**: System works without extension configs  
 ✅ **Scalable**: Add new partners without code changes  
 
 ## Usage
 
 ```bash
-# Without partner (uses base config only)
+# Without partner (uses Base config only)
 dotnet run
 
-# With GMS partner configuration
+# With GMS extension configuration
 dotnet run --partner GMS
 ```
 
 ## Configuration Merge Strategy
 
 - Partners can override field default values
-- Partners can mark fields as `skip: true` (uses base config as-is)
-- All format specifications (length, padding, transforms) come from base config
+- Partners can mark fields as `skip: true` (uses Base config as-is)
+- All format specifications (length, padding, transforms) come from Base config
 - Input JSON values always take precedence over partner defaults
 
 ## Testing
@@ -52,19 +52,19 @@ dotnet run --partner GMS
 - ✅ Tested without partner configuration (backward compatible)
 - ✅ Tested with GMS partner configuration
 - ✅ Verified partner defaults are applied correctly
-- ✅ Verified skipped fields use base configuration
+- ✅ Verified skipped fields use Base configuration
 
 ## Documentation
 
 Comprehensive documentation included:
-- Partner configuration guide (`Config/Partners/README.md`)
+- Extension configuration guide (`Config/Extensions/README.md`)
 - Implementation summary (`PARTNER_CONFIG_IMPLEMENTATION.md`)
 - Sample GMS partner configurations
 
 ## Next Steps
 
 To add a new partner:
-1. Create directory: `Config/Partners/{PartnerName}/`
+1. Create directory: `Config/Extensions/{PartnerName}/Mapping/`
 2. Create override YAML files for each record type
 3. Run with: `dotnet run --partner {PartnerName}`
 
@@ -74,9 +74,9 @@ No code changes required!
 
 - `Program.cs` (modified)
 - `Models/PartnerConfiguration.cs` (new)
-- `Config/Partners/GMS/record_00_header.yml` (new)
-- `Config/Partners/GMS/record_20_client.yml` (new)
-- `Config/Partners/README.md` (new)
+- `Config/Extensions/GMS/Mapping/record_00_header.yml` (new)
+- `Config/Extensions/GMS/Mapping/record_20_client.yml` (new)
+- `Config/Extensions/README.md` (new)
 - `PARTNER_CONFIG_IMPLEMENTATION.md` (new)
 - Test input files (new)
 

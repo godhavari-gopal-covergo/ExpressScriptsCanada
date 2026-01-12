@@ -1,0 +1,1215 @@
+record_type: '5'
+description: Claim Record (Reversal)
+fields:
+- field_number: '001'
+  name: Record Type
+  key: record_type
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: “4” = Claim transaction “5” = Reversal transaction
+- field_number: '002'
+  name: 'VCS Assigned Claim Reference #'
+  key: vcs_assigned_claim_reference
+  start: 2
+  end: 11
+  length: 10
+  format: X(10)
+  description: Unique number assigned for this transaction by the adjudication system.
+    It could be customer specific; however, the first byte is reserved.
+- field_number: '003'
+  name: 'Pharmacy Trace #'
+  key: pharmacy_trace
+  start: 12
+  end: 17
+  length: 6
+  format: X(6)
+  description: 'Per CPhA Version 3: The Trace Number series will begin at 000001 and
+    continue to increase until it reaches 999999. It will then return 000001 and repeat.
+    The Trace Number will be referred to in each response by the processor (Field
+    E.02.03) to link it to the specific transaction submitted by the provider. Provider
+    software should be programmed to relate Trace Numbers referred to in processor
+    responses to specific transactions initiated by the provider.'
+- field_number: '004'
+  name: Date Claim Received at ESC Canada
+  key: date_claim_received_at_esc_canada
+  start: 18
+  end: 25
+  length: 8
+  format: 9(8)
+  description: Date the claim was received by ESC Canada.
+- field_number: '005'
+  name: Date Processed/Adjudicated
+  key: date_processed_adjudicated
+  start: 26
+  end: 33
+  length: 8
+  format: 9(8)
+  description: Date claim was adjudicated at ESC Canada
+- field_number: '006'
+  name: Claim Status
+  key: claim_status
+  start: 34
+  end: 34
+  length: 1
+  format: 9(1)
+  description: • “0” – Claim was accepted • “1” – Claim was rejected
+- field_number: '007'
+  name: Communications Flag
+  key: communications_flag
+  start: 35
+  end: 35
+  length: 1
+  format: 9(1)
+  description: • “0” – No communications error • “1” – Communications error
+- field_number: 008
+  name: Client Language Flag
+  key: client_language_flag
+  start: 36
+  end: 36
+  length: 1
+  format: X(1)
+  description: “E” (English) / “F” (French); language flag taken from the transaction.
+    If not on transaction, it defaults to the language on the client’s eligibility
+    file.
+- field_number: 009
+  name: Pharmacy Number
+  key: pharmacy_number
+  start: 37
+  end: 46
+  length: 10
+  format: X(10)
+  description: The assigned number for this pharmacy
+- field_number: '010'
+  name: Prescription Number
+  key: prescription_number
+  start: 47
+  end: 53
+  length: 7
+  format: X(7)
+  description: 'The prescription number submitted by the pharmacy (Original Rx #)'
+- field_number: '011'
+  name: 'Current Rx #'
+  key: current_rx
+  start: 54
+  end: 60
+  length: 7
+  format: X(7)
+  description: 'The current prescription number. This is used by systems that assign
+    a new prescription number for refills. Currently within the ESC Canada system,
+    the Prescription Number and Current Rx # values will be the same.'
+- field_number: '012'
+  name: Date of Service
+  key: date_of_service
+  start: 61
+  end: 68
+  length: 8
+  format: 9(8)
+  description: The dispense date submitted by the pharmacy in the format YYYYMMDD
+- field_number: '013'
+  name: Drug Code (DIN#)/GP#/Compound Code
+  key: drug_code_din_gp_compound_code
+  start: 69
+  end: 76
+  length: 8
+  format: X(8)
+  description: The drug identification number or general product number as submitted
+    by the pharmacy.
+- field_number: '014'
+  name: Drug Description(English)
+  key: drug_description_english
+  start: 77
+  end: 106
+  length: 30
+  format: X(30)
+  description: Free-text description of the drug in English. Taken from the DIN file.
+- field_number: '015'
+  name: Drug Description(French)
+  key: drug_description_french
+  start: 107
+  end: 136
+  length: 30
+  format: X(30)
+  description: Free-text description of the drug in French. Taken from the DIN file.
+- field_number: '016'
+  name: New/Refill Code (CPhA Version 2)
+  key: new_refill_code_cpha_version_2
+  start: 137
+  end: 138
+  length: 2
+  format: 9(2)
+  description: 'A code to indicate whether the prescription is new or a refill. Values
+    are: • ‘00’ – for new/original prescription • ‘01-99” – for refills given'
+- field_number: '017'
+  name: Major Compound Ingredient
+  key: major_compound_ingredient
+  start: 139
+  end: 146
+  length: 8
+  format: 9(8)
+  description: The highest priced product by DIN Ingredient or GP# in a compound.
+    Used in CPhA Version 2.0; same as DIN. Not used for CPhA Version 3.0.
+- field_number: 018
+  name: Metric Quantity
+  key: metric_quantity
+  start: 147
+  end: 151
+  length: 5
+  format: 9(5)
+  description: The quantity of medication dispensed expressed in millilitres, grams
+    or each. Used in CPhA Version 2.0; not used for CPhA Version 3.0 (refer to field
+    101 – Metric Quantity Claimed).
+- field_number: 019
+  name: Days Supply
+  key: days_supply
+  start: 152
+  end: 154
+  length: 3
+  format: 9(3)
+  description: The number of days this prescription is expected to last.
+- field_number: '020'
+  name: Client Last Name
+  key: client_last_name
+  start: 155
+  end: 169
+  length: 15
+  format: X(15)
+  description: The last name of the client.
+- field_number: '021'
+  name: Client First Name
+  key: client_first_name
+  start: 170
+  end: 181
+  length: 12
+  format: X(12)
+  description: The first name of the client.
+- field_number: '022'
+  name: Patient Last Name
+  key: patient_last_name
+  start: 182
+  end: 196
+  length: 15
+  format: X(15)
+  description: This information will come from the most currently submitted claim.
+- field_number: '023'
+  name: Patient First Name
+  key: patient_first_name
+  start: 197
+  end: 208
+  length: 12
+  format: X(12)
+  description: This information will come from the most currently submitted claim.
+- field_number: '024'
+  name: Patient Date of Birth
+  key: patient_date_of_birth
+  start: 209
+  end: 216
+  length: 8
+  format: 9(8)
+  description: The patient's date of birth in the format YYYYMMDD.
+- field_number: '025'
+  name: Sex of Patient
+  key: sex_of_patient
+  start: 217
+  end: 217
+  length: 1
+  format: X(1)
+  description: The sex of the patient, “M” (Male), “F” (Female) or “U” (Unknown)
+- field_number: '026'
+  name: Customer ID/Major Account ID
+  key: customer_id_major_account_id
+  start: 218
+  end: 219
+  length: 2
+  format: 9(2)
+  description: The patient's insurance carrier or major account as submitted by the
+    pharmacy. This is a 2 position Carrier ID Number.
+- field_number: '027'
+  name: GSAS
+  key: gsas
+  start: 220
+  end: 238
+  length: 19
+  format: X(19)
+  description: The group X(10), subgroup X(3), account X(3) and suffix X(3) identifiers
+    as assigned by the insurer (GSAS). The group number will be the group number as
+    input by the pharmacies/processor in the CPhA group number field.
+- field_number: 028
+  name: Client ID
+  key: client_id
+  start: 239
+  end: 253
+  length: 15
+  format: X(15)
+  description: The cardholder (insured) identification number.
+- field_number: 029
+  name: Patient Code
+  key: patient_code
+  start: 254
+  end: 256
+  length: 3
+  format: X(3)
+  description: The unique code assigned by the customer to the patient. This code
+    will be unique within a family.
+- field_number: '030'
+  name: Patient Relationship Code
+  key: patient_relationship_code
+  start: 257
+  end: 257
+  length: 1
+  format: 9(1)
+  description: 'The relationship of the patient to the cardholder: • “0” – Cardholder
+    • “1” – Spouse • “2” – Child(underage) • “3” – Child (overage) • “4” – Disabled
+    Dependent • “9” – Unknown'
+- field_number: '031'
+  name: Product Selection Code
+  key: product_selection_code
+  start: 258
+  end: 258
+  length: 1
+  format: X(1)
+  description: 'The product selection code as submitted: • “0” - No interchangeable
+    product available • “1” - Doctor No Substitution • “2” - Patient''s choice • “3”
+    - Pharmacist''s choice • “4” - Existing therapy (refill) • “5” - Plan or regulation
+    requires generic to be dispensed CPhA Version 3.0 uses “1 – 4”; CPhA Version 2.0
+    used “0 – 5”'
+- field_number: '032'
+  name: Submitted Ingredient Cost
+  key: submitted_ingredient_cost
+  start: 259
+  end: 264
+  length: 6
+  format: 9(4)V99
+  description: The ingredient cost submitted by the pharmacy
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '033'
+  name: Submitted Cost Up Charge
+  key: submitted_cost_up_charge
+  start: 265
+  end: 270
+  length: 6
+  format: 9(4)V99
+  description: The cost upcharge as submitted by the pharmacy
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '034'
+  name: Submitted Provincial Tax
+  key: submitted_provincial_tax
+  start: 271
+  end: 276
+  length: 6
+  format: 9(4)V99
+  description: The provincial sales tax submitted by the pharmacy (not currently used
+    at ESC)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '035'
+  name: Submitted GST
+  key: submitted_gst
+  start: 277
+  end: 282
+  length: 6
+  format: 9(4)V99
+  description: The goods and services tax submitted by the pharmacy (not currently
+    used at ESC)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '036'
+  name: Submitted Professional Fee
+  key: submitted_professional_fee
+  start: 283
+  end: 288
+  length: 6
+  format: 9(4)V99
+  description: The professional fee (dispensing fee) as submitted by the pharmacy
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '037'
+  name: Submitted Generic Incentive
+  key: submitted_generic_incentive
+  start: 289
+  end: 294
+  length: 6
+  format: 9(4)V99
+  description: The generic incentive submitted by the pharmacy (not currently used
+    at ESC)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: 038
+  name: Submitted Special Services Fee
+  key: submitted_special_services_fee
+  start: 295
+  end: 300
+  length: 6
+  format: 9(4)V99
+  description: The special services fee submitted by the pharmacy (currently applicable
+    for NIHB claims only)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: 039
+  name: Submitted Compounding Fee
+  key: submitted_compounding_fee
+  start: 301
+  end: 306
+  length: 6
+  format: 9(4)V99
+  description: The compounding fee as submitted by the pharmacy
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '040'
+  name: Submitted Copay
+  key: submitted_copay
+  start: 307
+  end: 312
+  length: 6
+  format: 9(4)V99
+  description: The amount of copay the pharmacy expects to collect
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '041'
+  name: Submitted Coinsurance
+  key: submitted_coinsurance
+  start: 313
+  end: 318
+  length: 6
+  format: 9(4)V99
+  description: The amount of coinsurance the pharmacy expects to collect
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '042'
+  name: Submitted Total Amount Claimed
+  key: submitted_total_amount_claimed
+  start: 319
+  end: 324
+  length: 6
+  format: 9(4)V99
+  description: The total amount claimed (used for CPhA Version 2 claims only)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '043'
+  name: Payable Ingredient Cost
+  key: payable_ingredient_cost
+  start: 325
+  end: 330
+  length: 6
+  format: 9(4)V99
+  description: The amount payable to the pharmacy for the ingredient cost (drug cost)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '044'
+  name: Payable Cost Up Charge
+  key: payable_cost_up_charge
+  start: 331
+  end: 336
+  length: 6
+  format: 9(4)V99
+  description: The amount of upcharge payable to the pharmacy
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '045'
+  name: Payable Provincial Sales Tax
+  key: payable_provincial_sales_tax
+  start: 337
+  end: 342
+  length: 6
+  format: 9(4)V99
+  description: The amount of provincial sales tax payable to pharmacy (not currently
+    used at ESC)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '046'
+  name: Payable GST Tax
+  key: payable_gst_tax
+  start: 343
+  end: 348
+  length: 6
+  format: 9(4)V99
+  description: The amount of the GST payable (not currently used at ESC)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '047'
+  name: Payable Professional Fee
+  key: payable_professional_fee
+  start: 349
+  end: 354
+  length: 6
+  format: 9(4)V99
+  description: The professional fee payable to the pharmacy
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: 048
+  name: Payable Generic Incentive
+  key: payable_generic_incentive
+  start: 355
+  end: 360
+  length: 6
+  format: 9(4)V99
+  description: The generic incentive paid to the pharmacy (not currently used at ESC)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: 049
+  name: Payable Special Services Fee
+  key: payable_special_services_fee
+  start: 361
+  end: 366
+  length: 6
+  format: 9(4)V99
+  description: The special services fee paid (currently applicable for NIHB claims
+    only)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '050'
+  name: Payable Compounding Fee
+  key: payable_compounding_fee
+  start: 367
+  end: 372
+  length: 6
+  format: 9(4)V99
+  description: The compounding fee payable to the pharmacy
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '051'
+  name: Payable Copay Amount
+  key: payable_copay_amount
+  start: 373
+  end: 378
+  length: 6
+  format: 9(4)V99
+  description: The amount to be collected from the patient due to a fixed dollar copay
+    defined in the insurer’s plan. This amount does not include periodic deductibles.
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '052'
+  name: Payable Coinsurance
+  key: payable_coinsurance
+  start: 379
+  end: 384
+  length: 6
+  format: 9(4)V99
+  description: The amount to be collected from the patient due to a percentage coinsurance
+    defined in the insurer’s plan.
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '053'
+  name: Payable Total Amount
+  key: payable_total_amount
+  start: 385
+  end: 390
+  length: 6
+  format: 9(4)V99
+  description: The total balance due as reimbursement to the pharmacy (includes cost-
+    plus). For PLA claims, this is the total amount paid by the carrier to the pharmacy.
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '054'
+  name: Amount Toward Cost Plus
+  key: amount_toward_cost_plus
+  start: 391
+  end: 396
+  length: 6
+  format: 9(4)V99
+  description: The amount payable above the normal plan that is payable by the cost
+    + policy (not currently used at ESC)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '055'
+  name: Amount Toward Annual Deductible - Family
+  key: amount_toward_annual_deductible_family
+  start: 397
+  end: 402
+  length: 6
+  format: 9(4)V99
+  description: The amount applied to an annual family deductible from this prescription
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '056'
+  name: Amount Toward Annual Deductible - Individual/Family
+  key: amount_toward_annual_deductible_individual_family
+  start: 403
+  end: 408
+  length: 6
+  format: 9(4)V99
+  description: The amount applied to an annual individual/family deductible from this
+    prescription
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '057'
+  name: Amount Toward Annual Deductible – Single
+  key: amount_toward_annual_deductible_single
+  start: 409
+  end: 414
+  length: 6
+  format: 9(4)V99
+  description: The amount applied to an annual single deductible from this prescription
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: 058
+  name: Annual Deductible Amount Satisfied – Family
+  key: annual_deductible_amount_satisfied_family
+  start: 415
+  end: 420
+  length: 6
+  format: 9(4)V99
+  description: The amount of an annual family deductible that has been satisfied
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: 059
+  name: Annual Deductible Amount Satisfied-Individual/Family
+  key: annual_deductible_amount_satisfied_individual_family
+  start: 421
+  end: 426
+  length: 6
+  format: 9(4)V99
+  description: The amount of an annual individual/family deductible that has been
+    satisfied
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '060'
+  name: Annual Deductible Amount Satisfied – Single
+  key: annual_deductible_amount_satisfied_single
+  start: 427
+  end: 432
+  length: 6
+  format: 9(4)V99
+  description: The amount of an annual single deductible that has been satisfied
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '061'
+  name: Test Indicator
+  key: test_indicator
+  start: 433
+  end: 433
+  length: 1
+  format: X(1)
+  description: “T” = this is a test claim " " = this is NOT a test claim (only used
+    for CPhA Version 2 claims; not used for CPhA Version 3)
+- field_number: '062'
+  name: Error Codes
+  key: error_codes
+  start: 434
+  end: 445
+  length: 12
+  format: X(12)
+  description: This field shows the first 6 error (reject) or warning codes (Eclipse
+    Codes), of 2 bytes each.
+- field_number: '063'
+  name: Cost Basis
+  key: cost_basis
+  start: 446
+  end: 447
+  length: 2
+  format: X(2)
+  description: “00” Not specified “01” Best available price as indicated in formulary
+    or benefit plan list “02” Price listed by wholesaler “03” Direct price from manufacturer
+    “04” Maximum allowable cost “05” Actual acquisition cost “06” Formulary price
+    “07” Unit dose price “08” Usual and customary cost “09” Usual retail value “10”
+    For compound-total of ingredient costs (Currently defined as “00”)
+- field_number: '064'
+  name: Unit Price
+  key: unit_price
+  start: 448
+  end: 456
+  length: 9
+  format: 9(4)V9(5)
+  description: The unit price of the drug dispensed (from ESC DIN database + allowed
+    markup/upcharge). If DIN Pricing is not activated for the plan, this field is
+    blank.
+  value_format:
+    type: implied_decimal
+    scale: 5
+- field_number: '065'
+  name: Maximum Allowable Cost
+  key: maximum_allowable_cost
+  start: 457
+  end: 465
+  length: 9
+  format: 9(4)V9(5)
+  description: The allowable cost of the drug dispensed (unit price x quantity)
+  value_format:
+    type: implied_decimal
+    scale: 5
+- field_number: '066'
+  name: Cost Difference
+  key: cost_difference
+  start: 466
+  end: 471
+  length: 6
+  format: 9(4)V9(2)
+  description: The cost difference to be collected from the patient (Submitted Drug
+    Ingredient Cost - Maximum Allowable Cost = Cost Difference)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '067'
+  name: Therapeutic Class
+  key: therapeutic_class
+  start: 472
+  end: 477
+  length: 6
+  format: 9(6)
+  description: The therapeutic class of the drug dispensed (based on AHFS Category
+    defined in ESC DIN database)
+- field_number: 068
+  name: Class
+  key: class
+  start: 478
+  end: 478
+  length: 1
+  format: X(1)
+  description: The product's Federal schedule (currently applicable for NIHB claims
+    only)
+- field_number: 069
+  name: Provincial Schedule
+  key: provincial_schedule
+  start: 479
+  end: 480
+  length: 2
+  format: X(2)
+  description: 'The product''s Provincial schedule (from ESC DIN pricing database):
+    • “E, F, G, N” = Prescription requiring in English Canada • “C, DR” = OTC in English
+    Canada • “R” = Prescription requiring in Quebec • “A, B” = OTC in Quebec'
+- field_number: '070'
+  name: Dosage Form
+  key: dosage_form
+  start: 481
+  end: 482
+  length: 2
+  format: X(2)
+  description: The dosage form of the product (e.g. tablet)
+- field_number: '071'
+  name: Route of Administration
+  key: route_of_administration
+  start: 483
+  end: 483
+  length: 1
+  format: X(1)
+  description: The route of administration for the drug (e.g. oral)
+- field_number: '072'
+  name: Submission Method Code
+  key: submission_method_code
+  start: 484
+  end: 484
+  length: 1
+  format: 9(1)
+  description: 'The source of the claim submission: • “1” - Network (EDI) • “2” -
+    Paper from pharmacy • “3” - Paper from subscriber/client • “4” - Other Electronic
+    Medium (Tape/diskette)  Deferred payment transactions are submitted EDI, but
+    reflected on claims experience as subscriber transactions in order that payment
+    is generated to the subscriber.'
+- field_number: '073'
+  name: Payee Code
+  key: payee_code
+  start: 485
+  end: 485
+  length: 1
+  format: 9(1)
+  description: 'Specifies which patient accumulator is used: • “0” - No accumulation
+    • “1” - Accumulation for cardholder • “2” - Accumulated for spouse'
+- field_number: '074'
+  name: Payment Method
+  key: payment_method
+  start: 486
+  end: 486
+  length: 1
+  format: 9(1)
+  description: 'How the claim will be paid: • “1” - EFT - Biweekly • “2” - Cheque
+    – Biweekly • “3” - Client cheque • “4” - Third Party Payee'
+- field_number: '075'
+  name: Authorization Code
+  key: authorization_code
+  start: 487
+  end: 493
+  length: 7
+  format: 9(7)
+  description: The reason for overriding a particular function of the system on a
+    manually processed claim transaction
+- field_number: '076'
+  name: 'Authorization #'
+  key: authorization
+  start: 494
+  end: 499
+  length: 6
+  format: 9(6)
+  description: The authorisation number assigned by ESC Canada system for overridden
+    claim transactions
+- field_number: '077'
+  name: EFT Number
+  key: eft_number
+  start: 500
+  end: 518
+  length: 19
+  format: X(19)
+  description: Number assigned by VCS which is equivalent to a cheque number. To be
+    used in reconciliation process.
+- field_number: 078
+  name: Deductible Satisfied Flag
+  key: deductible_satisfied_flag
+  start: 519
+  end: 519
+  length: 1
+  format: X(1)
+  description: A “Y” or “N” indicator of the deductible status
+- field_number: 079
+  name: Next Rollover Date
+  key: next_rollover_date
+  start: 520
+  end: 527
+  length: 8
+  format: 9(8)
+  description: 'The next rollover date for deductible calculations. NB: this field
+    is not currently represented accurately in the claims experience file.'
+- field_number: 080
+  name: Payment Status
+  key: payment_status
+  start: 528
+  end: 528
+  length: 1
+  format: X(1)
+  description: Not currently used at ESC
+- field_number: 081
+  name: Original Claim Reference Number
+  key: original_claim_reference_number
+  start: 529
+  end: 538
+  length: 10
+  format: X(10)
+  description: Original Claim Reference number of claim transaction that a reversal
+    is linked to
+- field_number: 082
+  name: Original Claim Trace Number
+  key: original_claim_trace_number
+  start: 539
+  end: 544
+  length: 6
+  format: X(6)
+  description: Original Trace Number of claim transaction that a reversal is linked
+    to
+- field_number: 083
+  name: Client Location
+  key: client_location
+  start: 545
+  end: 550
+  length: 6
+  format: X(6)
+  description: A Client Location identifier originating in the Client Coverage record
+    that is supplied by the customers (client province code from CLCOV table in ESC
+    database)
+- field_number: 084
+  name: Reimbursement Flag
+  key: reimbursement_flag
+  start: 551
+  end: 551
+  length: 1
+  format: X(1)
+  description: 'A single character code used to identify pay-direct and reimbursement
+    claims. Values are: • “ ” - Pay Direct & Reimbursement • “P” - Pay Direct • “R”
+    - Reimbursement'
+- field_number: 085
+  name: Prescriber Number
+  key: prescriber_number
+  start: 552
+  end: 561
+  length: 10
+  format: X(10)
+  description: The prescriber number as submitted by the pharmacy on the claim
+- field_number: 086
+  name: Provider Code
+  key: provider_code
+  start: 562
+  end: 563
+  length: 2
+  format: 9(2)
+  description: The provider code classifies the provider as a pharmacy, dispensing
+    physician or hospital.
+- field_number: 087
+  name: Provider Zone
+  key: provider_zone
+  start: 564
+  end: 565
+  length: 2
+  format: 9(2)
+  description: Currently set to zeros. Not used at ESC.
+- field_number: 088
+  name: Refills Authorized (CPhA Version 3)
+  key: refills_authorized_cpha_version_3
+  start: 566
+  end: 567
+  length: 2
+  format: 9(2)
+  description: The number of refills authorized as repeats for the prescription
+- field_number: 089
+  name: DIN Product Name
+  key: din_product_name
+  start: 568
+  end: 577
+  length: 10
+  format: X(10)
+  description: A 10 character abbreviated DIN product name
+- field_number: 090
+  name: Refill/Repeat Authorizations
+  key: refill_repeat_authorizations
+  start: 578
+  end: 579
+  length: 2
+  format: 9(2)
+  description: The number of authorized refills/repeats remaining. On the first fill
+    of a new prescription, the number of refills/repeats remaining will be equal to
+    the full number authorized. The number is reduced by one each time a refill/repeat
+    is filled.
+- field_number: 091
+  name: Provincial Health Care ID
+  key: provincial_health_care_id
+  start: 580
+  end: 592
+  length: 13
+  format: X(13)
+  description: The patient's provincial health care ID number or code for provincial
+    drug plan benefits
+- field_number: 092
+  name: Unlisted Compound
+  key: unlisted_compound
+  start: 593
+  end: 593
+  length: 1
+  format: X(1)
+  description: 'Indicates that the claim is for a compound that is not identified
+    as a DIN. Valid values are: • “0” - compounded topical cream • “1” - compounded
+    topical ointment • “2” - compounded external lotion • “3” - compounded internal
+    use liquid • “4” - compounded external powder • “5” - compounded internal powder
+    • “6” - compounded injection or infusion • “7” - compounded ear/eye drop • “8”
+    - compounded suppository • “9” - compounded other'
+- field_number: 093
+  name: Intervention Codes
+  key: intervention_codes
+  start: 594
+  end: 597
+  length: 4
+  format: X(4)
+  description: 'Identifies codes which details DUR interventions taken, or identifies
+    special coverage and payment rules are being claimed by the pharmacy. Refer to
+    CPhA Version 3.0 (field D.65.03) Claim Standard for valid values. ESC supports
+    the use of the following Intervention codes: “UA, UB, UC, UD, UE, UF, UG, UI,
+    UJ, UL, UM, UN, MR, DA and DB”'
+- field_number: 094
+  name: Previously Paid
+  key: previously_paid
+  start: 598
+  end: 603
+  length: 6
+  format: 9(4)V99
+  description: Amount paid by the primary payor of this claim (i.e. portion covered
+    by a provincial drug plan or other private insurer)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: 095
+  name: Pharmacist ID
+  key: pharmacist_id
+  start: 604
+  end: 609
+  length: 6
+  format: X(6)
+  description: Identifies the dispensing pharmacist for this prescription
+- field_number: 096
+  name: CPhA Version Number
+  key: cpha_version_number
+  start: 610
+  end: 611
+  length: 2
+  format: 9(2)
+  description: The CPhA claim format version number the claim was submitted under
+- field_number: 097
+  name: ESC (Eclipse) Code
+  key: esc_eclipse_code
+  start: 612
+  end: 613
+  length: 2
+  format: X(2)
+  description: The ESC drug classification code for the DIN on this claim (e.g. fertility
+    drugs are grouped under ESC Code “07”)
+- field_number: 097A
+  name: AQPPCode
+  key: aqppcode
+  start: 614
+  end: 616
+  length: 3
+  format: X(3)
+  description: The AQPP drug grouping, defined within the AQPP file
+- field_number: 097B
+  name: Filler
+  key: filler
+  start: 617
+  end: 617
+  length: 1
+  format: X(1)
+  description: Blank
+- field_number: 098
+  name: Original Rx Number (CPhA Version 3)
+  key: original_rx_number_cpha_version_3
+  start: 618
+  end: 626
+  length: 9
+  format: X(9)
+  description: The number assigned to a prescription or service record on the original
+    date of prescription or professional service provided
+- field_number: 099
+  name: Current Rx Number (CPhA Version 3)
+  key: current_rx_number_cpha_version_3
+  start: 627
+  end: 635
+  length: 9
+  format: X(9)
+  description: The prescription number assigned and appearing on the label of the
+    dispensed prescription or on the record of the service provided
+- field_number: '100'
+  name: New/Refill Code (CPhA Version 3)
+  key: new_refill_code_cpha_version_3
+  start: 636
+  end: 636
+  length: 1
+  format: X(1)
+  description: A code indicating whether the prescription is new or an authorized
+    refill/repeat (when all authorized refills have been supplied, another “new prescription”
+    is required for the patient to continue on the medication. • “N” – New Rx • “R”
+    – Rx refill/repeat
+- field_number: '101'
+  name: Metric Quantity Claimed (CPhA Version 3)
+  key: metric_quantity_claimed_cpha_version_3
+  start: 637
+  end: 642
+  length: 6
+  format: 9(5)V9
+  description: Quantity of medication dispensed, as claimed by the pharmacy
+  value_format:
+    type: implied_decimal
+    scale: 1
+- field_number: '102'
+  name: Metric Quantity Paid (CPhA Version 3)
+  key: metric_quantity_paid_cpha_version_3
+  start: 643
+  end: 648
+  length: 6
+  format: 9(5)V9
+  description: Quantity of medication allowed; quantity paid by the plan
+  value_format:
+    type: implied_decimal
+    scale: 1
+- field_number: '103'
+  name: Medical Reason Reference
+  key: medical_reason_reference
+  start: 649
+  end: 649
+  length: 1
+  format: X(1)
+  description: Identifies the reference codes used by the prescriber to designate
+    the medical condition or reason for use. • “A” – ICD-9 • “B” – ODB reason for
+    use codes
+- field_number: '104'
+  name: Medical Condition
+  key: medical_condition
+  start: 650
+  end: 655
+  length: 6
+  format: X(6)
+  description: Indicates prescriber’s designation of the medical condition for which
+    the patient is being treated
+- field_number: '105'
+  name: Provider Software ID
+  key: provider_software_id
+  start: 656
+  end: 658
+  length: 3
+  format: X(3)
+  description: Identifies the computer software system used in the pharmacy (For CPhA
+    Version 3 transactions, only the first 2 characters are used)
+- field_number: '106'
+  name: POS Device ID
+  key: pos_device_id
+  start: 659
+  end: 666
+  length: 8
+  format: X(8)
+  description: Provides active device identification code (For manual claims, the
+    User ID of the claims processor)
+- field_number: '107'
+  name: Prescriber ID Reference
+  key: prescriber_id_reference
+  start: 667
+  end: 668
+  length: 2
+  format: X(2)
+  description: 'Identifies the register or other listing which provides the number
+    or code to identify the prescriber: • “00” – not available • “01” – College of
+    Physicians and Surgeons of Ontario • “02” – Royal College of Dental Surgeons of
+    Ontario • “03” – Board of Regents, Chiropody • “04” – OHIP billing number • “99”
+    – Other'
+- field_number: '108'
+  name: CPhA Response Codes
+  key: cpha_response_codes
+  start: 669
+  end: 678
+  length: 10
+  format: X(10)
+  description: CPhA Response Codes sent back on claim responses identifying all rejects/warnings/reductions
+    in claim payment (allows for up to 5 codes of 2 bytes each).
+- field_number: '109'
+  name: Dosage
+  key: dosage
+  start: 679
+  end: 686
+  length: 8
+  format: X(8)
+  description: Form of drug (e.g. tablet, injectable...etc.)
+- field_number: '110'
+  name: Formulary Drug Indicator
+  key: formulary_drug_indicator
+  start: 687
+  end: 687
+  length: 1
+  format: X(1)
+  description: 'Indicator denoting formulary drug (‘SD Elig’ flag on ESC DIN pricing
+    database): • “Y” – formulary drug • “E” – exception drug • “I” – injectables •
+    “N” – non-formulary drug'
+- field_number: '111'
+  name: Attachment Code
+  key: attachment_code
+  start: 688
+  end: 690
+  length: 3
+  format: X(3)
+  description: Value assigned by customer for manual claim
+- field_number: '112'
+  name: Disease Code
+  key: disease_code
+  start: 691
+  end: 696
+  length: 6
+  format: 9(6)
+  description: DIN classification code (currently not supported at ESC; sent as all
+    zeroes)
+- field_number: '113'
+  name: COB Rule Number
+  key: cob_rule_number
+  start: 697
+  end: 697
+  length: 1
+  format: C(1)
+  description: Identifies Provincial COB Rule used in claim adjudication
+- field_number: '114'
+  name: General Code
+  key: general_code
+  start: 698
+  end: 698
+  length: 1
+  format: X(1)
+  description: Free form field – customer specific
+- field_number: '115'
+  name: Gen Prod Indicator
+  key: gen_prod_indicator
+  start: 699
+  end: 699
+  length: 1
+  format: X(1)
+  description: 'Type of drug (‘Gen Prod’ on ESC DIN database): • “ “ = Brand without
+    a generic equivalent (single-source brand) • “B” = Brand with Generic equivalent
+    (multi-source brand) • “G” = Generic'
+- field_number: '116'
+  name: Prescriber ID
+  key: prescriber_id
+  start: 700
+  end: 714
+  length: 15
+  format: X(15)
+  description: Identification number of prescriber, as submitted by pharmacy (or Register
+    or Association of prescriber)
+- field_number: '117'
+  name: Prescriber Reference Code
+  key: prescriber_reference_code
+  start: 715
+  end: 716
+  length: 2
+  format: X(2)
+  description: Register or Association of prescriber, as submitted by pharmacy
+- field_number: '118'
+  name: Deduct Paid
+  key: deduct_paid
+  start: 717
+  end: 722
+  length: 6
+  format: 9(4)V99
+  description: Deductible applied in current claim transaction (same as fields 55,
+    56, 57)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '119'
+  name: Accum ID
+  key: accum_id
+  start: 723
+  end: 727
+  length: 5
+  format: X(5)
+  description: Accumulator ID used in claim adjudication, if defined in the insured’s
+    plan
+- field_number: '120'
+  name: Deferred Cd
+  key: deferred_cd
+  start: 728
+  end: 728
+  length: 1
+  format: X(1)
+  description: “ “ or “N” – not a deferred plan; “Y” – deferred payment plan
+- field_number: '121'
+  name: Alternate Identification
+  key: alternate_identification
+  start: 729
+  end: 744
+  length: 16
+  format: X(16)
+  description: Client’s alternate identification number (e.g. CAPSS Card Number).
+- field_number: '122'
+  name: Line of Business
+  key: line_of_business
+  start: 745
+  end: 747
+  length: 3
+  format: X(3)
+  description: Group’s “Line of Business”, as defined by the customer
+- field_number: '123'
+  name: Filler
+  key: filler_2
+  start: 748
+  end: 750
+  length: 3
+  format: X(3)
