@@ -1,0 +1,81 @@
+record_type: '7'
+description: Client Batch Control Record
+fields:
+- field_number: '001'
+  name: Record Identifier
+  key: record_identifier
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: '"7"'
+- field_number: '002'
+  name: Record Count
+  key: record_count
+  start: 2
+  end: 7
+  length: 6
+  format: 9(6)
+  description: All records for a Client including Headers and Trailers
+- field_number: '003'
+  name: Filler
+  key: filler
+  start: 8
+  end: 71
+  length: 64
+  format: X(64)
+  description: null
+- field_number: '004'
+  name: Claim Amount
+  key: claim_amount
+  start: 72
+  end: 79
+  length: 8
+  format: 9(8,2)
+  description: Total value of the positive claims for this client (type 4)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '005'
+  name: Reversal Amount
+  key: reversal_amount
+  start: 80
+  end: 87
+  length: 8
+  format: 9(8,2)
+  description: Total value of the reversed claims for this client (type 5)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '006'
+  name: Adjustment Amount
+  key: adjustment_amount
+  start: 88
+  end: 96
+  length: 9
+  format: s9(8,2)
+  description: Total value of the adjustment amounts on claims for this client for
+    type 4 records.
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '007'
+  name: Total Amount Payable
+  key: total_amount_payable
+  start: 97
+  end: 106
+  length: 10
+  format: s9(9,2)
+  description: Calculated total amount payable for this client(Claim Amount - Reversal
+    Amount + Adjustment Amount)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: 008
+  name: Filler
+  key: filler_2
+  start: 107
+  end: 4561
+  length: 4455
+  format: X(4455)
+  description: null

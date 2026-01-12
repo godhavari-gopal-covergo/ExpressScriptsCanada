@@ -1,0 +1,127 @@
+record_type: '3'
+description: Payee Address Record
+fields:
+- field_number: '001'
+  name: Record Type
+  key: record_type
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: '"3"'
+- field_number: '002'
+  name: Client ID
+  key: client_id
+  start: 2
+  end: 16
+  length: 15
+  format: X(15)
+  description: Client ID number
+- field_number: '003'
+  name: Payee Last Name
+  key: payee_last_name
+  start: 17
+  end: 31
+  length: 15
+  format: X(15)
+  description: The last name of the payee (i.e. the plan member)
+- field_number: '004'
+  name: Payee First Name
+  key: payee_first_name
+  start: 32
+  end: 43
+  length: 12
+  format: X(12)
+  description: The first name of the payee
+- field_number: '005'
+  name: Payee Address Line 1
+  key: payee_address_line_1
+  start: 44
+  end: 73
+  length: 30
+  format: X(30)
+  description: The first line of the payee’s address
+- field_number: '006'
+  name: Payee Address Line 2
+  key: payee_address_line_2
+  start: 74
+  end: 103
+  length: 30
+  format: X(30)
+  description: The second line of the payee’s address
+- field_number: '007'
+  name: Payee City
+  key: payee_city
+  start: 104
+  end: 118
+  length: 15
+  format: X(15)
+  description: The payee’s city
+- field_number: 008
+  name: Payee Province (USState)
+  key: payee_province_usstate
+  start: 119
+  end: 120
+  length: 2
+  format: X(2)
+  description: The payee’s province
+- field_number: 009
+  name: Payee Country
+  key: payee_country
+  start: 121
+  end: 135
+  length: 15
+  format: X(15)
+  description: Payee country (used for foreign claims)
+- field_number: '010'
+  name: Payee Postal Code
+  key: payee_postal_code
+  start: 136
+  end: 144
+  length: 9
+  format: X(9)
+  description: The payee’s postal code
+- field_number: '011'
+  name: Client Address Change Flag
+  key: client_address_change_flag
+  start: 145
+  end: 145
+  length: 1
+  format: X(1)
+  description: Indicates whether the client’s address has been updated since the last
+    claims experience file generation; if address is new, this field will be valued
+    with ‘Y’. This field is also being used to indicate that the name and address
+    of the payee is a third-party payee. For these instances, this field will be valued
+    with ‘O’ (for Other Payee).
+- field_number: '012'
+  name: GSAS
+  key: gsas
+  start: 146
+  end: 164
+  length: 19
+  format: X(19)
+  description: The group X(10), subgroup X(3), account X(3) and suffix X(3) identifiers
+    as assigned by the insurer (GSAS). The group number will be the group number as
+    input by the pharmacies/processors in the CPhA group number field.
+- field_number: '013'
+  name: Filler
+  key: filler
+  start: 165
+  end: 329
+  length: 165
+  format: X(165)
+- field_number: '014'
+  name: Alternate Identification
+  key: alternate_identification
+  start: 330
+  end: 345
+  length: 16
+  format: X(16)
+  description: Client’s alternate identification number (e.g. CAPSS Card Number).
+- field_number: '015'
+  name: Filler
+  key: filler_2
+  start: 346
+  end: 750
+  length: 405
+  format: X(405)

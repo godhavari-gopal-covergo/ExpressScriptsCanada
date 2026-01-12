@@ -1,0 +1,30 @@
+# GMS Partner Configuration for EHC Patient Record - Type "32"
+partner_id: "GMS"
+record_type: "32"
+
+field_overrides:
+  # Field 02 - Carrier ID
+  # Override: "49"
+  - key: "carrier_id"
+    default_value: "49"
+  
+  # Field 07 - General Processing Mode
+  # Override: "U"
+  - key: "general_processing_mode"
+    default_value: "U"
+  
+  # Field 23 - Suspend Flag
+  # Override: "N"
+  - key: "ehc_suspend_flag"
+    default_value: "N"
+  
+  # Field 24 - Late Entrant Indicator
+  # Override: "N"
+  - key: "late_entrant_indicator"
+    default_value: "N"
+  
+  # Field 26 - Private COB Rule Code
+  # Override: "01"
+  - key: "ehc_private_cob_rule_code"
+    default_value: "01"
+

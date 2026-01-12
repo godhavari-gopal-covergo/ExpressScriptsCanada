@@ -1,0 +1,814 @@
+# Patient Exception Record - Type "24"
+# Notes:
+# - Not a mandatory Record Type
+# - Multiple type 24 records may be sent once the patient record has been sent
+# - Any number of patient exception records is allowed
+# - This record includes both Pharmacy and Dental sections
+record_type: "24"
+description: "Patient Exception record with identification, pharmacy exception, and dental exception information"
+
+fields:
+  # ========== IDENTIFICATION SECTION ==========
+
+  # Field 01
+  # Format: 9(2)
+  # Required: Y
+  # Position: 001-002
+  # Description: "24" denotes a Patient Exception Record.
+  - name: "Record Type"
+    key: "record_type"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: true
+    default_value: "24"
+
+  # Field 02
+  # Format: 9(2)
+  # Required: Y
+  # Position: 003-004
+  # Description: The ESC-assigned Carrier ID# identifying the insurance Carrier.
+  - name: "Carrier ID"
+    key: "carrier_id"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: true
+
+  # Field 03
+  # Format: X(10)
+  # Required: Y
+  # Position: 005-014
+  # Description: Group Number assigned by the Customer. It should be the number as it appears on the member's card.
+  - name: "Group Number"
+    key: "group_number"
+    length: 10
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 04
+  # Format: X(9)
+  # Required: Y
+  # Position: 015-023
+  # Description: Subgroup (3) /Account (3) /Suffix (3).
+  #              Optional for specific carriers.
+  - name: "SAS"
+    key: "sas"
+    length: 9
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 05
+  # Format: X(15)
+  # Required: Y
+  # Position: 024-038
+  # Description: The Client's ID number.
+  - name: "Client ID"
+    key: "client_id"
+    length: 15
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 06
+  # Format: X(3)
+  # Required: Y
+  # Position: 039-041
+  # Description: The unique code assigned by the customer to the patient.
+  #              This code will be unique within a family as per the Customer.
+  - name: "Patient Code"
+    key: "patient_code"
+    length: 3
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # ========== PHARMACY SECTION ==========
+
+  # Field 07
+  # Format: X(1)
+  # Required: Y
+  # Position: 042-042
+  # Description: • R – Replace
+  #              • B – Bypass
+  - name: "Pharmacy Processing Mode"
+    key: "pharmacy_processing_mode"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: true
+    allowed_values: ["R", "B"]
+    transform: "pharmacy_processing_mode?.ToUpper()"
+
+  # Field 08
+  # Format: 9(8)
+  # Required: Y
+  # Position: 043-050
+  # Description: Effective date of this record.
+  - name: "Effective Date"
+    key: "pharmacy_effective_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 09
+  # Format: 9(8)
+  # Required: N
+  # Position: 051-058
+  # Description: Expiry date of this record.
+  #              If blank, defaults to 99999999.
+  #              Note that all Dental Expiry Dates are the first day of non-coverage. Pharmacy Expiry Dates are the last
+  #              day of coverage.
+  - name: "Expiry Date"
+    key: "pharmacy_expiry_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+    default_value: "99999999"
+
+  # Field 10
+  # Format: 9(2)
+  # Required: Y
+  # Position: 059-060
+  # Description: Identifies the field to use below, where:
+  #              • 70 means DIN, field 11
+  #              • 68 – GPI, field 32
+  #              • 67 means Disease Code, field 31
+  #              • 65 means RAMQ Exception Code, field 12
+  #              • 60 means GP Indicator, field 14
+  #              • 55 means AQPP Code, field 25
+  #              • 50 means Eclipse Code, field 15
+  #              • 40 means Therapeutic Class, field 16
+  #              • 30 means Seniors Flag, field 17
+  #              • 20 means Provincial Schedule Code, field 18
+  - name: "Drug Level (DL)"
+    key: "drug_level"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: true
+
+  # Field 11
+  # Format: X(8)
+  # Required: N
+  # Position: 061-068
+  # Description: Must be valid DIN if drug level = 70 otherwise the value entered is not looked at or validated.
+  - name: "DIN (if DL = 70)"
+    key: "din"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 12
+  # Format: 9(4)
+  # Required: N
+  # Position: 069-072
+  # Description: Must be numeric value > 0 (valid RAMQ Exception code).
+  #              Must contain a number if drug level = 65; otherwise the value entered is not looked at or validated.
+  #              Drug level 65 previously defined as Disease Code; not used.
+  - name: "RAMQ Exception Code (if DL=65)"
+    key: "ramq_exception_code"
+    length: 4
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 13
+  # Format: X(2)
+  # Required: N
+  # Position: 073-074
+  # Description: Filler
+  - name: "Filler"
+    key: "filler_pharmacy_1"
+    length: 2
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 14
+  # Format: X(1)
+  # Required: N
+  # Position: 075-075
+  # Description: Must contain a Y or N if drug level = 60 otherwise the value entered is not looked at or validated.
+  - name: "GP Indicator (if DL=60)"
+    key: "gp_indicator"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", "N", ""]
+    transform: "gp_indicator?.ToUpper()"
+
+  # Field 15
+  # Format: X(2)
+  # Required: N
+  # Position: 076-077
+  # Description: Must be valid Eclipse Code (not blank) if drug level = 50 otherwise the value entered is not looked at
+  #              or validated.
+  - name: "Eclipse Code (if DL=50)"
+    key: "eclipse_code"
+    length: 2
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 16
+  # Format: 9(6)
+  # Required: N
+  # Position: 078-083
+  # Description: Must contain a valid Therapeutic Class (number > 0) if drug level = 40 otherwise the value entered is
+  #              not looked at or validated.
+  - name: "Therapeutic Class (If DL=40)"
+    key: "therapeutic_class"
+    length: 6
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 17
+  # Format: X(1)
+  # Required: N
+  # Position: 084-084
+  # Description: Must contain a Y, N or E if drug level = 30 otherwise the value entered is not looked at or verified.
+  #              The senior's flag represents all drugs that fall under the provincial formulary.
+  - name: "Seniors Flag (If DL=30)"
+    key: "seniors_flag"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", "N", "E", ""]
+    transform: "seniors_flag?.ToUpper()"
+
+  # Field 18
+  # Format: X(2)
+  # Required: N
+  # Position: 085-086
+  # Description: Must contain a valid Provincial Schedule Code (non-blank) if drug level = 20 otherwise the value
+  #              entered is not looked at or validated.
+  - name: "Provincial Schedule Code (IF DL=20)"
+    key: "provincial_schedule_code"
+    length: 2
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 19
+  # Format: X(1)
+  # Required: N
+  # Position: 087-087
+  # Description: Filler
+  - name: "Filler"
+    key: "filler_pharmacy_2"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 20
+  # Format: X(1)
+  # Required: Y
+  # Position: 088-088
+  # Description: • Y – If record is selected, DIN(s) are included.
+  #              • N – If record is selected, DIN(s) are excluded.
+  #              • C – If record is selected, DIN(s) are included, and the system follows the alternate adjudication
+  #                flow where drug coverage is considered from other drug coverage levels for the benefit override code,
+  #                accumulator ID, and default benefit code.
+  #              If Drug Level equals 67, the value is ignored and will display/store blank in that field.
+  - name: "Include/Exclude Flag"
+    key: "include_exclude_flag"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: true
+    allowed_values: ["Y", "N", "C"]
+    transform: "include_exclude_flag?.ToUpper()"
+
+  # Field 21
+  # Format: 9(4)
+  # Required: N
+  # Position: 089-092
+  # Description: If valued, will override the days supply regular as specified at the plan or provincial level. Use 9999
+  #              for unlimited. Defaults to plan's value.
+  - name: "Exception Days Supply Reg"
+    key: "exception_days_supply_reg"
+    length: 4
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 22
+  # Format: 9(4)
+  # Required: N
+  # Position: 093-096
+  # Description: If valued, will override the days supply maintenance as specified at the plan or provincial level. Use
+  #              9999 for unlimited. Defaults to plan's value.
+  - name: "Exception Days Supply Maint"
+    key: "exception_days_supply_maint"
+    length: 4
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 23
+  # Format: 9(5)
+  # Required: N
+  # Position: 097-101
+  # Description: If feed value equals 0, and existing override code > 0, then retain current override code.
+  - name: "Except Override Code"
+    key: "except_override_code"
+    length: 5
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 24
+  # Format: X(5)
+  # Required: N
+  # Position: 102-106
+  # Description: If blank, retrieve accumulator from plan table.
+  #              If zero, turn off the accumulator.
+  #              If non-zero, this accumulator ID will be used and must be a valid accumulator.
+  - name: "Accum Id"
+    key: "accum_id"
+    length: 5
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 25
+  # Format: X(3)
+  # Required: N
+  # Position: 107-109
+  # Description: Must contain a valid AQPP Code (not blank) if drug level = 55; otherwise the value entered is not
+  #              looked at or validated.
+  #              Drug level 55 previously defined as Dosage; not used.
+  - name: "AQPP Code (IF DL=55)"
+    key: "aqpp_code"
+    length: 3
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 26
+  # Format: X(5)
+  # Required: N
+  # Position: 110-114
+  # Description: Filler
+  - name: "Filler"
+    key: "filler_pharmacy_3"
+    length: 5
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 27
+  # Format: X(1)
+  # Required: N
+  # Position: 115-115
+  # Description: Indicator to denote drug cutback in PQ for generic plans:
+  #              • Y – Apply cutback.
+  #              • N – Do not apply cutback.
+  #              • Blank – Use current cutback indicator value.
+  - name: "Cutback override indicator"
+    key: "cutback_override_indicator"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", "N", ""]
+    transform: "cutback_override_indicator?.ToUpper()"
+
+  # Field 28
+  # Format: X(1)
+  # Required: N
+  # Position: 116-116
+  # Description: Plan is a Generic Plan, drug is interchangeable in the dispensing province (i.e., DIN's ITC
+  #              (interchangeable) flag is 'Y' for the selected province) and input value is any of the following:
+  #              • B – Not a mandatory generic plan and bypass product selection code criteria
+  #              • Y – The system uses the lower cost alternative (generic) drug
+  #              • N – The system checks if the Product Selection Code submitted is:
+  #                1 – The system uses the unit price of the submitted (brand) drug
+  #                Not 1 – The system uses the lower cost alternative (generic) drug
+  #              • Blank – Check next Mandatory Generic level in the hierarchy
+  - name: "Mandatory Generic override indicator"
+    key: "mandatory_generic_override_indicator"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["B", "Y", "N", ""]
+    transform: "mandatory_generic_override_indicator?.ToUpper()"
+
+  # Field 29
+  # Format: 9(4)
+  # Required: N
+  # Position: 117-120
+  # Description: Assign therapeutic reference number for equivalent din pricing:
+  #              • 'number' (not 0000 and not 9999) – use number as override to current equivalent din pricing indicator.
+  #              • Blank (defaults to 9999) or 9999 – do not override current value of the current equivalent din pricing
+  #                indicator on the GSAS definition.
+  #              • Zeroes – to turn off the process.
+  - name: "Therapeutic reference number override"
+    key: "therapeutic_reference_number_override"
+    length: 4
+    padding: "left"
+    pad_char: "0"
+    required: false
+    default_value: "9999"
+
+  # Field 30
+  # Format: X(1)
+  # Required: N
+  # Position: 121-121
+  # Description: • N or blank (default) – RAMQ accumulation to OOP is NOT applied to the DIN.
+  #              • Y – RAMQ accumulation to OOP is applied to the DIN.
+  - name: "RAMQ Flag"
+    key: "ramq_flag"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", "N", ""]
+    transform: "ramq_flag?.ToUpper()"
+
+  # Field 31
+  # Format: X(6)
+  # Required: N
+  # Position: 122-127
+  # Description: Must be valid Disease Code if drug level = 67 otherwise the value entered is not looked at or validated.
+  - name: "Disease Code (if DL = 67)"
+    key: "disease_code"
+    length: 6
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 32
+  # Format: X(14)
+  # Required: N
+  # Position: 128-141
+  # Description: If Drug Level = 68, must be valid Generic Product Identifier (GPI) otherwise the value entered is not
+  #              looked at or validated.
+  #              GPI Code must be either: 6, 10, 12 or 14 characters.
+  - name: "GPI Code (if DL = 68)"
+    key: "gpi_code"
+    length: 14
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 33
+  # Format: X(1)
+  # Required: N
+  # Position: 142-142
+  # Description: • N – Bypass limit dispensing fee edit.
+  #              • Blank – Apply limit dispensing fee edit, if applicable.
+  - name: "Limit Dispensing Fee"
+    key: "limit_dispensing_fee"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["N", ""]
+    transform: "limit_dispensing_fee?.ToUpper()"
+
+  # Field 34
+  # Format: 9(2)
+  # Required: N
+  # Position: 143-144
+  # Description: Number of months prior to exception expiry that warning message is generated.
+  #              Blank (default) – No warning message is generated.
+  #              1 to 12 – Number of months until CPhA/ECL code LW is generated.
+  - name: "Warning Msg Period"
+    key: "warning_msg_period"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 35
+  # Format: X(1)
+  # Required: N
+  # Position: 145-145
+  # Description: • Y (default) or Blank – Apply PLA logic when adjudication uses this patient exception.
+  #              • N – Do not apply PLA logic when adjudication uses this patient exception.
+  - name: "PLA Indicator"
+    key: "pla_indicator"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", "N", ""]
+    transform: "pla_indicator?.ToUpper()"
+
+  # Field 36
+  # Format: X(3)
+  # Required: N
+  # Position: 146-148
+  # Description: Unique three-character therapy indication code for which PA drug is approved.
+  #              Is updated and validated only if Drug Level = 70 (DIN) or 68 (GPI), otherwise ignored.
+  #              Must be valid code as part of ESC list.
+  #              Must be therapy indication code for which DIN (field 11) or GPI (field 32) is associated.
+  - name: "Therapy Indication Code"
+    key: "therapy_indication_code"
+    length: 3
+    padding: "right"
+    pad_char: " "
+    required: false
+
+  # Field 37
+  # Format: 9(2)
+  # Required: N
+  # Position: 149-150
+  # Description: Patient Exception Reason code.
+  #              Indicates number associated with reason set for patient exception.
+  #              Valid values: 1 to 27.
+  #              Refer to Appendix F for complete list of patient exception reason codes.
+  - name: "Exception Reason"
+    key: "exception_reason"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: false
+    transform_lookup: "Lookup(\"exception_reason_codes\", exception_reason, exception_reason)"
+
+  # Field 38
+  # Format: X(1)
+  # Required: N
+  # Position: 151-151
+  # Description: • Y – ITC Supplemental process is bypassed and does not apply.
+  #              • Blank – ITC Supplemental applies when enabled at Subgroup, Group or Carrier level.
+  - name: "Bypass Suppl. ITC Process"
+    key: "bypass_suppl_itc_process"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", ""]
+    transform: "bypass_suppl_itc_process?.ToUpper()"
+
+  # Field 39
+  # Format: X(1)
+  # Required: N
+  # Position: 152-152
+  # Description: Determines if patient exception will apply or bypass Biosimilar Logic.
+  #              Valid Values: Blank or Y.
+  - name: "Bypass Biosimilar"
+    key: "bypass_biosimilar"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", ""]
+    transform: "bypass_biosimilar?.ToUpper()"
+
+  # Field 40
+  # Format: X(1)
+  # Required: N
+  # Position: 153-153
+  # Description: Determines if patient exception will apply or bypass SDC/ED logic.
+  #              Valid Values: Blank or Y.
+  - name: "Bypass SDC/ED"
+    key: "bypass_sdc_ed"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: false
+    allowed_values: ["Y", ""]
+    transform: "bypass_sdc_ed?.ToUpper()"
+
+  # Field 41
+  # Format: 9(2)
+  # Required: N
+  # Position: 154-155
+  # Description: Determines if specific GSAS Tier is used to apply benefit parameters.
+  #              Blank/0 – No default tier defined.
+  #              1-6 – GSAS Tier 1-6.
+  #              99 – Plan Coverage.
+  - name: "Default Benefit Code"
+    key: "default_benefit_code"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 42
+  # Format: X(64)
+  # Required: Y
+  # Position: 156-219
+  # Description: Filler
+  - name: "Filler"
+    key: "filler_pharmacy_4"
+    length: 64
+    padding: "right"
+    pad_char: " "
+    default_value: " "
+    required: true
+
+  # ========== DENTAL SECTION ==========
+
+  # Field 43
+  # Format: X(1)
+  # Required: Y
+  # Position: 220-220
+  # Description: • R – Replace
+  #              • B – Bypass
+  #              Note: This section is not used since there are currently no patient exceptions for dental.
+  - name: "Dental Processing Mode"
+    key: "dental_processing_mode"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: true
+    allowed_values: ["R", "B"]
+    transform: "dental_processing_mode?.ToUpper()"
+
+  # Field 44
+  # Format: 9(8)
+  # Required: Y
+  # Position: 221-228
+  # Description: Effective date of this record.
+  - name: "Effective Date"
+    key: "dental_effective_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 45
+  # Format: 9(8)
+  # Required: N
+  # Position: 229-236
+  # Description: Expiry date of this record.
+  #              If blank, defaults to 99999999.
+  #              Note that all Dental Expiry Dates are the first day of non-coverage. Pharmacy Expiry Dates are the last
+  #              day of coverage.
+  - name: "Expiry Date"
+    key: "dental_expiry_date"
+    length: 8
+    padding: "right"
+    pad_char: " "
+    required: false
+    default_value: "99999999"
+
+  # Field 46
+  # Format: X(5)
+  # Required: Y
+  # Position: 237-241
+  # Description: Procedure code (must be valid procedure code used by ACDQ, CDA or denturists).
+  - name: "Proc code"
+    key: "proc_code"
+    length: 5
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 47
+  # Format: X(4)
+  # Required: Y
+  # Position: 242-245
+  # Description: Source of procedure code valued in field 45.
+  #              UNIV = CDA Uniform Code
+  #              ACDQ = ACDQ Code
+  - name: "Proc code Source"
+    key: "proc_code_source"
+    length: 4
+    padding: "right"
+    pad_char: " "
+    required: true
+    allowed_values: ["UNIV", "ACDQ"]
+    transform: "proc_code_source?.ToUpper()"
+
+  # Field 48
+  # Format: 9(4)V99
+  # Required: N
+  # Position: 246-251
+  # Description: Allowable amount of lab fees for the procedure.
+  #              9(4)V99
+  #              Valid amounts: 0.0 – 9999.99, sent as 000000 – 999999
+  - name: "Lab limit"
+    key: "lab_limit"
+    length: 6
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 49
+  # Format: 9(4)V99
+  # Required: N
+  # Position: 252-257
+  # Description: Allowable amount of expense for the procedure.
+  #              9(4)V99
+  #              Valid amounts: 0.0 – 9999.99, sent as 000000 – 999999
+  - name: "Expense limit"
+    key: "expense_limit"
+    length: 6
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 50
+  # Format: X(2)
+  # Required: Y
+  # Position: 258-259
+  # Description: Must be valid category code.
+  - name: "Category code"
+    key: "category_code"
+    length: 2
+    padding: "right"
+    pad_char: " "
+    required: true
+
+  # Field 51
+  # Format: 9(5)
+  # Required: N
+  # Position: 260-264
+  # Description: If valued, must be valid frequency ID.
+  - name: "Freq id1"
+    key: "freq_id1"
+    length: 5
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 52
+  # Format: 9(5)
+  # Required: N
+  # Position: 265-269
+  # Description: If valued, must be valid frequency ID.
+  - name: "Freq id2"
+    key: "freq_id2"
+    length: 5
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 53
+  # Format: 9(5)
+  # Required: N
+  # Position: 270-274
+  # Description: If valued, must be valid frequency ID.
+  - name: "Freq id3"
+    key: "freq_id3"
+    length: 5
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 54
+  # Format: 9(5)
+  # Required: N
+  # Position: 275-279
+  # Description: If valued, must be valid frequency ID.
+  - name: "Freq id4"
+    key: "freq_id4"
+    length: 5
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 55
+  # Format: 9(2)
+  # Required: N
+  # Position: 280-281
+  # Description: Must be 00 – 20.
+  - name: "Material intervention"
+    key: "material_intervention"
+    length: 2
+    padding: "left"
+    pad_char: "0"
+    required: false
+
+  # Field 56
+  # Format: X(1)
+  # Required: Y
+  # Position: 282-282
+  # Description: • Y – include
+  #              • N – exclude
+  - name: "Include/Exclude"
+    key: "dental_include_exclude"
+    length: 1
+    padding: "right"
+    pad_char: " "
+    required: true
+    allowed_values: ["Y", "N"]
+    transform: "dental_include_exclude?.ToUpper()"
+
+  # Field 57
+  # Format: X(75)
+  # Required: N
+  # Position: 283-357
+  # Description: Filler
+  - name: "Filler"
+    key: "filler_dental"
+    length: 75
+    padding: "right"
+    pad_char: " "
+    required: false
+

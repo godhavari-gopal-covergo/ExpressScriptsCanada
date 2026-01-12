@@ -1,0 +1,10 @@
+# GMS Partner Configuration for Patient Record - Type "22"
+partner_id: "GMS"
+record_type: "22"
+
+field_overrides:
+  # Field 02 - Carrier ID
+  # Override: "49"
+  - key: "carrier_id"
+    default_value: "49"
+

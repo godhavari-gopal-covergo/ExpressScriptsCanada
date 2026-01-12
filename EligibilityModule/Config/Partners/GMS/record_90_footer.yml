@@ -1,7 +1,0 @@
-# GMS Partner Configuration for File Footer Record - Type "90"
-partner_id: "GMS"
-record_type: "90"
-
-field_overrides:
-  # No carrier_id field in footer record
-

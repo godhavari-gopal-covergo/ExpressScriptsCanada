@@ -1,0 +1,134 @@
+record_type: '2'
+description: Pharmacy Header Record
+fields:
+- field_number: '001'
+  name: Record Type
+  key: record_type
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: '"2"'
+- field_number: '002'
+  name: Pharmacy Number
+  key: pharmacy_number
+  start: 2
+  end: 11
+  length: 10
+  format: X(10)
+  description: The assigned pharmacy number
+- field_number: '003'
+  name: Pharmacy Name
+  key: pharmacy_name
+  start: 12
+  end: 41
+  length: 30
+  format: X(30)
+  description: The name of the pharmacy
+- field_number: '004'
+  name: Pharmacy Address Line 1
+  key: pharmacy_address_line_1
+  start: 42
+  end: 76
+  length: 35
+  format: X(35)
+  description: The street address of the pharmacy
+- field_number: '005'
+  name: Pharmacy Address Line 2
+  key: pharmacy_address_line_2
+  start: 77
+  end: 111
+  length: 35
+  format: X(35)
+  description: The street address of the pharmacy
+- field_number: '006'
+  name: Pharmacy Address Line 3
+  key: pharmacy_address_line_3
+  start: 112
+  end: 146
+  length: 35
+  format: X(35)
+  description: The street address of the pharmacy
+- field_number: '007'
+  name: Pharmacy Province
+  key: pharmacy_province
+  start: 147
+  end: 148
+  length: 2
+  format: X(2)
+  description: The province of the pharmacy
+- field_number: 008
+  name: Pharmacy Postal Code
+  key: pharmacy_postal_code
+  start: 149
+  end: 154
+  length: 6
+  format: X(6)
+  description: The pharmacy’s postal code
+- field_number: 009
+  name: Pharmacy Telephone Number
+  key: pharmacy_telephone_number
+  start: 155
+  end: 164
+  length: 10
+  format: 9(10)
+  description: The pharmacy’s phone number
+- field_number: '010'
+  name: Pharmacy Language Flag
+  key: pharmacy_language_flag
+  start: 165
+  end: 165
+  length: 1
+  format: X(1)
+  description: “F”(French) or “E” (English)
+- field_number: '011'
+  name: Pharmacy Pay Direction Flag
+  key: pharmacy_pay_direction_flag
+  start: 166
+  end: 166
+  length: 1
+  format: X(1)
+  description: The direction of pharmacy payments • “0” - Pay Pharmacy Flag (Chain
+    Flag not defined) • “1” - Pay Chain (refer to Chain Flag in ESC’s pharmacy record)
+- field_number: '012'
+  name: Pharmacy Chain Number
+  key: pharmacy_chain_number
+  start: 167
+  end: 176
+  length: 10
+  format: X(10)
+  description: The chain number assigned by ESC Canada denoting a pharmacy chain number
+- field_number: '013'
+  name: ESC Canada Pharmacy Flag
+  key: esc_canada_pharmacy_flag
+  start: 177
+  end: 177
+  length: 1
+  format: X(1)
+  description: “Y” - ESC Canada Pharmacy (i.e. registered with ESC Canada) “N” – Pharmacy
+    not registered to submit claims to ESC Canada
+- field_number: '014'
+  name: Pharmacy EFT Route Code
+  key: pharmacy_eft_route_code
+  start: 178
+  end: 186
+  length: 9
+  format: X(9)
+  description: The pharmacy bank route code for Electronic Funds Transfer (EFT). This
+    field is set to blank.
+- field_number: '015'
+  name: Pharmacy EFT Account Number
+  key: pharmacy_eft_account_number
+  start: 187
+  end: 198
+  length: 12
+  format: X(12)
+  description: The pharmacy account number for Electronic Funds Transfer (EFT). This
+    field is set to blank.
+- field_number: '016'
+  name: Filler
+  key: filler
+  start: 199
+  end: 750
+  length: 552
+  format: X(552)
