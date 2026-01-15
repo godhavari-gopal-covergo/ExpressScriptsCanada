@@ -1,0 +1,88 @@
+record_type: '3'
+description: Client Address Record
+fields:
+- field_number: '001'
+  name: Record Identifier
+  key: record_identifier
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: '"3"'
+- field_number: '002'
+  name: Client ID
+  key: client_id
+  start: 2
+  end: 16
+  length: 15
+  format: X(15)
+- field_number: '003'
+  name: Client Last Name
+  key: client_last_name
+  start: 17
+  end: 46
+  length: 30
+  format: X(30)
+- field_number: '004'
+  name: Client First Name
+  key: client_first_name
+  start: 47
+  end: 76
+  length: 30
+  format: X(30)
+- field_number: '005'
+  name: Client Address Line 1
+  key: client_address_line_1
+  start: 77
+  end: 111
+  length: 35
+  format: X(35)
+- field_number: '006'
+  name: Client Address Line 2
+  key: client_address_line_2
+  start: 112
+  end: 146
+  length: 35
+  format: X(35)
+- field_number: '007'
+  name: Client City
+  key: client_city
+  start: 147
+  end: 181
+  length: 35
+  format: X(35)
+- field_number: 008
+  name: Client Province
+  key: client_province
+  start: 182
+  end: 183
+  length: 2
+  format: X(2)
+- field_number: 009
+  name: Client Country
+  key: client_country
+  start: 184
+  end: 198
+  length: 15
+  format: X(15)
+- field_number: '010'
+  name: Client Postal Code
+  key: client_postal_code
+  start: 199
+  end: 207
+  length: 9
+  format: X(9)
+- field_number: '011'
+  name: GSAS
+  key: gsas
+  start: 208
+  end: 226
+  length: 19
+  format: X(19)
+- field_number: '012'
+  name: Filler
+  key: filler
+  start: 227
+  end: 1247
+  length: 1021
+  format: X(1021)

@@ -1,0 +1,346 @@
+record_type: '4'
+description: Predetermination General Record
+fields:
+- field_number: '001'
+  name: Record Identifier
+  key: record_identifier
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: 4 = Predetermination General
+- field_number: '002'
+  name: 'Predetermination #'
+  key: predetermination
+  start: 2
+  end: 15
+  length: 14
+  format: X(14)
+  description: Unique system assigned predetermination number
+- field_number: '003'
+  name: Load Date
+  key: load_date
+  start: 16
+  end: 23
+  length: 8
+  format: 9(8)
+  description: Date the predetermination was set up
+- field_number: '004'
+  name: Settled Date
+  key: settled_date
+  start: 24
+  end: 31
+  length: 8
+  format: 9(8)
+  description: Date on which the PD status was set
+- field_number: '005'
+  name: Client Language Flag
+  key: client_language_flag
+  start: 32
+  end: 32
+  length: 1
+  format: X(1)
+  description: From client record
+- field_number: '006'
+  name: Provider Number
+  key: provider_number
+  start: 33
+  end: 41
+  length: 9
+  format: X(9)
+  description: Dentist identification number
+- field_number: '007'
+  name: Provider Surname
+  key: provider_surname
+  start: 42
+  end: 71
+  length: 30
+  format: X(30)
+  description: Dentist surname
+- field_number: 008
+  name: Provider First Name
+  key: provider_first_name
+  start: 72
+  end: 101
+  length: 30
+  format: X(30)
+  description: Dentist first name
+- field_number: 009
+  name: 'Provider office location #'
+  key: provider_office_location
+  start: 102
+  end: 105
+  length: 4
+  format: X(4)
+  description: Dentist office identifier
+- field_number: '010'
+  name: Provider Province
+  key: provider_province
+  start: 106
+  end: 107
+  length: 2
+  format: X(2)
+  description: Province of dentist
+- field_number: '011'
+  name: Provider Specialty
+  key: provider_specialty
+  start: 108
+  end: 109
+  length: 2
+  format: X(2)
+  description: As per the provider profile on the database
+- field_number: '012'
+  name: Client Last Name
+  key: client_last_name
+  start: 110
+  end: 139
+  length: 30
+  format: X(30)
+- field_number: '013'
+  name: Client First Name
+  key: client_first_name
+  start: 140
+  end: 169
+  length: 30
+  format: X(30)
+- field_number: '014'
+  name: Patient Last Name
+  key: patient_last_name
+  start: 170
+  end: 199
+  length: 30
+  format: X(30)
+- field_number: '015'
+  name: Patient First Name
+  key: patient_first_name
+  start: 200
+  end: 229
+  length: 30
+  format: X(30)
+- field_number: '016'
+  name: Patient Date of Birth
+  key: patient_date_of_birth
+  start: 230
+  end: 237
+  length: 8
+  format: 9(8)
+- field_number: '017'
+  name: Sex of Patient
+  key: sex_of_patient
+  start: 238
+  end: 238
+  length: 1
+  format: X(1)
+- field_number: 018
+  name: Carrier ID
+  key: carrier_id
+  start: 239
+  end: 240
+  length: 2
+  format: 9(2)
+- field_number: 019
+  name: Group Number
+  key: group_number
+  start: 241
+  end: 250
+  length: 10
+  format: X(10)
+- field_number: '020'
+  name: SAS
+  key: sas
+  start: 251
+  end: 259
+  length: 9
+  format: X(9)
+- field_number: '021'
+  name: Client ID
+  key: client_id
+  start: 260
+  end: 274
+  length: 15
+  format: X(15)
+- field_number: '022'
+  name: Patient Code
+  key: patient_code
+  start: 275
+  end: 277
+  length: 3
+  format: X(3)
+  description: 'Reference: Field 06 on Patient Record 22 or 27'
+- field_number: '023'
+  name: Patient Relationship Code
+  key: patient_relationship_code
+  start: 278
+  end: 278
+  length: 1
+  format: 9(1)
+  description: Relationship of patient to client
+- field_number: '024'
+  name: Operator id
+  key: operator_id
+  start: 279
+  end: 286
+  length: 8
+  format: X(8)
+  description: ID of user who entered the claim
+- field_number: '025'
+  name: Operator Code
+  key: operator_code
+  start: 287
+  end: 291
+  length: 5
+  format: X(5)
+  description: 'Location # of the user'
+- field_number: '026'
+  name: Submission method
+  key: submission_method
+  start: 292
+  end: 292
+  length: 1
+  format: X(1)
+  description: 'The media in which this predetermination was submitted: 1 - network
+    predetermination 2 - manual dentist predetermination 3 - manual client predetermination'
+- field_number: '027'
+  name: General Notes
+  key: general_notes
+  start: 293
+  end: 772
+  length: 480
+  format: X(480)
+  description: Free form message entered on predetermination entry
+- field_number: 028
+  name: General Notes Date
+  key: general_notes_date
+  start: 773
+  end: 780
+  length: 8
+  format: 9(8)
+  description: Last date that the General Notes field was updated
+- field_number: 029
+  name: General Notes Update ID
+  key: general_notes_update_id
+  start: 781
+  end: 788
+  length: 8
+  format: X(8)
+  description: User ID of person who last updated General Notes
+- field_number: '030'
+  name: Status
+  key: status
+  start: 789
+  end: 789
+  length: 1
+  format: X(1)
+  description: Current status of the PD (1=FIL, 2=SET, 3=AMD,4=CAN )
+- field_number: '031'
+  name: Print on Letter
+  key: print_on_letter
+  start: 790
+  end: 790
+  length: 1
+  format: X(1)
+  description: If field contains a value, then the General Notes are to be printed
+    on the Predetermination Statement (Y/N)
+- field_number: '032'
+  name: End Date
+  key: end_date
+  start: 791
+  end: 798
+  length: 8
+  format: 9(8)
+  description: End date for the PD
+- field_number: '033'
+  name: EDI Authorisation Ind
+  key: edi_authorisation_ind
+  start: 799
+  end: 799
+  length: 1
+  format: X(1)
+  description: Indicates that claims against the PD can be submitted by EDI.
+- field_number: '034'
+  name: Client Address Line 1
+  key: client_address_line_1
+  start: 800
+  end: 834
+  length: 35
+  format: X(35)
+  description: Field valued if mailing instructions indicate that both the provider
+    and client are to receive predetermination statements.
+- field_number: '035'
+  name: Client Address Line 2
+  key: client_address_line_2
+  start: 835
+  end: 869
+  length: 35
+  format: X(35)
+  description: Field valued if mailing instructions indicate that both the provider
+    and client are to receive predetermination statements
+- field_number: '036'
+  name: Client City
+  key: client_city
+  start: 870
+  end: 904
+  length: 35
+  format: X(35)
+  description: Field valued if mailing instructions indicate that both the provider
+    and client are to receive predetermination statements
+- field_number: '037'
+  name: Client Province
+  key: client_province
+  start: 905
+  end: 906
+  length: 2
+  format: X(2)
+  description: Field valued if mailing instructions indicate that both the provider
+    and client are to receive predetermination statements
+- field_number: 038
+  name: Client Country
+  key: client_country
+  start: 907
+  end: 921
+  length: 15
+  format: X(15)
+  description: Field valued if mailing instructions indicate that both the provider
+    and client are to receive predetermination statements
+- field_number: 039
+  name: Client Postal Code
+  key: client_postal_code
+  start: 922
+  end: 930
+  length: 9
+  format: X(9)
+  description: Field valued if mailing instructions indicate that both the provider
+    and client are to receive predetermination statements
+- field_number: '040'
+  name: Mailing Indicator
+  key: mailing_indicator
+  start: 931
+  end: 931
+  length: 1
+  format: X(1)
+  description: 1=provider only, 2=client only, 3=both
+- field_number: '041'
+  name: Attachment Code
+  key: attachment_code
+  start: 932
+  end: 932
+  length: 1
+  format: X(1)
+  description: Indicates if additional material should be attached to the explanation
+    of benefits - valued by predetermination entry process
+- field_number: '042'
+  name: Letter Code
+  key: letter_code
+  start: 933
+  end: 935
+  length: 3
+  format: X(3)
+  description: Indicates whether or not a letter needs to be attached with the explanation
+    of benefits - valued by predetermination entry process
+- field_number: '043'
+  name: Filler
+  key: filler
+  start: 936
+  end: 1247
+  length: 312
+  format: X(312)

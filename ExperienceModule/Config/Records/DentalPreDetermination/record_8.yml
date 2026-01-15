@@ -1,0 +1,62 @@
+record_type: '8'
+description: Tape Batch Control Record
+fields:
+- field_number: '001'
+  name: Record Identifier
+  key: record_identifier
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: '"8"'
+- field_number: '002'
+  name: Issuer Identifier Number
+  key: issuer_identifier_number
+  start: 2
+  end: 7
+  length: 6
+  format: 9(6)
+- field_number: '003'
+  name: Record Count
+  key: record_count
+  start: 8
+  end: 15
+  length: 8
+  format: 9(8)
+  description: Number of records on file including Headers and Trailers
+- field_number: '004'
+  name: Filler
+  key: filler
+  start: 16
+  end: 79
+  length: 64
+  format: X(64)
+- field_number: '005'
+  name: Claim Amount
+  key: claim_amount
+  start: 80
+  end: 89
+  length: 10
+  format: 9(10,2)
+  description: Total value of total fees claimed for the dataset
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '006'
+  name: Paid Amount
+  key: paid_amount
+  start: 90
+  end: 99
+  length: 10
+  format: 9(10,2)
+  description: Total value of total fees paid for the dataset
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '007'
+  name: Filler
+  key: filler_2
+  start: 100
+  end: 1247
+  length: 1148
+  format: X(1148)

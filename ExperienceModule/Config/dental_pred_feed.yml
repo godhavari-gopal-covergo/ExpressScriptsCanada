@@ -1,0 +1,30 @@
+feed:
+  name: dental_predetermination
+  record_length: 1247
+  description: ESC Dental Predetermination Experience Feed (THBM)
+
+records:
+  "0": "Config/Records/DentalPreDetermination/record_0.yml"
+  "2": "Config/Records/DentalPreDetermination/record_2.yml"
+  "3": "Config/Records/DentalPreDetermination/record_3.yml"
+  "4": "Config/Records/DentalPreDetermination/record_4.yml"
+  "5": "Config/Records/DentalPreDetermination/record_5.yml"
+  "6": "Config/Records/DentalPreDetermination/record_6.yml"
+  "7": "Config/Records/DentalPreDetermination/record_7.yml"
+  "8": "Config/Records/DentalPreDetermination/record_8.yml"
+
+batching:
+  provider:
+    header: "2"
+    detail_types: ["4", "5"]
+    trailer: "6"
+  client:
+    header: "3"
+    detail_types: ["4", "5"]
+    trailer: "7"
+  file_header: "0"
+  file_trailer: "8"
+
+output:
+  schema: "schemas/dental_pred_batch.schema.json"
+  file_pattern: "Output/dental_pred_batches_{timestamp}.jsonl"

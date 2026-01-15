@@ -1,0 +1,116 @@
+record_type: '2'
+description: Provider Header Record
+fields:
+- field_number: '001'
+  name: Record Identifier
+  key: record_identifier
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: '"2"'
+- field_number: '002'
+  name: Provider Number
+  key: provider_number
+  start: 2
+  end: 10
+  length: 9
+  format: X(9)
+- field_number: '003'
+  name: Provider Office
+  key: provider_office
+  start: 11
+  end: 14
+  length: 4
+  format: X(4)
+- field_number: '004'
+  name: Dentist Surname
+  key: dentist_surname
+  start: 15
+  end: 44
+  length: 30
+  format: X(30)
+- field_number: '005'
+  name: Dentist First Name
+  key: dentist_first_name
+  start: 45
+  end: 74
+  length: 30
+  format: X(30)
+- field_number: '006'
+  name: Provider Name
+  key: provider_name
+  start: 75
+  end: 104
+  length: 30
+  format: X(30)
+- field_number: '007'
+  name: Provider Address Line 1
+  key: provider_address_line_1
+  start: 105
+  end: 144
+  length: 40
+  format: X(40)
+- field_number: 008
+  name: Provider Address Line 2
+  key: provider_address_line_2
+  start: 145
+  end: 184
+  length: 40
+  format: X(40)
+- field_number: 009
+  name: Provider Address Line 3
+  key: provider_address_line_3
+  start: 185
+  end: 224
+  length: 40
+  format: X(40)
+- field_number: '010'
+  name: Provider City
+  key: provider_city
+  start: 225
+  end: 259
+  length: 35
+  format: X(35)
+- field_number: '011'
+  name: Provider Province
+  key: provider_province
+  start: 260
+  end: 261
+  length: 2
+  format: X(2)
+- field_number: '012'
+  name: Provider Country
+  key: provider_country
+  start: 262
+  end: 276
+  length: 15
+  format: X(15)
+- field_number: '013'
+  name: Provider Postal Code
+  key: provider_postal_code
+  start: 277
+  end: 282
+  length: 6
+  format: X(6)
+- field_number: '014'
+  name: Provider Telephone Number
+  key: provider_telephone_number
+  start: 283
+  end: 292
+  length: 10
+  format: 9(10)
+- field_number: '015'
+  name: Provider Language Flag
+  key: provider_language_flag
+  start: 293
+  end: 293
+  length: 1
+  format: X(1)
+- field_number: '016'
+  name: Filler
+  key: filler
+  start: 294
+  end: 1247
+  length: 954
+  format: X(954)
