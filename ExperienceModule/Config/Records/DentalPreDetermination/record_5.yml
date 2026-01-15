@@ -1,0 +1,443 @@
+record_type: '5'
+description: Predetermination Detail Record
+fields:
+- field_number: '001'
+  name: Record Identifier
+  key: record_identifier
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: 5 = Predetermination Detail
+- field_number: '002'
+  name: PD Line Number
+  key: pd_line_number
+  start: 2
+  end: 3
+  length: 2
+  format: 9(2)
+  description: Line number to identify the particular line on the PD
+- field_number: '003'
+  name: Date Processed
+  key: date_processed
+  start: 4
+  end: 11
+  length: 8
+  format: 9(8)
+  description: Date line was added to PD
+- field_number: '004'
+  name: Adjudication Code
+  key: adjudication_code
+  start: 12
+  end: 12
+  length: 1
+  format: X(1)
+  description: Blank 1 = New line added 5 = Line denied 6 = Previously billed line
+    deleted 7 = New line added with specified fee guide
+- field_number: '005'
+  name: Adjudication Rule number applied
+  key: adjudication_rule_number_applied
+  start: 13
+  end: 17
+  length: 5
+  format: 9(5)
+  description: If an adjudication rule was applied to this procedure, the rule reference
+    number will appear here
+- field_number: '006'
+  name: Frequency Rule number applied
+  key: frequency_rule_number_applied
+  start: 18
+  end: 22
+  length: 5
+  format: 9(5)
+  description: If a frequency limitation was applied to this procedure, the reference
+    number will appear here
+- field_number: '007'
+  name: Procedure code
+  key: procedure_code
+  start: 23
+  end: 27
+  length: 5
+  format: X(5)
+  description: Valid code as defined by CDA Uniform System of Codes and List of Services
+    for all but Quebec. In Quebec code issued by the Association des Chirurgiens Dentistes
+    du Quebec.
+- field_number: 008
+  name: Procedure name Eng
+  key: procedure_name_eng
+  start: 28
+  end: 62
+  length: 35
+  format: X(35)
+  description: The procedure name will be given in both English and French so that
+    client and dentist can receive statements in their language of choice.
+- field_number: 009
+  name: Procedure name Fre
+  key: procedure_name_fre
+  start: 63
+  end: 97
+  length: 35
+  format: X(35)
+  description: The procedure name will be given in both English and French so that
+    client and dentist can receive statements in their language of choice.
+- field_number: '010'
+  name: Tooth code
+  key: tooth_code
+  start: 98
+  end: 99
+  length: 2
+  format: 9(2)
+  description: International tooth, Sextant, Quad, or Arch-if procedure code requires
+    a reference to location(as defined in the fee guides), this field will be valued
+    with the submitted code
+- field_number: '011'
+  name: Tooth surface
+  key: tooth_surface
+  start: 100
+  end: 104
+  length: 5
+  format: X(5)
+  description: If procedure code requires that tooth surfaces be submitted(as defined
+    in the fee guides), this field will be valued with the submitted surfaces
+- field_number: '012'
+  name: Professional fee claimed
+  key: professional_fee_claimed
+  start: 105
+  end: 110
+  length: 6
+  format: 9(6,2)
+  description: Amount of professional fee submitted by dentist
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '013'
+  name: Professional fee eligible amount
+  key: professional_fee_eligible_amount
+  start: 111
+  end: 116
+  length: 6
+  format: 9(6,2)
+  description: Professional fee allowable after fee guide, frequency, rule cutbacks
+    and maximum cutback
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '014'
+  name: Deductible amount professional fee
+  key: deductible_amount_professional_fee
+  start: 117
+  end: 122
+  length: 6
+  format: 9(6,2)
+  description: Deductible applied to the professional fee
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '015'
+  name: Professional Fee Benefit amount
+  key: professional_fee_benefit_amount
+  start: 123
+  end: 128
+  length: 6
+  format: 9(6,2)
+  description: Professional fee payable (Professional fee eligible amount minus professional
+    fee deductible minus professional fee coinsurance)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '016'
+  name: Lab procedure code
+  key: lab_procedure_code
+  start: 129
+  end: 133
+  length: 5
+  format: X(5)
+  description: Lab procedure code
+- field_number: '017'
+  name: Lab fee claimed
+  key: lab_fee_claimed
+  start: 134
+  end: 139
+  length: 6
+  format: 9(6,2)
+  description: Lab fee claimed
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: 018
+  name: Eligible amount lab
+  key: eligible_amount_lab
+  start: 140
+  end: 145
+  length: 6
+  format: 9(6,2)
+  description: Lab fee allowed after adjudication, after all cutbacks, except for
+    deductible and coinsurance
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: 019
+  name: Lab Deductible amount
+  key: lab_deductible_amount
+  start: 146
+  end: 151
+  length: 6
+  format: 9(6.2)
+  description: Deductible applied to the lab eligible amount
+- field_number: '020'
+  name: Lab Benefit amount
+  key: lab_benefit_amount
+  start: 152
+  end: 157
+  length: 6
+  format: 9(6,2)
+  description: Eligible lab amount minus lab deductible amount minus coinsurance lab
+    amount
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '021'
+  name: Expense procedure code
+  key: expense_procedure_code
+  start: 158
+  end: 162
+  length: 5
+  format: X(5)
+  description: Expense procedure code
+- field_number: '022'
+  name: Expense claimed
+  key: expense_claimed
+  start: 163
+  end: 168
+  length: 6
+  format: 9(6,2)
+  description: Expense fee claimed
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '023'
+  name: Expense Eligible amount
+  key: expense_eligible_amount
+  start: 169
+  end: 174
+  length: 6
+  format: 9(6,2)
+  description: Expense allowed after adjudication, after all cutbacks, except for
+    deductible and coinsurance
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '024'
+  name: Expense Deductible amount
+  key: expense_deductible_amount
+  start: 175
+  end: 180
+  length: 6
+  format: 9(6.2)
+  description: Deductible applied to the expense eligible amount
+- field_number: '025'
+  name: Expense Benefit amount
+  key: expense_benefit_amount
+  start: 181
+  end: 186
+  length: 6
+  format: 9(6,2)
+  description: Eligible Expense amount minus expense deductible amount minus coinsurance
+    expense amount
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '026'
+  name: ESI Messages
+  key: esi_messages
+  start: 187
+  end: 198
+  length: 12
+  format: X(12)
+  description: Reason code for rejection or error for procedure code
+- field_number: '027'
+  name: Total fees claimed
+  key: total_fees_claimed
+  start: 199
+  end: 205
+  length: 7
+  format: 9(7,2)
+  description: Total fee claimed at the procedure line (This is the sum of fields
+    012 + 017 + 022)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: 028
+  name: Coinsurance amount
+  key: coinsurance_amount
+  start: 206
+  end: 211
+  length: 6
+  format: 9(6,2)
+  description: Coinsurance applied to the procedure line.
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: 029
+  name: Coinsurance percentage
+  key: coinsurance_percentage
+  start: 212
+  end: 214
+  length: 3
+  format: 9(3)
+  description: Coinsurance percentage applied to dentist fee, lab and expense
+- field_number: '030'
+  name: Total fees paid
+  key: total_fees_paid
+  start: 215
+  end: 220
+  length: 6
+  format: 9(6,2)
+  description: Total fee paid at the procedure level
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '031'
+  name: Paid procedure code 1
+  key: paid_procedure_code_1
+  start: 221
+  end: 225
+  length: 5
+  format: X(5)
+  description: Procedure used for pricing-if alternate procedure code is used for
+    pricing, it will be valued here
+- field_number: '032'
+  name: Paid procedure code 2
+  key: paid_procedure_code_2
+  start: 226
+  end: 230
+  length: 5
+  format: X(5)
+  description: Procedure used for pricing - if alternate procedure code is used for
+    pricing it will be valued here
+- field_number: '033'
+  name: Filler
+  key: filler
+  start: 231
+  end: 233
+  length: 3
+  format: X(3)
+- field_number: '034'
+  name: Plan number
+  key: plan_number
+  start: 234
+  end: 238
+  length: 5
+  format: X(5)
+- field_number: '035'
+  name: Benefit code
+  key: benefit_code
+  start: 239
+  end: 243
+  length: 5
+  format: 9(5)
+- field_number: '036'
+  name: Category code
+  key: category_code
+  start: 244
+  end: 245
+  length: 2
+  format: X(2)
+  description: Category code from plan
+- field_number: '037'
+  name: Category label Eng
+  key: category_label_eng
+  start: 246
+  end: 285
+  length: 40
+  format: X(40)
+  description: Category label as predefined by carriers in both languages so that
+    client and dentist can receive statements in their language of choice.
+- field_number: 038
+  name: Category label Eng
+  key: category_label_eng_2
+  start: 286
+  end: 325
+  length: 40
+  format: X(40)
+  description: Category label as predefined by carriers in both languages so that
+    client and dentist can receive statements in their language of choice.
+- field_number: 039
+  name: Coverage code from eligibility
+  key: coverage_code_from_eligibility
+  start: 326
+  end: 327
+  length: 2
+  format: X(2)
+  description: Coverage code indicating the type of coverage the client is entitled
+    to (see Appendix I of Patient Eligibility file)
+- field_number: '040'
+  name: Carrier dental field
+  key: carrier_dental_field
+  start: 328
+  end: 337
+  length: 10
+  format: X(10)
+  description: Code assigned by the carrier (field 37 on Patient file record type
+    20)
+- field_number: '041'
+  name: Procedure code source
+  key: procedure_code_source
+  start: 338
+  end: 341
+  length: 4
+  format: X(4)
+  description: Indicates province, speciality of procedure code claimed
+- field_number: '042'
+  name: Maximum cutback amount
+  key: maximum_cutback_amount
+  start: 342
+  end: 347
+  length: 6
+  format: 9(6,2)
+  description: Cut back amount due to policy/late entrant or rising maximums)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '043'
+  name: Rule Cutback amount
+  key: rule_cutback_amount
+  start: 348
+  end: 353
+  length: 6
+  format: 9(6.2)
+  description: Cutback amount due to adjudication rule
+- field_number: '044'
+  name: Fee guide amount
+  key: fee_guide_amount
+  start: 354
+  end: 359
+  length: 6
+  format: 9(6,2)
+  description: Price on file for payable procedure codes (Fields 031 & 032)
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '045'
+  name: Alternate procedure code
+  key: alternate_procedure_code
+  start: 360
+  end: 364
+  length: 5
+  format: X(5)
+  description: Procedure code used for pricing
+- field_number: '046'
+  name: Equivalent procedure code
+  key: equivalent_procedure_code
+  start: 365
+  end: 369
+  length: 5
+  format: X(5)
+  description: Secondary procedure code
+- field_number: '047'
+  name: Filler
+  key: filler_2
+  start: 370
+  end: 1247
+  length: 878
+  format: X(878)

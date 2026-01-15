@@ -40,9 +40,15 @@ dotnet run --project ExperienceModule -- \
   --feed Config/pharmacy_feed.yml \
   --input Input/pharmacy_sample.txt \
   --output Output/pharmacy_batches.jsonl
+
+# Dental Pre-Determination feed
+dotnet run --project ExperienceModule -- \
+  --feed Config/dental_pred_feed.yml \
+  --input Input/dental_pred_sample.txt \
+  --output Output/dental_pred_batches.jsonl
 ```
 
-Inputs/outputs can be overridden via CLI flags. Each JSON line in the output file is validated against the schema referenced in the selected feed config (e.g., `schemas/dental_batch.schema.json`, `schemas/pharmacy_batch.schema.json`).
+Inputs/outputs can be overridden via CLI flags. Each JSON line in the output file is validated against the schema referenced in the selected feed config (e.g., `schemas/dental_batch.schema.json`, `schemas/pharmacy_batch.schema.json`, `schemas/dental_pred_batch.schema.json`).
 
 ### Assets
 
@@ -50,5 +56,7 @@ Inputs/outputs can be overridden via CLI flags. Each JSON line in the output fil
 - `docs/samples/` – raw sample feeds copied from legacy ETL folders
 - `Scripts/generate_dental_configs.py` – regenerates Dental YAML layouts from the spec
 - `Scripts/generate_pharmacy_configs.py` – regenerates Pharmacy YAML layouts from the spec
+- `Scripts/generate_dental_pred_configs.py` – regenerates Dental Pre-D YAML layouts from the spec
 - `Input/pharmacy_sample.txt` – local copy of ESC sample feed `R49235`
+- `Input/dental_pred_sample.txt` – local copy of ESC sample feed `dent_49910_pred`
 

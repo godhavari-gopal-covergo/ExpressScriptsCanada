@@ -1,0 +1,55 @@
+record_type: '6'
+description: Provider Batch Control Record
+fields:
+- field_number: '001'
+  name: Record Identifier
+  key: record_identifier
+  start: 1
+  end: 1
+  length: 1
+  format: 9(1)
+  description: '"6"'
+- field_number: '002'
+  name: Record Count
+  key: record_count
+  start: 2
+  end: 7
+  length: 6
+  format: 9(6)
+  description: All records for a provider including Headers and Trailers
+- field_number: '003'
+  name: Filler
+  key: filler
+  start: 8
+  end: 71
+  length: 64
+  format: X(64)
+- field_number: '004'
+  name: Claim Amount
+  key: claim_amount
+  start: 72
+  end: 79
+  length: 8
+  format: 9(8,2)
+  description: Total value of total fees claimed for the provider
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '005'
+  name: Paid Amount
+  key: paid_amount
+  start: 80
+  end: 87
+  length: 8
+  format: 9(8,2)
+  description: Total value of total fees paid for the provider
+  value_format:
+    type: implied_decimal
+    scale: 2
+- field_number: '006'
+  name: Filler
+  key: filler_2
+  start: 88
+  end: 1247
+  length: 1160
+  format: X(1160)
