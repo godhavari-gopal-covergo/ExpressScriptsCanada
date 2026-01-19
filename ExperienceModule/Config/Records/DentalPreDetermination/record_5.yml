@@ -182,7 +182,7 @@ fields:
   start: 146
   end: 151
   length: 6
-  format: 9(6.2)
+  format: 9(6,2)
   description: Deductible applied to the lab eligible amount
 - field_number: '020'
   name: Lab Benefit amount
@@ -233,7 +233,7 @@ fields:
   start: 175
   end: 180
   length: 6
-  format: 9(6.2)
+  format: 9(6,2)
   description: Deductible applied to the expense eligible amount
 - field_number: '025'
   name: Expense Benefit amount
@@ -405,7 +405,7 @@ fields:
   start: 348
   end: 353
   length: 6
-  format: 9(6.2)
+  format: 9(6,2)
   description: Cutback amount due to adjudication rule
 - field_number: '044'
   name: Fee guide amount
